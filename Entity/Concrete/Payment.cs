@@ -11,7 +11,7 @@ namespace Entity.Concrete
     {
         public short DayCount { get; set; }
         public int TotalPrice { get; set; }
-        public bool IsPaid { get; set; }
+        public bool IsPaid { get; set; } = false;
         public int SaleId { get; set; }
         public Sale? Sale { get; set; }
     }

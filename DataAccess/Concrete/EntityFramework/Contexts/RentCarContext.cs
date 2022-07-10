@@ -1,4 +1,5 @@
-﻿using Entity.Concrete;
+﻿using DataAccess.Concrete.EntityFramework.Mappings;
+using Entity.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,18 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.;Database=RentCar;Trusted_Connection=True;Connect
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLOCALDB;Database=RentCar;Trusted_Connection=True;Connect
             Timeout=30;MultipleActiveResultSets=True;");
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new BrandMap());
+            modelBuilder.ApplyConfiguration(new CarMap());
+            modelBuilder.ApplyConfiguration(new CarModelMap());
+            modelBuilder.ApplyConfiguration(new ColorMap());
+            modelBuilder.ApplyConfiguration(new CommentMap());
+            modelBuilder.ApplyConfiguration(new PaymentMap());
+            modelBuilder.ApplyConfiguration(new SaleMap());
         }
     }
 }
