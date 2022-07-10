@@ -13,6 +13,6 @@ namespace Entity.Concrete
         public int TotalPrice { get; set; }
         public bool IsPaid { get; set; }
         public int SaleId { get; set; }
-        public Sale Sale { get; set; }
+        public Sale? Sale { get; set; }
     }
 }

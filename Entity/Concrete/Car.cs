@@ -15,13 +15,13 @@ namespace Entity.Concrete
         public VehicleType VehicleType { get; set; }
         public int DailyPrice { get; set; }
         public DateTime ModelYear { get; set; }
-        public string Image { get; set; }
-        public string Description { get; set; }
+        public string? Image { get; set; }
+        public string? Description { get; set; }
         public int CurrentCount { get; set; }
         public int TotalCount { get; set; }
         public int CarModelId { get; set; }
-        public CarModel CarModel { get; set; }
+        public CarModel? CarModel { get; set; }
         public int ColorId { get; set; }
-        public Color Color { get; set; }
+        public Color? Color { get; set; }
     }
 }

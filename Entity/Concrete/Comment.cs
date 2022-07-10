@@ -9,10 +9,10 @@ namespace Entity.Concrete
 {
     public class Comment : EntityBase, IEntity
     {
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public short Star { get; set; }
         public int LikeCount { get; set; }
         public int UserId { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

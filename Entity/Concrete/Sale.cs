@@ -13,10 +13,10 @@ namespace Entity.Concrete
         public DateTime EODDate { get; set; }
         public bool IsCancelled { get; set; } = false;
         public int PaymentId { get; set; }
-        public Payment Payment { get; set; }
+        public Payment? Payment { get; set; }
         public int CarId { get; set; }
-        public Car Car { get; set; }
+        public Car? Car { get; set; }
         public int UserId { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }
