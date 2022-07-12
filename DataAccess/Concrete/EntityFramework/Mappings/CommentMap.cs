@@ -29,6 +29,30 @@ namespace DataAccess.Concrete.EntityFramework.Mappings
 
             //tablo
             builder.ToTable("Comments");
+
+            ////data
+            //builder.HasData(new Comment
+            //{
+            //    ID = 1,
+            //    CreatedDate = DateTime.Now,
+            //    ModifiedDate = DateTime.Now,
+            //    IsDeleted = false,
+            //    LikeCount = 0,
+            //    UserId = 1,
+            //    Star = 5,
+            //    Description = "Güler yüz müşteri memnuniyetine özen gösteren bir kurum."                
+            //},
+            //new Comment
+            //{
+            //    ID = 2,
+            //    CreatedDate = DateTime.Now,
+            //    ModifiedDate = DateTime.Now,
+            //    IsDeleted = false,
+            //    LikeCount = 0,
+            //    UserId = 2,
+            //    Star = 4,
+            //    Description = "Hızlı pratik ve online olmasıyla daha da efektik hale gelmiş."
+            //});
         }
     }
 }

@@ -24,6 +24,45 @@ namespace DataAccess.Concrete.EntityFramework.Mappings
 
             //tablo
             builder.ToTable("Colors");
+
+            //data
+            builder.HasData(new Color
+            {
+               ID = 1,
+               Name = "Beyaz",
+               CreatedDate = DateTime.Now,
+               ModifiedDate = DateTime.Now,
+               IsDeleted = false
+            }, new Color
+            {
+                ID = 2,
+                Name = "Gri",
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                IsDeleted = false
+            }, new Color
+            {
+                ID = 3,
+                Name = "Siyah",
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                IsDeleted = false
+            }, new Color
+            {
+                ID = 4,
+                Name = "Kırmızı",
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                IsDeleted = false
+            }, new Color
+            {
+                ID = 5,
+                Name = "Mavi",
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                IsDeleted = false
+            });
+
         }
     }
 }

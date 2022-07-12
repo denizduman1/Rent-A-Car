@@ -28,7 +28,7 @@ namespace DataAccess.Concrete.EntityFramework.Mappings
             builder.HasOne<Sale>(p => p.Sale).WithOne(s => s.Payment).HasForeignKey<Payment>(p => p.SaleId);
 
             //tablo
-            builder.ToTable("Colors");
+            builder.ToTable("Payments");
         }
     }
 }

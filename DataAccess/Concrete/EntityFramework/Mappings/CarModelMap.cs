@@ -27,6 +27,55 @@ namespace DataAccess.Concrete.EntityFramework.Mappings
             
             //tablo
             builder.ToTable("CarModels");
+
+            //data
+            builder.HasData(new CarModel
+            {
+                ID = 1,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                IsDeleted = false,
+                BrandId = 1,
+                Name = "i20"
+            },
+            new CarModel
+            {
+                ID = 2,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                IsDeleted = false,
+                BrandId = 4,
+                Name = "Clio"
+            },
+            new CarModel
+            {
+                ID = 3,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                IsDeleted = false,
+                BrandId = 4,
+                Name = "Megane"
+            },
+            new CarModel
+            {
+                 ID = 4,
+                 CreatedDate = DateTime.Now,
+                 ModifiedDate = DateTime.Now,
+                 IsDeleted = false,
+                 BrandId = 6,
+                 Name = "Egea"
+            },
+            new CarModel
+            {
+                 ID = 5,
+                 CreatedDate = DateTime.Now,
+                 ModifiedDate = DateTime.Now,
+                 IsDeleted = false,
+                 BrandId = 5,
+                 Name = "Astra"
+            }
+            );
+
         }
     }
 }

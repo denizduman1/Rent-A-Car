@@ -10,9 +10,9 @@ namespace Entity.Concrete
 {
     public class Car : EntityBase, IEntity
     {
-        public TransmissionType TransmissionType { get; set; }
-        public FuelType FuelType { get; set; }
-        public VehicleType VehicleType { get; set; }
+        public int TransmissionType { get; set; }
+        public int FuelType { get; set; }
+        public int VehicleType { get; set; }
         public int DailyPrice { get; set; }
         public DateTime ModelYear { get; set; }
         public string? Image { get; set; }
