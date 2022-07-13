@@ -84,25 +84,6 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payments",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DayCount = table.Column<short>(type: "smallint", nullable: false),
-                    TotalPrice = table.Column<int>(type: "int", nullable: false),
-                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
-                    SaleId = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "smalldatetime", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "smalldatetime", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Payments", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -303,7 +284,6 @@ namespace DataAccess.Migrations
                     ReservationDate = table.Column<DateTime>(type: "smalldatetime", nullable: false),
                     EODDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsCancelled = table.Column<bool>(type: "bit", nullable: false),
-                    PaymentId = table.Column<int>(type: "int", nullable: false),
                     CarId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "smalldatetime", nullable: false),
@@ -325,10 +305,29 @@ namespace DataAccess.Migrations
                         principalTable: "Cars",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DayCount = table.Column<short>(type: "smallint", nullable: false),
+                    TotalPrice = table.Column<int>(type: "int", nullable: false),
+                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
+                    SaleId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "smalldatetime", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "smalldatetime", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Sales_Payments_PaymentId",
-                        column: x => x.PaymentId,
-                        principalTable: "Payments",
+                        name: "FK_Payments_Sales_SaleId",
+                        column: x => x.SaleId,
+                        principalTable: "Sales",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -338,12 +337,12 @@ namespace DataAccess.Migrations
                 columns: new[] { "ID", "CreatedDate", "IsDeleted", "ModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(1280), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(1281), "Hyundai" },
-                    { 2, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(1290), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(1291), "Bmw" },
-                    { 3, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(1293), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(1293), "Volvo" },
-                    { 4, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(1295), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(1296), "Renault" },
-                    { 5, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(1298), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(1299), "Opel" },
-                    { 6, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(1301), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(1301), "Fiat" }
+                    { 1, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4899), false, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4900), "Hyundai" },
+                    { 2, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4903), false, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4904), "Bmw" },
+                    { 3, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4906), false, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4906), "Volvo" },
+                    { 4, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4909), false, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4909), "Renault" },
+                    { 5, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4911), false, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4912), "Opel" },
+                    { 6, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4914), false, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4914), "Fiat" }
                 });
 
             migrationBuilder.InsertData(
@@ -351,11 +350,11 @@ namespace DataAccess.Migrations
                 columns: new[] { "ID", "CreatedDate", "IsDeleted", "ModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(9948), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(9949), "Beyaz" },
-                    { 2, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(9953), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(9954), "Gri" },
-                    { 3, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(9956), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(9957), "Siyah" },
-                    { 4, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(9960), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(9960), "Kırmızı" },
-                    { 5, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(9963), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(9963), "Mavi" }
+                    { 1, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2900), false, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2900), "Beyaz" },
+                    { 2, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2903), false, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2903), "Gri" },
+                    { 3, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2906), false, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2906), "Siyah" },
+                    { 4, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2908), false, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2909), "Kırmızı" },
+                    { 5, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2911), false, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2911), "Mavi" }
                 });
 
             migrationBuilder.InsertData(
@@ -363,11 +362,12 @@ namespace DataAccess.Migrations
                 columns: new[] { "ID", "BrandId", "CreatedDate", "IsDeleted", "ModifiedDate", "Name" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(8941), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(8942), "i20" },
-                    { 2, 4, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(8945), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(8945), "Clio" },
-                    { 3, 4, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(8948), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(8948), "Megane" },
-                    { 4, 6, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(8950), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(8951), "Egea" },
-                    { 5, 5, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(8953), false, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(8953), "Astra" }
+                    { 1, 1, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1910), false, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1911), "i20" },
+                    { 2, 4, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1914), false, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1915), "Clio" },
+                    { 3, 4, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1917), false, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1918), "Megane" },
+                    { 4, 6, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1920), false, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1920), "Egea" },
+                    { 5, 5, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1922), false, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1923), "Astra" },
+                    { 6, 2, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1925), false, new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1926), "i8" }
                 });
 
             migrationBuilder.InsertData(
@@ -375,16 +375,18 @@ namespace DataAccess.Migrations
                 columns: new[] { "ID", "CarModelId", "ColorId", "CreatedDate", "CurrentCount", "DailyPrice", "Description", "FuelType", "Image", "IsDeleted", "ModelYear", "ModifiedDate", "TotalCount", "TransmissionType", "VehicleType" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6297), 3, 800, "Temiz aile arabası", 0, "https://s.yauto.cz/m/obrazky/hih/0019/hyundai-i20-306110-M-789242797-1.jpg", false, new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6297), 3, 1, 1 },
-                    { 2, 1, 3, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6306), 1, 800, "Temiz aile arabası", 0, "https://i0.shbdn.com/photos/73/43/28/x5_103173432829h.jpg", false, new DateTime(2014, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6306), 1, 1, 1 },
-                    { 3, 2, 2, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6310), 6, 950, "Yeni aile arabası", 0, "https://file.ikinciyeni.com/carphotos/34re2824/DetailImage/ikinci-el-satilik-renault-clio-48-045dfa.jpg?v1", false, new DateTime(2018, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6311), 6, 1, 1 },
-                    { 4, 2, 1, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6313), 6, 980, "Yeni beyaz clio", 0, "https://www.yildirayrentacar.com/dosya/2080/sinif/13-56-17-renault-clio-benzin.jpg", false, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6314), 6, 1, 1 },
-                    { 5, 3, 3, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6317), 2, 1050, "Yeni siyah megane", 0, "https://bufilo.com/storage/aylik-kiralik-megane-renault-bufilo-arac-kiralama-istanbul-600-250.png", false, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6318), 2, 1, 0 },
-                    { 6, 3, 1, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6321), 2, 1050, "Yeni beyaz megane", 0, "https://zugo2.mncdn.com/mnresize/800/-/Images/Arac/b/410/283507/2175813.jpg", false, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6321), 2, 1, 0 },
-                    { 7, 4, 1, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6325), 4, 1100, "Ucuz yakıt egea", 1, "https://ersanrentacar.com/yuklemeler/2015/10/fiat-egea-bulut-beyazi-2.jpg", false, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6325), 4, 0, 0 },
-                    { 8, 4, 2, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6328), 3, 1100, "Ucuz yakıt egea", 1, "https://zugo2.mncdn.com/mnresize/800/-/Images/Arac/b/410/251987/1913579.jpg", false, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6328), 3, 0, 0 },
-                    { 9, 5, 4, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6331), 1, 1090, "hızlı opel astra", 0, "https://i0.shbdn.com/photos/20/05/44/1032200544t8b.jpg", false, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6332), 1, 1, 0 },
-                    { 10, 5, 5, new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6335), 1, 1150, "opel özel renk mavi", 0, "https://www.arackaplama.com/wp-content/uploads/2017/12/IMAG2542.jpg", false, new DateTime(2017, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 12, 23, 1, 55, 310, DateTimeKind.Local).AddTicks(6335), 1, 0, 0 }
+                    { 1, 1, 1, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9647), 3, 800, "Temiz aile arabası", 0, "https://s.yauto.cz/m/obrazky/hih/0019/hyundai-i20-306110-M-789242797-1.jpg", false, new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9648), 3, 1, 1 },
+                    { 2, 1, 3, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9656), 1, 800, "Temiz aile arabası", 0, "https://i0.shbdn.com/photos/73/43/28/x5_103173432829h.jpg", false, new DateTime(2014, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9657), 1, 1, 1 },
+                    { 3, 2, 2, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9661), 6, 950, "Yeni aile arabası", 0, "https://file.ikinciyeni.com/carphotos/34re2824/DetailImage/ikinci-el-satilik-renault-clio-48-045dfa.jpg?v1", false, new DateTime(2018, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9662), 6, 1, 1 },
+                    { 4, 2, 1, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9664), 6, 980, "Yeni beyaz clio", 0, "https://www.yildirayrentacar.com/dosya/2080/sinif/13-56-17-renault-clio-benzin.jpg", false, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9665), 6, 1, 1 },
+                    { 5, 3, 3, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9668), 2, 1050, "Yeni siyah megane", 0, "https://bufilo.com/storage/aylik-kiralik-megane-renault-bufilo-arac-kiralama-istanbul-600-250.png", false, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9668), 2, 1, 0 },
+                    { 6, 3, 1, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9671), 2, 1050, "Yeni beyaz megane", 0, "https://zugo2.mncdn.com/mnresize/800/-/Images/Arac/b/410/283507/2175813.jpg", false, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9671), 2, 1, 0 },
+                    { 7, 4, 1, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9674), 4, 1100, "Ucuz yakıt egea", 1, "https://ersanrentacar.com/yuklemeler/2015/10/fiat-egea-bulut-beyazi-2.jpg", false, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9675), 4, 0, 0 },
+                    { 8, 4, 2, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9677), 3, 1100, "Ucuz yakıt egea", 1, "https://zugo2.mncdn.com/mnresize/800/-/Images/Arac/b/410/251987/1913579.jpg", false, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9678), 3, 0, 0 },
+                    { 9, 5, 4, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9681), 1, 1090, "hızlı opel astra", 0, "https://i0.shbdn.com/photos/20/05/44/1032200544t8b.jpg", false, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9681), 1, 1, 0 },
+                    { 10, 5, 5, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9684), 1, 1150, "opel özel renk mavi", 0, "https://www.arackaplama.com/wp-content/uploads/2017/12/IMAG2542.jpg", false, new DateTime(2017, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9684), 1, 0, 0 },
+                    { 11, 6, 2, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9687), 4, 1500, "spor yarış arabası", 0, "https://upload.wikimedia.org/wikipedia/commons/e/e9/2016_BMW_i8.jpg", false, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9688), 4, 1, 5 },
+                    { 12, 6, 5, new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9691), 7, 1250, "spor yarış arabası", 1, "https://upload.wikimedia.org/wikipedia/commons/9/93/2015_BMW_i8_%2820039281571%29_%282%29.jpg", false, new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9691), 7, 1, 5 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -447,15 +449,15 @@ namespace DataAccess.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payments_SaleId",
+                table: "Payments",
+                column: "SaleId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Sales_CarId",
                 table: "Sales",
                 column: "CarId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sales_PaymentId",
-                table: "Sales",
-                column: "PaymentId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sales_UserId",
@@ -484,19 +486,19 @@ namespace DataAccess.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Sales");
+                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Sales");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Cars");
-
-            migrationBuilder.DropTable(
-                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "CarModels");

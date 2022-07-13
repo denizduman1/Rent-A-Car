@@ -12,7 +12,6 @@ namespace Entity.Concrete
         public DateTime ReservationDate { get; set; } = DateTime.Now;
         public DateTime EODDate { get; set; } = DateTime.Now.AddHours(3);
         public bool IsCancelled { get; set; } = false;
-        public int PaymentId { get; set; }
         public Payment? Payment { get; set; }
         public int CarId { get; set; }
         public Car? Car { get; set; }

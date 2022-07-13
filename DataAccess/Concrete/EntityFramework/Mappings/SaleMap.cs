@@ -25,7 +25,6 @@ namespace DataAccess.Concrete.EntityFramework.Mappings
             builder.Property(o => o.IsDeleted).IsRequired();
 
             //ilişki
-            builder.HasOne<Payment>(s => s.Payment).WithOne(p => p.Sale).HasForeignKey<Sale>(s => s.PaymentId);
             builder.HasOne<Car>(s => s.Car).WithMany(c => c.Sales).HasForeignKey(s => s.CarId);
             builder.HasOne<User>(s => s.User).WithMany(u => u.Sales).HasForeignKey(s => s.UserId);
 

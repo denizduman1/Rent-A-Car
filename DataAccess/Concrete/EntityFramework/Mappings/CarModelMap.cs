@@ -73,6 +73,15 @@ namespace DataAccess.Concrete.EntityFramework.Mappings
                  IsDeleted = false,
                  BrandId = 5,
                  Name = "Astra"
+            },
+            new CarModel
+            {
+                ID = 6,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                IsDeleted = false,
+                BrandId = 2,
+                Name = "i8"
             }
             );
 

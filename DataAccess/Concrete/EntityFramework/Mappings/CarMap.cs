@@ -218,6 +218,42 @@ namespace DataAccess.Concrete.EntityFramework.Mappings
                 IsDeleted = false,
                 TransmissionType = (int)TransmissionType.Manual,
                 VehicleType = (int)VehicleType.Sedan,
+            },
+            new Car
+            {
+                ID = 11,
+                CarModelId = 6,
+                ColorId = 2,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                CurrentCount = 4,
+                TotalCount = 4,
+                Description = "spor yarış arabası",
+                DailyPrice = 1500,
+                FuelType = (int)FuelType.Benzin,
+                Image = "https://upload.wikimedia.org/wikipedia/commons/e/e9/2016_BMW_i8.jpg",
+                ModelYear = new DateTime(2022, 01, 01),
+                IsDeleted = false,
+                TransmissionType = (int)TransmissionType.Otomatik,
+                VehicleType = (int)VehicleType.SPOR,
+            },
+            new Car
+            {
+                ID = 12,
+                CarModelId = 6,
+                ColorId = 5,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                CurrentCount = 7,
+                TotalCount = 7,
+                Description = "spor yarış arabası",
+                DailyPrice = 1250,
+                FuelType = (int)FuelType.Dizel,
+                Image = "https://upload.wikimedia.org/wikipedia/commons/9/93/2015_BMW_i8_%2820039281571%29_%282%29.jpg",
+                ModelYear = new DateTime(2015, 01, 01),
+                IsDeleted = false,
+                TransmissionType = (int)TransmissionType.Otomatik,
+                VehicleType = (int)VehicleType.SPOR,
             }
             );
         }
