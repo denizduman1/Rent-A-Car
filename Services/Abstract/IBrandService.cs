@@ -11,9 +11,9 @@ namespace Services.Abstract
 {
     public interface IBrandService
     {
-        public Task<IDataResult<Brand>> Get(int brandId);
-        public Task<IDataResult<IList<Brand>>> GetAll();
-        public Task<IDataResult<IList<Brand>>> GetAllByNonDeleted();
+        public Task<IDataResult<BrandDto>> Get(int brandId);
+        public Task<IDataResult<BrandListDto>> GetAll();
+        public Task<IDataResult<BrandListDto>> GetAllByNonDeleted();
         public Task<IResult> Add(BrandAddDto brandAddDto);
         public Task<IResult> Update(BrandUpdateDto brandUpdateDto);
         public Task<IResult> Delete(int brandId);
