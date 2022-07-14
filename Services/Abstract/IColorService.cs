@@ -11,9 +11,9 @@ namespace Services.Abstract
 {
     public interface IColorService
     {
-        public Task<IDataResult<Color>> Get(int colorId);
-        public Task<IDataResult<IList<Color>>> GetAll();
-        public Task<IDataResult<IList<Color>>> GetAllByNonDeleted();
+        public Task<IDataResult<ColorDto>> Get(int colorId);
+        public Task<IDataResult<ColorListDto>> GetAll();
+        public Task<IDataResult<ColorListDto>> GetAllByNonDeleted();
         public Task<IResult> Add(ColorAddDto colorAddDto);
         public Task<IResult> Update(ColorUpdateDto colorUpdateDto);
         public Task<IResult> Delete(int colorId);

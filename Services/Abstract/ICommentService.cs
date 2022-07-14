@@ -11,9 +11,9 @@ namespace Services.Abstract
 {
     public interface ICommentService
     {
-        public Task<IDataResult<Comment>> Get(int commentId);
-        public Task<IDataResult<IList<Comment>>> GetAll();
-        public Task<IDataResult<IList<Comment>>> GetAllByNonDeleted();
+        public Task<IDataResult<CommentDto>> Get(int commentId);
+        public Task<IDataResult<CommentListDto>> GetAll();
+        public Task<IDataResult<CommentListDto>> GetAllByNonDeleted();
         public Task<IResult> Add(CommentAddDto commentAddDto);
         public Task<IResult> Update(CommentUpdateDto commentUpdateDto);
         public Task<IResult> Delete(int commentId);
