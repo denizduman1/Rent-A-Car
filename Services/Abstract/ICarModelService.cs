@@ -11,9 +11,9 @@ namespace Services.Abstract
 {
     public interface ICarModelService
     {
-        public Task<IDataResult<CarModel>> Get(int carModelId);
-        public Task<IDataResult<IList<CarModel>>> GetAll();
-        public Task<IDataResult<IList<CarModel>>> GetAllByNonDeleted();
+        public Task<IDataResult<CarModelDto>> Get(int carModelId);
+        public Task<IDataResult<CarModelListDto>> GetAll();
+        public Task<IDataResult<CarModelListDto>> GetAllByNonDeleted();
         public Task<IResult> Add(CarModelAddDto carModelAddDto);
         public Task<IResult> Update(CarModelUpdateDto carModelUpdateDto);
         public Task<IResult> Delete(int carModelId);

@@ -16,7 +16,7 @@ namespace Services.Concrete
 {
     public class BrandManager : IBrandService
     {
-        public IUnitOfWork _unitOfWork; 
+        private IUnitOfWork _unitOfWork; 
         private readonly IMapper _mapper;
 
         public BrandManager(IUnitOfWork unitOfWork,IMapper mapper)
