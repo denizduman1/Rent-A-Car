@@ -1,0 +1,18 @@
+﻿.loading-gif {
+    display: block;
+    visibility: visible;
+    position: absolute;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    vertical-align: bottom;
+    opacity: 0;
+    background-image: url("../dz-img/car-loading.gif");
+    background-size: Auto 150px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}

@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Admin Sayfası</title>
+
+    @await Html.PartialAsync("_LayoutCssPartial")
+
+</head>
+
+<body id="page-top" class="loading-gif">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">      
+
+        @await Html.PartialAsync("_LayoutSideBarPartial")
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                       
+                @await Html.PartialAsync("_LayoutTopBarPartial")
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                     <h2>Admin Dashboard Ekranı</h2>  
+                     <a href="#">Ana siteye dönmek için tıklayınız.</a>
+                     @RenderBody()                
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+           @await Html.PartialAsync("_LayoutFooterPartial")
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+     
+     @await Html.PartialAsync("_LayoutLogOutPartial")
+     @await Html.PartialAsync("_LayoutJsPartial")
+     @await RenderSectionAsync("scripts", false)
+
+</body>
+
+</html>
