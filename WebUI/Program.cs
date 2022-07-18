@@ -3,7 +3,7 @@ using Services.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews().AddJsonOptions(
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation().AddJsonOptions(
 opt =>
 {
     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());

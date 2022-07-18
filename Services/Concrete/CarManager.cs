@@ -71,7 +71,7 @@ namespace Services.Concrete
 
         public async Task<IDataResult<CarListDto>> GetAllByNonDeleted()
         {
-            var cars = await _unitOfWork.CarRepository.GetAllAsync(c=>c.IsDeleted == false);
+            var cars = await _unitOfWork.CarRepository.GetAllAsync(c=>c.IsDeleted == false, c=>c.CarModel, c=>c.Color ,c=>c.CarModel.Brand);
             if (cars.Count > 0)
             {
                 return new DataResult<CarListDto>(new CarListDto { Cars = cars, ResultStatus = ResultStatus.Success }, ResultStatus.Success);
