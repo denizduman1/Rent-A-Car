@@ -1,1 +1,38 @@
-﻿
+﻿@model WebUI.Areas.Admin.Models.DashboardModel
+
+<div class="container-fluid">
+    <h1>Hoşgeldin Deniz Duman</h1>
+    <hr />
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="card-title text-center">Toplam Araç Sayımız</h5>
+                            <h1 class="card-subtitle mb-2 text-muted text-center">@Model.CarListDto.Cars.Sum(c=>c.TotalCount)</h1>
+                        </div>
+                        <div class="col-6">
+                            <img src="~/Admin/dz-img/car-dashboard-1.jpg" style="width:50%; object-fit:contain;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="card-title text-center">Toplam Müsait Araç Sayımız</h5>
+                            <h1 class="card-subtitle mb-2 text-muted text-center">@Model.CarListDto.Cars.Sum(c=>c.CurrentCount)</h1>
+                        </div>
+                        <div class="col-6">
+                            <img src="~/Admin/dz-img/car-dashboard-1.jpg" style="width:50%; object-fit:contain;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

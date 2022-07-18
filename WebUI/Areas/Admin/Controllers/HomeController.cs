@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Abstract;
+using WebUI.Areas.Admin.Models;
 
 namespace WebUI.Areas.Admin.Controllers
 {
@@ -17,9 +18,18 @@ namespace WebUI.Areas.Admin.Controllers
             _brandService = brandService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var cars = await _carService.GetAllByNonDeleted();
+            var carModels = await _carModelService.GetAllByNonDeleted();
+            var brands = await _brandService.GetAllByNonDeleted();
+            DashboardModel dashboardModel = new DashboardModel()
+            {
+                BrandListDto = brands.Data,
+                CarListDto = cars.Data,
+                CarModelListDto = carModels.Data
+            };
+            return View(dashboardModel);
         }
     }
 }
