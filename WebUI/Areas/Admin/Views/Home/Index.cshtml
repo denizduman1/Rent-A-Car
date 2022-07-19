@@ -1,7 +1,10 @@
-﻿@model WebUI.Areas.Admin.Models.DashboardModel
+﻿@{
+    var pageState = ViewBag.PageState as WebUI.Areas.Admin.Models.DashboardModel;
+
+}
 
 <div class="container-fluid">
-    <h1>Hoşgeldin Deniz Duman</h1>
+    <h2>Hoşgeldin Deniz Duman</h2>
     <hr />
     <div class="row">
         <div class="col-lg-6">
@@ -10,7 +13,7 @@
                     <div class="row">
                         <div class="col-6">
                             <h5 class="card-title text-center">Toplam Araç Sayımız</h5>
-                            <h1 class="card-subtitle mb-2 text-muted text-center">@Model.CarListDto.Cars.Sum(c=>c.TotalCount)</h1>
+                            <h1 class="card-subtitle mb-2 text-muted text-center">@pageState?.CarListDto?.Cars?.Sum(c=>c.TotalCount)</h1>
                         </div>
                         <div class="col-6">
                             <img src="~/Admin/dz-img/car-dashboard-1.jpg" style="width:50%; object-fit:contain;" />
@@ -25,7 +28,7 @@
                     <div class="row">
                         <div class="col-6">
                             <h5 class="card-title text-center">Toplam Müsait Araç Sayımız</h5>
-                            <h1 class="card-subtitle mb-2 text-muted text-center">@Model.CarListDto.Cars.Sum(c=>c.CurrentCount)</h1>
+                            <h1 class="card-subtitle mb-2 text-muted text-center">@pageState?.CarListDto?.Cars?.Sum(c=>c.CurrentCount)</h1>
                         </div>
                         <div class="col-6">
                             <img src="~/Admin/dz-img/car-dashboard-1.jpg" style="width:50%; object-fit:contain;" />
@@ -34,5 +37,62 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-4 mt-3">
+            <canvas id="myChart"></canvas>
+        </div>
     </div>
 </div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        (function() {
+            var brandList = [];
+            var brandCarCountList = [];
+            var totalCarCount = 0;
+
+            var brands = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(pageState?.BrandListDto?.Brands,
+            new Newtonsoft.Json.JsonSerializerSettings{ ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+            Formatting = Newtonsoft.Json.Formatting.None}));
+
+            for (let brand of brands) {
+                brandList.push(brand.Name);
+                for (let carModel of brand.CarModels) {
+                    for (let item of carModel.Cars) {
+                        totalCarCount += 1;
+                    }
+                }
+                brandCarCountList.push(totalCarCount);
+                totalCarCount = 0;
+            }
+
+            let data = {
+                labels: brandList,
+                datasets: [{
+                    label: 'Araçlarımızın markalara göre dağılımı',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: brandCarCountList,
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                barPercentage: 1,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+        })();
+    </script>
+}

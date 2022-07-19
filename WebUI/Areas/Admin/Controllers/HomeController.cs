@@ -23,13 +23,14 @@ namespace WebUI.Areas.Admin.Controllers
             var cars = await _carService.GetAllByNonDeleted();
             var carModels = await _carModelService.GetAllByNonDeleted();
             var brands = await _brandService.GetAllByNonDeleted();
-            DashboardModel dashboardModel = new DashboardModel()
+            ViewBag.PageState = new DashboardModel()
             {
                 BrandListDto = brands.Data,
                 CarListDto = cars.Data,
                 CarModelListDto = carModels.Data
             };
-            return View(dashboardModel);
+            return View();
         }
+
     }
 }
