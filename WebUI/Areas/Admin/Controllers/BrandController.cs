@@ -19,5 +19,11 @@ namespace WebUI.Areas.Admin.Controllers
             var brands = await _brandService.GetAllByNonDeleted();
             return View(brands.Data);
         }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return PartialView("_BrandAddPartial");
+        }
     }
 }

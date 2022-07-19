@@ -1,5 +1,6 @@
 ﻿@model Entity.Concrete.DTOs.BrandListDto
-
+   
+<div id="modal"></div>
 <div class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Markalarımız</h1>
@@ -11,6 +12,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Marka Listesi</h6>
          </div>
          <div class="card-body">
+              <button class="btn btn-success mb-3" id="btnAdd">Yeni Bir Marka Ekle</button>
               <div class="table-responsive">
                    <table id="brandTable" class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
@@ -41,11 +43,22 @@
 @section scripts{
     <script>
           $(document).ready(function() {
+              //datatable for brand
               $('#brandTable').DataTable({
                   "language": {
                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
                   }
               });
-            });
+              //add get for brand
+              const url = '@Url.Action("Add","Brand")';
+              const modalDiv = $("#modal");
+              $("#btnAdd").click(function() {
+                  $.get(url).done(function(data) {
+                      console.log(data);
+                      modalDiv.html(data);
+                      modalDiv.find(".modal").show('show');
+                  });
+              });
+          });
     </script>
 }
