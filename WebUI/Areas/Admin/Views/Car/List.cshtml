@@ -1,6 +1,7 @@
 ﻿@using Entity.ComplexTypes
 @model Entity.Concrete.DTOs.CarListDto
 
+<div id="modal"></div>
 <div class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Araçlarımız</h1>
@@ -8,64 +9,70 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-         <div class="card-header py-3">
+        <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Araç Listesi</h6>
-         </div>
-         <div class="card-body">
-              <button class="btn btn-success mb-3">Yeni Bir Araç Ekle</button>
-              <div class="table-responsive">
-                   <table id="carTable" class="table table-bordered" width="100%" cellspacing="0">
-                        <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Marka</th>
-                                    <th>Model</th>
-                                    <th>Günlük Ücret</th>
-                                    <th>Renk</th>
-                                    <th>Vites Tipi</th>
-                                    <th>Yakıt Tipi</th>
-                                    <th>Kasa Tipi</th>
-                                    <th>Açıklama</th>
-                                    <th>Mevcut Adet</th>
-                                    <th>Toplam Adet</th>
-                                </tr>
-                         </thead>
-                         <tbody>
-                             @foreach (var item in Model.Cars)
-                             {
-                               <tr>
-                                 <td>@item.ID</td>
-                                 <td>@item.CarModel.Brand.Name</td>
-                                 <td>@item.CarModel.Name</td>
-                                 <td>@item.DailyPrice ₺</td>
-                                 <td>@item.Color.Name</td>
-                                 <td>
-                                     @{var transmissionType = (TransmissionType)item.TransmissionType;}
-                                     @transmissionType
-                                 </td>
-                                 <td>
-                                     @{var fuelType = (FuelType)item.FuelType;}
-                                     @fuelType
-                                 </td>
-                                 <td>
-                                     @{var vehicleType = (VehicleType)item.VehicleType;}
-                                     @vehicleType
-                                 </td>  
-                                 <td>
-                                     @item.Description
-                                 </td>
-                                 <td>
-                                     @item.CurrentCount
-                                 </td>
-                                 <td>
-                                     @item.TotalCount
-                                 </td>
-                               </tr>
-                             }
-                         </tbody>
-                    </table>
-              </div>
-         </div>
+        </div>
+        <div class="card-body">
+            <button class="btn btn-success mb-3" id="btnAdd">Yeni Bir Araç Ekle</button>
+            <div class="table-responsive">
+                <table id="carTable" class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Marka</th>
+                            <th>Model</th>
+                            <th>Günlük Ücret</th>
+                            <th>Renk</th>
+                            <th>Vites Tipi</th>
+                            <th>Yakıt Tipi</th>
+                            <th>Kasa Tipi</th>
+                            <th>Açıklama</th>
+                            <th>Mevcut Adet</th>
+                            <th>Toplam Adet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Cars)
+                        {
+                            <tr>
+                                <td>@item.ID</td>
+                                <td>@item.CarModel.Brand.Name</td>
+                                <td>@item.CarModel.Name</td>
+                                <td>@item.DailyPrice ₺</td>
+                                <td>@item.Color.Name</td>
+                                <td>
+                                    @{
+                                        var transmissionType = (TransmissionType)item.TransmissionType;
+                                    }
+                                    @transmissionType
+                                </td>
+                                <td>
+                                    @{
+                                        var fuelType = (FuelType)item.FuelType;
+                                    }
+                                    @fuelType
+                                </td>
+                                <td>
+                                    @{
+                                        var vehicleType = (VehicleType)item.VehicleType;
+                                    }
+                                    @vehicleType
+                                </td>
+                                <td>
+                                    @item.Description
+                                </td>
+                                <td>
+                                    @item.CurrentCount
+                                </td>
+                                <td>
+                                    @item.TotalCount
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -73,12 +80,21 @@
 
 @section scripts{
     <script>
-          $(document).ready(function() {
-              $('#carTable').DataTable({
-                  "language": {
-                   "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
-                  }
-              });
+        $(document).ready(function() {
+            $('#carTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+                }
             });
+            //add get for brand
+            const url = '@Url.Action("Add","Car")';
+            const modalDiv = $("#modal");
+            $("#btnAdd").click(function() {
+                $.get(url).done(function(data) {
+                    modalDiv.html(data);
+                    modalDiv.find(".modal").show('slow');
+                });
+            });
+        });
     </script>
 }

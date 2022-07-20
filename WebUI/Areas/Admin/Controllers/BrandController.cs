@@ -40,7 +40,7 @@ namespace WebUI.Areas.Admin.Controllers
                     .SelectMany(v => v.Errors)
                     .Select(e => e.ErrorMessage));
 
-            string errorResultMessage = "Ekleme sırasında hata ile karşılaşıldı.\n";
+            string errorResultMessage = "Ekleme sırasında hata ile karşılaşıldı.";
 
             foreach (var errMsg in errorMessage)
             {

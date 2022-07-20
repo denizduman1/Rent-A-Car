@@ -1,13 +1,17 @@
 ﻿@using Entity.Concrete
 @using Entity.Concrete.DTOs
 @using Shared.Utilities.Results.ComplexTypes
-@model BrandAddDto
+@model CarAddDto
+
+@{
+   var pageState = ViewBag.PageState as WebUI.Areas.Admin.Models.DashboardModel;
+}
 
 <div class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-primary"><i class="fa-solid fa-circle-plus"></i> Marka Ekle</h5>
+                <h5 class="modal-title text-primary"><i class="fa-solid fa-circle-plus"></i> Araç Ekle</h5>
                 <button type="button" class="close cancel">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,8 +19,10 @@
             <div class="modal-body">
                 <form asp-action="Add" id="form-add">
                     <div class="form-group">
-                        <label style="color:black;" asp-for="Name"></label>
-                        <input class="form-control" asp-for="Name" type="text" placeholder="Marka Adı Giriniz..">
+                        <label style="color:black;" asp-for="CarModel"></label>
+                        <select class="form-control" asp-for="CarModelId" asp-items="@pageState?.SelectListItemForBrands" >
+                            <option>Model Seçiniz</option>
+                        </select>
                     </div>
                 </form>
             </div>
