@@ -54,9 +54,8 @@
               const modalDiv = $("#modal");
               $("#btnAdd").click(function() {
                   $.get(url).done(function(data) {
-                      console.log(data);
                       modalDiv.html(data);
-                      modalDiv.find(".modal").show('show');
+                      modalDiv.find(".modal").show('slow');
                   });
               });
           });

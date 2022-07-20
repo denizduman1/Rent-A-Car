@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Entity.Concrete.DTOs;
+using Microsoft.AspNetCore.Mvc;
 using Services.Abstract;
 using Shared.Utilities.Results.ComplexTypes;
+using Shared.Utilities.Results.Concrete;
 
 namespace WebUI.Areas.Admin.Controllers
 {
@@ -25,5 +27,30 @@ namespace WebUI.Areas.Admin.Controllers
         {
             return PartialView("_BrandAddPartial");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(BrandAddDto brandAddDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _brandService.Add(brandAddDto);
+                return Json(result);
+            }
+            var errorMessage = string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+
+            string errorResultMessage = "Ekleme sırasında hata ile karşılaşıldı.\n";
+
+            foreach (var errMsg in errorMessage)
+            {
+                errorResultMessage = errorResultMessage + errMsg.ToString();
+            }
+
+            Result errorResult = new Result(ResultStatus.Error, errorResultMessage);
+
+            return Json(errorResult);
+        }
+
     }
 }

@@ -1,29 +1,63 @@
-﻿@model Entity.Concrete.DTOs.BrandAddDto
+﻿@using Entity.Concrete
+@using Entity.Concrete.DTOs
+@using Shared.Utilities.Results.ComplexTypes
+@model BrandAddDto
 
-<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close">
+                <h5 class="modal-title text-primary"><i class="fa-solid fa-circle-plus"></i> Marka Ekle</h5>
+                <button type="button" class="close cancel">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <form asp-action="Add" id="form-add">
+                    <div asp-validation-summary="All" class="text-danger" id="validation-summary" style="display:none;"></div>
+                    <div class="form-group">
+                        <label style="color:black;" asp-for="Name"></label>
+                        <input class="form-control" asp-for="Name" type="text" placeholder="Marka Adı Giriniz..">
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary cancel">Kapat</button>
+                <button type="button" class="btn btn-primary save">Kaydet</button>
             </div>
         </div>
     </div>
 </div>
 
-@section scripts{
-    <script>
-        $(".close").click(function() {
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".cancel").click(function() {
             $(".modal").hide("slow");
         });
-    </script>
-}
+        $(".save").click(function() {
+            const form = $("#form-add");
+            const actionUrl = form.attr("action");
+            const dataToSend = form.serialize();
+            $.post(actionUrl, dataToSend).done(function(data) {
+                var stringifyData = JSON.stringify(data); // "key":"data"
+                var jsonData = jQuery.parseJSON(stringifyData); //jsObject
+                if (jsonData.resultStatus == "Success") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Başarıyla Eklendi',
+                        text: jsonData.message
+                    });
+                    $(".modal").hide("fast");
+                    location.reload(true);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ekleme Başarısız',
+                        text: jsonData.message
+                    });
+                }
+            });
+        });
+    });
+</script>
