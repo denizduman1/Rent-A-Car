@@ -44,7 +44,7 @@ namespace Services.Concrete
                 await _unitOfWork.SaveAsync();
                 return new Result(ResultStatus.Success, $"{brand.Name} markası başarıyla silinmiştir.");
             }
-            return new Result(ResultStatus.Success, $"Silmek istediğiniz marka bilgisi bulunamamaktadır.");
+            return new Result(ResultStatus.Error, $"Silmek istediğiniz marka bilgisi bulunamamaktadır.");
         }
 
         public async Task<IDataResult<BrandDto>> Get(int brandId)

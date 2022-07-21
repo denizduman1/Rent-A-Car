@@ -19,6 +19,7 @@
                 <form asp-action="Add" id="form-add">
                     <div class="form-group">
                         <label style="color:black;">Marka</label>
+                        <span class="btn btn-success btn-sm float-right" id="addBrand">+</span>
                         <select class="form-control" id="brandSelect" asp-items="@pageState?.SelectListItemForBrands">
                             <option>Marka Seçiniz</option>
                         </select>
@@ -106,6 +107,15 @@
                         $("#carModel").append(`<option value="${carModel.id}">${carModel.name}</option>`);
                     }
                 }
+            });
+        });
+
+        $("#addBrand").click(function() {
+            const url = '@Url.Action("Add","Brand")';
+            const modalDiv = $("#modal");
+            $.get(url).done(function(data) {
+                modalDiv.html(data);
+                modalDiv.find(".modal").show('slow');
             });
         });
 

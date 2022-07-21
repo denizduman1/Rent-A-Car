@@ -52,5 +52,12 @@ namespace WebUI.Areas.Admin.Controllers
             return Json(errorResult);
         }
 
+        [HttpPost]
+        public async Task<JsonResult> Remove(int brandId)
+        {
+            var result = await _brandService.Delete(brandId);       
+            return Json(result);
+        }
+
     }
 }

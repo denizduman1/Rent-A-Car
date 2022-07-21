@@ -1,5 +1,5 @@
 ﻿@model Entity.Concrete.DTOs.BrandListDto
-   
+
 <div id="modal"></div>
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -8,33 +8,35 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-         <div class="card-header py-3">
+        <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Marka Listesi</h6>
-         </div>
-         <div class="card-body">
-              <button class="btn btn-success mb-3" id="btnAdd">Yeni Bir Marka Ekle</button>
-              <div class="table-responsive">
-                   <table id="brandTable" class="table table-bordered" width="100%" cellspacing="0">
-                        <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Marka</th>
-                                    <th>Model Sayısı</th>
-                                </tr>
-                         </thead>
-                         <tbody>
-                             @foreach (var item in Model.Brands)
-                             {
-                               <tr>
-                                 <td>@item.ID</td>
-                                 <td>@item.Name</td>
-                                 <td>@item.CarModels.Count()</td>
-                               </tr>
-                             }
-                         </tbody>
-                    </table>
-              </div>
-         </div>
+        </div>
+        <div class="card-body">
+            <button class="btn btn-success mb-3" id="btnAdd">Yeni Bir Marka Ekle</button>
+            <div class="table-responsive">
+                <table id="brandTable" class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Marka</th>
+                            <th>Model Sayısı</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Brands)
+                        {
+                            <tr>
+                                <td>@item.ID</td>
+                                <td>@item.Name</td>
+                                <td>@item?.CarModels?.Count()</td>
+                                <td><span class="btn btn-sm btn-danger removeBrand" id="@item?.ID">Sil</span> <span class="btn btn-sm btn-warning" id="brandUpdate">Güncelle</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -42,22 +44,50 @@
 
 @section scripts{
     <script>
-          $(document).ready(function() {
-              //datatable for brand
-              $('#brandTable').DataTable({
-                  "language": {
-                   "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
-                  }
-              });
-              //add get for brand
-              const url = '@Url.Action("Add","Brand")';
-              const modalDiv = $("#modal");
-              $("#btnAdd").click(function() {
-                  $.get(url).done(function(data) {
-                      modalDiv.html(data);
-                      modalDiv.find(".modal").show('slow');
-                  });
-              });
-          });
+        $(document).ready(function() {
+            //datatable for brand
+            $('#brandTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+                }
+            });
+            //add get for brand
+            const url = '@Url.Action("Add","Brand")';
+            const modalDiv = $("#modal");
+            $("#btnAdd").click(function() {
+                $.get(url).done(function(data) {
+                    modalDiv.html(data);
+                    modalDiv.find(".modal").show('slow');
+                });
+            });
+
+            //remove brand
+            $(".removeBrand").click(function() {
+                const url = '@Url.Action("Remove","Brand")';
+                const Id = $(this).attr("id");
+                $.post(url, { brandId: Id }).done(function(data) {
+                    var stringifyData = JSON.stringify(data); // "key":"data"
+                    var jsonData = jQuery.parseJSON(stringifyData); //jsObject
+                    if (jsonData.resultStatus == "Success") {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Başarıyla Silindi',
+                            text: jsonData.message
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload(true);
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Silme Başarısız',
+                            text: jsonData.message
+                        });
+                    }
+                });
+            });
+
+        });
     </script>
 }
