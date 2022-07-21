@@ -19,6 +19,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Resim</th>
                             <th>Marka</th>
                             <th>Model</th>
                             <th>Günlük Ücret</th>
@@ -36,6 +37,7 @@
                         {
                             <tr>
                                 <td>@item.ID</td>
+                                <td><img src="@item.Image" style="object-fit:contain; width:150px;"/></td>
                                 <td>@item.CarModel.Brand.Name</td>
                                 <td>@item.CarModel.Name</td>
                                 <td>@item.DailyPrice ₺</td>

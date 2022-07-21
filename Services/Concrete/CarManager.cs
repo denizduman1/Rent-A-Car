@@ -30,7 +30,8 @@ namespace Services.Concrete
             var car = _mapper.Map<Car>(carAddDto);
             await _unitOfWork.CarRepository.AddAsync(car);
             await _unitOfWork.SaveAsync();
-            return new Result(ResultStatus.Success, message: $"{car.CarModel.Brand.Name} {car.CarModel.Name} adlı araç başarıyla eklenmiştir.");
+            var carModel = await _unitOfWork.CarModelRepository.GetAsync(c=>c.ID == carAddDto.CarModelId,c=>c.Brand);
+            return new Result(ResultStatus.Success, message: $"{carModel?.Brand?.Name} {carModel?.Name} adlı araç başarıyla eklenmiştir.");
         }
 
         public async Task<IResult> Delete(int carId)

@@ -14,7 +14,7 @@ namespace Entity.Concrete
         public int FuelType { get; set; }
         public int VehicleType { get; set; }
         public int DailyPrice { get; set; }
-        public DateTime ModelYear { get; set; }
+        public int ModelYear { get; set; }
         public string? Image { get; set; }
         public string? Description { get; set; }
         public int CurrentCount { get; set; }

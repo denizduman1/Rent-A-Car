@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(RentCarContext))]
-    [Migration("20220713112112_migration_V1")]
+    [Migration("20220721112336_migration_V1")]
     partial class migration_V1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,49 +54,49 @@ namespace DataAccess.Migrations
                         new
                         {
                             ID = 1,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4899),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(3079),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4900),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(3080),
                             Name = "Hyundai"
                         },
                         new
                         {
                             ID = 2,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4903),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(3082),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4904),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(3083),
                             Name = "Bmw"
                         },
                         new
                         {
                             ID = 3,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4906),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(3085),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4906),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(3086),
                             Name = "Volvo"
                         },
                         new
                         {
                             ID = 4,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4909),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(3087),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4909),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(3088),
                             Name = "Renault"
                         },
                         new
                         {
                             ID = 5,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4911),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(3090),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4912),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(3090),
                             Name = "Opel"
                         },
                         new
                         {
                             ID = 6,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4914),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(3092),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(4914),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(3093),
                             Name = "Fiat"
                         });
                 });
@@ -140,8 +140,8 @@ namespace DataAccess.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ModelYear")
-                        .HasColumnType("smalldatetime");
+                    b.Property<int>("ModelYear")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("smalldatetime");
@@ -169,15 +169,15 @@ namespace DataAccess.Migrations
                             ID = 1,
                             CarModelId = 1,
                             ColorId = 1,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9647),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6410),
                             CurrentCount = 3,
                             DailyPrice = 800,
                             Description = "Temiz aile arabası",
                             FuelType = 0,
                             Image = "https://s.yauto.cz/m/obrazky/hih/0019/hyundai-i20-306110-M-789242797-1.jpg",
                             IsDeleted = false,
-                            ModelYear = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9648),
+                            ModelYear = 2015,
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6411),
                             TotalCount = 3,
                             TransmissionType = 1,
                             VehicleType = 1
@@ -187,15 +187,15 @@ namespace DataAccess.Migrations
                             ID = 2,
                             CarModelId = 1,
                             ColorId = 3,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9656),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6414),
                             CurrentCount = 1,
                             DailyPrice = 800,
                             Description = "Temiz aile arabası",
                             FuelType = 0,
                             Image = "https://i0.shbdn.com/photos/73/43/28/x5_103173432829h.jpg",
                             IsDeleted = false,
-                            ModelYear = new DateTime(2014, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9657),
+                            ModelYear = 2014,
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6415),
                             TotalCount = 1,
                             TransmissionType = 1,
                             VehicleType = 1
@@ -205,15 +205,15 @@ namespace DataAccess.Migrations
                             ID = 3,
                             CarModelId = 2,
                             ColorId = 2,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9661),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6418),
                             CurrentCount = 6,
                             DailyPrice = 950,
                             Description = "Yeni aile arabası",
                             FuelType = 0,
                             Image = "https://file.ikinciyeni.com/carphotos/34re2824/DetailImage/ikinci-el-satilik-renault-clio-48-045dfa.jpg?v1",
                             IsDeleted = false,
-                            ModelYear = new DateTime(2018, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9662),
+                            ModelYear = 2016,
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6418),
                             TotalCount = 6,
                             TransmissionType = 1,
                             VehicleType = 1
@@ -223,15 +223,15 @@ namespace DataAccess.Migrations
                             ID = 4,
                             CarModelId = 2,
                             ColorId = 1,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9664),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6421),
                             CurrentCount = 6,
                             DailyPrice = 980,
                             Description = "Yeni beyaz clio",
                             FuelType = 0,
                             Image = "https://www.yildirayrentacar.com/dosya/2080/sinif/13-56-17-renault-clio-benzin.jpg",
                             IsDeleted = false,
-                            ModelYear = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9665),
+                            ModelYear = 2015,
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6421),
                             TotalCount = 6,
                             TransmissionType = 1,
                             VehicleType = 1
@@ -241,15 +241,15 @@ namespace DataAccess.Migrations
                             ID = 5,
                             CarModelId = 3,
                             ColorId = 3,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9668),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6423),
                             CurrentCount = 2,
                             DailyPrice = 1050,
                             Description = "Yeni siyah megane",
                             FuelType = 0,
                             Image = "https://bufilo.com/storage/aylik-kiralik-megane-renault-bufilo-arac-kiralama-istanbul-600-250.png",
                             IsDeleted = false,
-                            ModelYear = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9668),
+                            ModelYear = 2020,
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6424),
                             TotalCount = 2,
                             TransmissionType = 1,
                             VehicleType = 0
@@ -259,15 +259,15 @@ namespace DataAccess.Migrations
                             ID = 6,
                             CarModelId = 3,
                             ColorId = 1,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9671),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6432),
                             CurrentCount = 2,
                             DailyPrice = 1050,
                             Description = "Yeni beyaz megane",
                             FuelType = 0,
                             Image = "https://zugo2.mncdn.com/mnresize/800/-/Images/Arac/b/410/283507/2175813.jpg",
                             IsDeleted = false,
-                            ModelYear = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9671),
+                            ModelYear = 2021,
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6433),
                             TotalCount = 2,
                             TransmissionType = 1,
                             VehicleType = 0
@@ -277,15 +277,15 @@ namespace DataAccess.Migrations
                             ID = 7,
                             CarModelId = 4,
                             ColorId = 1,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9674),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6435),
                             CurrentCount = 4,
                             DailyPrice = 1100,
                             Description = "Ucuz yakıt egea",
                             FuelType = 1,
                             Image = "https://ersanrentacar.com/yuklemeler/2015/10/fiat-egea-bulut-beyazi-2.jpg",
                             IsDeleted = false,
-                            ModelYear = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9675),
+                            ModelYear = 2019,
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6436),
                             TotalCount = 4,
                             TransmissionType = 0,
                             VehicleType = 0
@@ -295,15 +295,15 @@ namespace DataAccess.Migrations
                             ID = 8,
                             CarModelId = 4,
                             ColorId = 2,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9677),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6438),
                             CurrentCount = 3,
                             DailyPrice = 1100,
                             Description = "Ucuz yakıt egea",
                             FuelType = 1,
                             Image = "https://zugo2.mncdn.com/mnresize/800/-/Images/Arac/b/410/251987/1913579.jpg",
                             IsDeleted = false,
-                            ModelYear = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9678),
+                            ModelYear = 2018,
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6438),
                             TotalCount = 3,
                             TransmissionType = 0,
                             VehicleType = 0
@@ -313,15 +313,15 @@ namespace DataAccess.Migrations
                             ID = 9,
                             CarModelId = 5,
                             ColorId = 4,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9681),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6441),
                             CurrentCount = 1,
                             DailyPrice = 1090,
                             Description = "hızlı opel astra",
                             FuelType = 0,
                             Image = "https://i0.shbdn.com/photos/20/05/44/1032200544t8b.jpg",
                             IsDeleted = false,
-                            ModelYear = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9681),
+                            ModelYear = 2022,
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6441),
                             TotalCount = 1,
                             TransmissionType = 1,
                             VehicleType = 0
@@ -331,15 +331,15 @@ namespace DataAccess.Migrations
                             ID = 10,
                             CarModelId = 5,
                             ColorId = 5,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9684),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6444),
                             CurrentCount = 1,
                             DailyPrice = 1150,
                             Description = "opel özel renk mavi",
                             FuelType = 0,
                             Image = "https://www.arackaplama.com/wp-content/uploads/2017/12/IMAG2542.jpg",
                             IsDeleted = false,
-                            ModelYear = new DateTime(2017, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9684),
+                            ModelYear = 2017,
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6444),
                             TotalCount = 1,
                             TransmissionType = 0,
                             VehicleType = 0
@@ -349,15 +349,15 @@ namespace DataAccess.Migrations
                             ID = 11,
                             CarModelId = 6,
                             ColorId = 2,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9687),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6446),
                             CurrentCount = 4,
                             DailyPrice = 1500,
                             Description = "spor yarış arabası",
                             FuelType = 0,
                             Image = "https://upload.wikimedia.org/wikipedia/commons/e/e9/2016_BMW_i8.jpg",
                             IsDeleted = false,
-                            ModelYear = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9688),
+                            ModelYear = 2018,
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6447),
                             TotalCount = 4,
                             TransmissionType = 1,
                             VehicleType = 5
@@ -367,15 +367,15 @@ namespace DataAccess.Migrations
                             ID = 12,
                             CarModelId = 6,
                             ColorId = 5,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9691),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6450),
                             CurrentCount = 7,
                             DailyPrice = 1250,
                             Description = "spor yarış arabası",
                             FuelType = 1,
                             Image = "https://upload.wikimedia.org/wikipedia/commons/9/93/2015_BMW_i8_%2820039281571%29_%282%29.jpg",
                             IsDeleted = false,
-                            ModelYear = new DateTime(2015, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 720, DateTimeKind.Local).AddTicks(9691),
+                            ModelYear = 2019,
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(6450),
                             TotalCount = 7,
                             TransmissionType = 1,
                             VehicleType = 5
@@ -418,54 +418,54 @@ namespace DataAccess.Migrations
                         {
                             ID = 1,
                             BrandId = 1,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1910),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(8324),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1911),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(8325),
                             Name = "i20"
                         },
                         new
                         {
                             ID = 2,
                             BrandId = 4,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1914),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(8327),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1915),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(8327),
                             Name = "Clio"
                         },
                         new
                         {
                             ID = 3,
                             BrandId = 4,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1917),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(8329),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1918),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(8330),
                             Name = "Megane"
                         },
                         new
                         {
                             ID = 4,
                             BrandId = 6,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1920),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(8332),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1920),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(8332),
                             Name = "Egea"
                         },
                         new
                         {
                             ID = 5,
                             BrandId = 5,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1922),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(8334),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1923),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(8335),
                             Name = "Astra"
                         },
                         new
                         {
                             ID = 6,
                             BrandId = 2,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1925),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(8336),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(1926),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(8337),
                             Name = "i8"
                         });
                 });
@@ -500,41 +500,41 @@ namespace DataAccess.Migrations
                         new
                         {
                             ID = 1,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2900),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(9178),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2900),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(9179),
                             Name = "Beyaz"
                         },
                         new
                         {
                             ID = 2,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2903),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(9180),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2903),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(9181),
                             Name = "Gri"
                         },
                         new
                         {
                             ID = 3,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2906),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(9183),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2906),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(9183),
                             Name = "Siyah"
                         },
                         new
                         {
                             ID = 4,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2908),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(9185),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2909),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(9186),
                             Name = "Kırmızı"
                         },
                         new
                         {
                             ID = 5,
-                            CreatedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2911),
+                            CreatedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(9187),
                             IsDeleted = false,
-                            ModifiedDate = new DateTime(2022, 7, 13, 14, 21, 11, 721, DateTimeKind.Local).AddTicks(2911),
+                            ModifiedDate = new DateTime(2022, 7, 21, 14, 23, 35, 904, DateTimeKind.Local).AddTicks(9188),
                             Name = "Mavi"
                         });
                 });

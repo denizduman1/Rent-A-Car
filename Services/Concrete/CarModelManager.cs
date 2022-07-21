@@ -112,5 +112,20 @@ namespace Services.Concrete
             }
             return new Result(ResultStatus.Success, $"Silmek istediğiniz model bilgisi bulunamamaktadır.");
         }
+
+        public async Task<IDataResult<CarModelListDto>> GetAllByNonDeletedByBrandId(int brandId)
+        {
+            var carModels = await _unitOfWork.CarModelRepository.GetAllAsync(c => c.IsDeleted == false && c.BrandId == brandId);
+            if (carModels.Count > 0)
+            {
+                return new DataResult<CarModelListDto>(new CarModelListDto { CarModels = carModels, ResultStatus = ResultStatus.Success }, ResultStatus.Success);
+            }
+            return new DataResult<CarModelListDto>(new CarModelListDto
+            {
+                CarModels = carModels,
+                ResultStatus = ResultStatus.Error,
+                Message = "Silinmemiş model bulunamadı"
+            }, ResultStatus.Error);
+        }
     }
 }
