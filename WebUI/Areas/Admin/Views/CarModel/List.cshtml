@@ -1,5 +1,6 @@
 ﻿@model Entity.Concrete.DTOs.CarModelListDto
 
+<div id="modal"></div>
 <div class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Modellerimiz</h1>
@@ -7,34 +8,35 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-         <div class="card-header py-3">
+        <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Model Listesi</h6>
-         </div>
-         <div class="card-body">
-              <div class="table-responsive">
-                   <table id="carModelTable" class="table table-bordered" width="100%" cellspacing="0">
-                        <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Marka</th>
-                                    <th>Model</th>
-                                    <th>Araç Sayısı</th>
-                                </tr>
-                         </thead>
-                         <tbody>
-                             @foreach (var item in Model.CarModels)
-                             {
-                               <tr>
-                                 <td>@item.ID</td>
-                                 <td>@item.Brand.Name</td>
-                                 <td>@item.Name</td>
-                                 <td>@item.Cars.Count()</td>
-                               </tr>
-                             }
-                         </tbody>
-                    </table>
-              </div>
-         </div>
+        </div>
+        <div class="card-body">
+            <button class="btn btn-success mb-3" id="btnAdd">Yeni Bir Model Ekle</button>
+            <div class="table-responsive">
+                <table id="carModelTable" class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Marka</th>
+                            <th>Model</th>
+                            <th>Araç Sayısı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CarModels)
+                        {
+                            <tr>
+                                <td>@item.ID</td>
+                                <td>@item.Brand.Name</td>
+                                <td>@item.Name</td>
+                                <td>@item.Cars.Count()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -42,12 +44,21 @@
 
 @section scripts{
     <script>
-          $(document).ready(function() {
-              $('#carModelTable').DataTable({
-                  "language": {
-                   "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
-                  }
-              });
+        $(document).ready(function() {
+            $('#carModelTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+                }
             });
+            //add get for carModel
+            const url = '@Url.Action("Add","CarModel")';
+            const modalDiv = $("#modal");
+            $("#btnAdd").click(function() {
+                $.get(url).done(function(data) {
+                    modalDiv.html(data);
+                    modalDiv.find(".modal").show('slow');
+                });
+            });
+        });
     </script>
 }

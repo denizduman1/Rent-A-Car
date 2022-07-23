@@ -127,5 +127,17 @@ namespace Services.Concrete
                 Message = "Silinmemiş model bulunamadı"
             }, ResultStatus.Error);
         }
+
+        public async Task<IDataResult<CarModelDto>> AddWithReturn(CarModelAddDto carModelAddDto)
+        {
+            var carModel = _mapper.Map<CarModel>(carModelAddDto);
+            var addedCarModel =  await _unitOfWork.CarModelRepository.AddWithReturn(carModel);
+            await _unitOfWork.SaveAsync();
+            return new DataResult<CarModelDto>(new CarModelDto
+            {
+                CarModel = addedCarModel,
+                ResultStatus = ResultStatus.Success
+            },ResultStatus.Success,message: $"{carModel.Name} adlı model başarıyla eklenmiştir.");
+        }
     }
 }

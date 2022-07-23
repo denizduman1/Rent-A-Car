@@ -10,5 +10,6 @@ namespace DataAccess.Abstract
 {
     public interface ICarModelRepository : IEntityRepository<CarModel>
     {
+        public Task<CarModel> AddWithReturn(CarModel carModel);
     }
 }

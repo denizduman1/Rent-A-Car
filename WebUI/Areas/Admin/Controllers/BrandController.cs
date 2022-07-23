@@ -44,10 +44,10 @@ namespace WebUI.Areas.Admin.Controllers
 
             foreach (var errMsg in errorMessage)
             {
-                errorResultMessage = errorResultMessage + errMsg.ToString();
+                errorResultMessage += errMsg.ToString();
             }
 
-            Result errorResult = new Result(ResultStatus.Error, errorResultMessage);
+            Result errorResult = new(ResultStatus.Error, errorResultMessage);
 
             return Json(errorResult);
         }
