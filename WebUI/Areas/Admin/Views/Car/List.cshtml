@@ -30,6 +30,7 @@
                             <th>Açıklama</th>
                             <th>Mevcut Adet</th>
                             <th>Toplam Adet</th>
+                            <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +38,7 @@
                         {
                             <tr>
                                 <td>@item.ID</td>
-                                <td><img src="@item.Image" style="object-fit:contain; width:150px;"/></td>
+                                <td><img src="@item.Image" style="object-fit:contain; width:150px;" /></td>
                                 <td>@item.CarModel.Brand.Name</td>
                                 <td>@item.CarModel.Name</td>
                                 <td>@item.DailyPrice ₺</td>
@@ -69,6 +70,10 @@
                                 <td>
                                     @item.TotalCount
                                 </td>
+                                <td class="d-flex justify-content-around">
+                                    <span class="btn btn-sm btn-danger removeCar" id="@item?.ID">Sil</span>
+                                    <span class="btn btn-sm btn-warning" id="carUpdate">Güncelle</span>
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -88,13 +93,28 @@
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
                 }
             });
-            //add get for brand
+            //add get for car
             const url = '@Url.Action("Add","Car")';
             const modalDiv = $("#modal");
             $("#btnAdd").click(function() {
                 $.get(url).done(function(data) {
                     modalDiv.html(data);
                     modalDiv.find(".modal").show('slow');
+                });
+            });
+            //remove for car
+            $(".removeCar").click(function() {
+                const url = '@Url.Action("Remove","Car")';
+                const Id = $(this).attr('id');
+                $.post(url, { carId:Id }).done(function(data) {
+                    var stringifyData = JSON.stringify(data); // "key":"data"
+                    var jsonData = jQuery.parseJSON(stringifyData); //jsObject
+                    if (jsonData.resultStatus === true) {
+                        toastr.success(`${jsonData.message}`, 'Başarılı İşlem');
+                    }
+                    else {
+                        toastr.error(`${jsonData.message}`, 'Başarısız İşlem');
+                    }
                 });
             });
         });

@@ -35,11 +35,11 @@ namespace WebUI.Areas.Admin.Controllers
         public async Task<JsonResult> GetCarModelsByBrand(int brandId)
         {
             var result = await _carModelService.GetAllByNonDeletedByBrandId(brandId);
-            if (result?.Data?.CarModels.Count()>0)
+            if (result?.Data?.CarModels.Count() > 0)
             {
                 return Json(result?.Data?.CarModels);
             }
-            return Json(new {message = "Seçtiğiniz markaya ait model yok", isError = true});
+            return Json(new { message = "Seçtiğiniz markaya ait model yok", isError = true });
         }
 
         [HttpGet]
@@ -70,7 +70,7 @@ namespace WebUI.Areas.Admin.Controllers
 
             var fuelType = from FuelType f in Enum.GetValues(typeof(FuelType))
                            select new { Value = (int)f, Text = f.ToString() };
-            
+
             var fuelTypeSelectList = fuelType.Select(f => new SelectListItem()
             {
                 Value = f.Value.ToString(),
@@ -120,6 +120,24 @@ namespace WebUI.Areas.Admin.Controllers
             Result errorResult = new(ResultStatus.Error, errorResultMessage);
 
             return Json(errorResult);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Remove(int carId)
+        {
+            if (carId != 0)
+            {
+                var result = await _carService.Delete(carId);
+                if (result.ResultStatus == ResultStatus.Success)
+                {
+                    return Json(new { message = result.Message, resultStatus = true }); 
+                }
+                else
+                {
+                    return Json(new { message = result.Message });
+                }
+            }
+            return Json(new { message = "id 0 olamaz" });
         }
 
     }

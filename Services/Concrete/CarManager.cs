@@ -39,11 +39,11 @@ namespace Services.Concrete
             var result = await _unitOfWork.CarRepository.AnyAsync(b => b.ID == carId);
             if (result)
             {
-                var car = await _unitOfWork.CarRepository.GetAsync(b => b.ID == carId);
+                var car = await _unitOfWork.CarRepository.GetAsync(b => b.ID == carId, c=>c.CarModel, c=>c.CarModel.Brand);
                 car.IsDeleted = true;
                 await _unitOfWork.CarRepository.UpdateAsync(car);
                 await _unitOfWork.SaveAsync();
-                return new Result(ResultStatus.Success, $"{car.CarModel.Brand.Name} {car.CarModel.Name} adlı araç başarıyla eklenmiştir.");
+                return new Result(ResultStatus.Success, $"{car.CarModel.Brand.Name} {car.CarModel.Name} adlı araç başarıyla silinmiştir.");
             }
             return new Result(ResultStatus.Success, $"Silmek istediğiniz araç bilgisi bulunamamaktadır.");
         }
