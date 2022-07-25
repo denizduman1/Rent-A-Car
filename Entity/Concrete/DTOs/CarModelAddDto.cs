@@ -12,9 +12,9 @@ namespace Entity.Concrete.DTOs
     {
         [DisplayName("Model")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]
-        [MaxLength(80, ErrorMessage = "{0} alanı {1} karakterden büyük olmamlıdır.")]
-        [MinLength(3, ErrorMessage = "{0} alanı {1} karakterden küçük olmamlıdır.")]
-        public string? Name { get; set; }
+        [MaxLength(80, ErrorMessage = "{0} alanı {1} karakterden büyük olmamalıdır.")]
+        [MinLength(3, ErrorMessage = "{0} alanı {1} karakterden küçük olmamalıdır.")]
+        public string Name { get; set; }
         public Brand? Brand { get; set; }
         [DisplayName("Marka")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]

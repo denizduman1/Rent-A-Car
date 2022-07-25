@@ -132,11 +132,13 @@ namespace Services.Concrete
         {
             var carModel = _mapper.Map<CarModel>(carModelAddDto);
             var addedCarModel =  await _unitOfWork.CarModelRepository.AddWithReturn(carModel);
+            addedCarModel.Brand = await _unitOfWork.BrandRepository.GetAsync(b=>b.ID == addedCarModel.BrandId);
             await _unitOfWork.SaveAsync();
             return new DataResult<CarModelDto>(new CarModelDto
             {
                 CarModel = addedCarModel,
-                ResultStatus = ResultStatus.Success
+                ResultStatus = ResultStatus.Success,
+                Message = $"{carModel.Name} adlı model başarıyla eklenmiştir."
             },ResultStatus.Success,message: $"{carModel.Name} adlı model başarıyla eklenmiştir.");
         }
     }

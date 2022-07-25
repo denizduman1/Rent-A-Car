@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Entity.Concrete.DTOs;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using Services.Abstract;
+using Shared.Utilities.Extensions;
 using WebUI.Areas.Admin.Models;
 
 namespace WebUI.Areas.Admin.Controllers
@@ -26,6 +29,12 @@ namespace WebUI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
+            await SelectListForBrands();
+            return PartialView("_CarModelAddPartial");
+        }
+
+        private async Task SelectListForBrands()
+        {
             var brandResult = await _brandService.GetAllByNonDeleted();
             var brandSelectList = brandResult?.Data?.Brands?.Select(b => new SelectListItem()
             {
@@ -37,7 +46,41 @@ namespace WebUI.Areas.Admin.Controllers
             {
                 SelectListItemForBrands = brandSelectList
             };
-            return PartialView("_CarModelAddPartial");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(CarModelAddDto carModelAddDto)
+        {
+            await SelectListForBrands();
+
+            if (ModelState.IsValid)
+            {
+                var result = await _carModelService.AddWithReturn(carModelAddDto);
+                
+                if (result.ResultStatus == Shared.Utilities.Results.ComplexTypes.ResultStatus.Success)
+                {
+                    var carModelAddAjaxModel = JsonConvert.SerializeObject(new CarModelAddAjaxViewModel
+                    {
+                        CarModelDto = result.Data,
+                        CarModelAddPartial = await this.RenderViewToStringAsync("_CarModelAddPartial", carModelAddDto)
+                    }, new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        Formatting = Formatting.None
+                    });
+                    return Json(carModelAddAjaxModel);
+                }
+            }
+
+            var carModelAddAjaxErrorModel = JsonConvert.SerializeObject(new CarModelAddAjaxViewModel
+            {
+                CarModelAddPartial = await this.RenderViewToStringAsync("_CarModelAddPartial",carModelAddDto)              
+            }, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                Formatting = Formatting.None
+            });
+            return Json(carModelAddAjaxErrorModel);
         }
     }
 }

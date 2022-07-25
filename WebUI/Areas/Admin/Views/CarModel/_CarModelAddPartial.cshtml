@@ -17,8 +17,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-action="Add" id="form-category-add">
-                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()"/>
+                <form asp-action="Add" id="form-add">
+                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
                     <div asp-validation-summary="All" class="text-danger" id="validation-summary" aria-hidden="true" style="display:none;"></div>
                     <div class="form-group">
                         <label asp-for="Name"></label>
@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label style="color:black;">Marka</label>
                         @*<span class="btn btn-success btn-sm float-right" id="addBrand">+</span>*@
-                        <select class="form-control" asp-items="@pageState?.SelectListItemForBrands">
+                        <select class="form-control" asp-for="BrandId" asp-items="@pageState?.SelectListItemForBrands">
                             <option>Marka Seçiniz</option>
                         </select>
                     </div>
@@ -47,5 +47,32 @@
         $(".cancel").click(function() {
             $(".modal").hide("slow");
         });
+    @* ajax post işlemi *@
+            $(".save").click(function(e) {
+                e.preventDefault(); // kendi click eventi çalışmayacak hale gelir.
+                const form = $("#form-add");
+                const actionUrl = form.attr('action');
+                const dataToSend = form.serialize();
+                $.post(actionUrl, dataToSend).done(function(data) {
+                    const carModelAddAjaxModel = jQuery.parseJSON(data);
+                    const newFormBody = $('.modal-body', carModelAddAjaxModel.CarModelAddPartial); // render edilmiş modal
+                    $(".modal-body").replaceWith(newFormBody); //rende edilmiş modal ile değişiklik
+                    const isValid = newFormBody.find('[name="IsValid"]').val() === 'True';
+                    if (isValid) {
+                        $(".modal").modal('hide');
+                        const newTableRow = `<tr>
+                                                <td>${carModelAddAjaxModel.CarModelDto.CarModel.ID}</td>
+                                                <td>${carModelAddAjaxModel.CarModelDto.CarModel.Brand.Name}</td>
+                                                <td>${carModelAddAjaxModel.CarModelDto.CarModel.Name}</td>
+                                                <td>0</td>
+                                             </tr>`;
+                        const newTableRowObject = $(newTableRow); //obje haline getirildi
+                        newTableRowObject.hide();
+                        $('#carModelTable').append(newTableRowObject);
+                        newTableRowObject.fadeIn(3500);
+                        toastr.success(`${carModelAddAjaxModel.CarModelDto.Message}`,'Başarılı İşlem');
+                    }
+                });
+            });
     });
 </script>
