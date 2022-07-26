@@ -82,5 +82,24 @@ namespace WebUI.Areas.Admin.Controllers
             });
             return Json(carModelAddAjaxErrorModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Remove(int carModelId)
+        {
+            if (carModelId != 0)
+            {
+                var result = await _carModelService.Delete(carModelId);
+                if (result.ResultStatus == Shared.Utilities.Results.ComplexTypes.ResultStatus.Success)
+                {
+                    return Json(new { message = result.Message, resultStatus = true });
+                }
+                else
+                {
+                    return Json(new { message = result.Message });
+                }
+            }
+            return Json(new { message = "id 0 olamaz" });
+        }
+
     }
 }

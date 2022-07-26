@@ -59,18 +59,22 @@
                     $(".modal-body").replaceWith(newFormBody); //rende edilmiş modal ile değişiklik
                     const isValid = newFormBody.find('[name="IsValid"]').val() === 'True';
                     if (isValid) {
-                        $(".modal").modal('hide');
-                        const newTableRow = `<tr>
-                                                <td>${carModelAddAjaxModel.CarModelDto.CarModel.ID}</td>
-                                                <td>${carModelAddAjaxModel.CarModelDto.CarModel.Brand.Name}</td>
-                                                <td>${carModelAddAjaxModel.CarModelDto.CarModel.Name}</td>
-                                                <td>0</td>
-                                             </tr>`;
+                        $(".modal").hide();
+                        const newTableRow = `<tr data-id="${carModelAddAjaxModel.CarModelDto.CarModel.ID}">
+                                                    <td>${carModelAddAjaxModel.CarModelDto.CarModel.ID}</td>
+                                                    <td>${carModelAddAjaxModel.CarModelDto.CarModel.Brand.Name}</td>
+                                                    <td>${carModelAddAjaxModel.CarModelDto.CarModel.Name}</td>
+                                                    <td>0</td>
+                                                    <td>
+                                                        <span class="btn btn-sm btn-danger removeCarModel" id="${carModelAddAjaxModel.CarModelDto.CarModel.ID}">Sil</span>
+                                                        <span class="btn btn-sm btn-warning" id="carModelUpdate">Güncelle</span>
+                                                    </td>
+                                                 </tr>`;
                         const newTableRowObject = $(newTableRow); //obje haline getirildi
                         newTableRowObject.hide();
                         $('#carModelTable').append(newTableRowObject);
                         newTableRowObject.fadeIn(3500);
-                        toastr.success(`${carModelAddAjaxModel.CarModelDto.Message}`,'Başarılı İşlem');
+                        toastr.success(`${carModelAddAjaxModel.CarModelDto.Message}`, 'Başarılı İşlem');
                     }
                 });
             });

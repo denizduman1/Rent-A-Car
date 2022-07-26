@@ -62,32 +62,31 @@
             });
 
             //remove brand
-            $(".removeBrand").click(function() {
-                const url = '@Url.Action("Remove","Brand")';
-                const Id = $(this).attr("id");
-                $.post(url, { brandId: Id }).done(function(data) {
-                    var stringifyData = JSON.stringify(data); // "key":"data"
-                    var jsonData = jQuery.parseJSON(stringifyData); //jsObject
-                    if (jsonData.resultStatus == "Success") {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Başarıyla Silindi',
-                            text: jsonData.message
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload(true);
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Silme Başarısız',
-                            text: jsonData.message
-                        });
-                    }
-                });
+            $('tbody').on('click', '.removeBrand', function() {
+                    const url = '@Url.Action("Remove","Brand")';
+                    const Id = $(this).attr("id");
+                    $.post(url, { brandId: Id }).done(function(data) {
+                        var stringifyData = JSON.stringify(data); // "key":"data"
+                        var jsonData = jQuery.parseJSON(stringifyData); //jsObject
+                        if (jsonData.resultStatus == "Success") {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarıyla Silindi',
+                                text: jsonData.message
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    location.reload(true);
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Silme Başarısız',
+                                text: jsonData.message
+                            });
+                        }
+                    });
             });
-
         });
     </script>
 }
