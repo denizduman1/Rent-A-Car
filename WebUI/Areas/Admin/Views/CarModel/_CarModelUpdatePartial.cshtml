@@ -1,0 +1,52 @@
+﻿@using Entity.Concrete
+@using Entity.Concrete.DTOs
+@using Shared.Utilities.Results.ComplexTypes
+@model CarModelUpdateDto
+
+@{
+    var pageState = ViewBag.PageState as WebUI.Areas.Admin.Models.DashboardModel;
+}
+
+<div class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary"><i class="fa-solid fa-circle-plus"></i> Araç Model Güncelle</h5>
+                <button type="button" class="close cancel">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Update" id="form-update">
+                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <div asp-validation-summary="All" class="text-danger" id="validation-summary" aria-hidden="true" style="display:none;"></div>
+                    <input asp-for="ID" type="hidden" />
+                    <div class="form-group">
+                        <label asp-for="Name"></label>
+                        <input class="form-control" asp-for="Name" />
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;">Marka</label>
+                        @*<span class="btn btn-success btn-sm float-right" id="addBrand">+</span>*@
+                        <select class="form-control" asp-for="BrandId" asp-items="@pageState?.SelectListItemForBrands">
+                            <option>Marka Seçiniz</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary cancel">Kapat</button>
+                <button type="button" class="btn btn-primary save">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".cancel").click(function() {
+            $(".modal").hide('slow');
+        });
+    });
+</script>

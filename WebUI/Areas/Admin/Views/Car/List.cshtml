@@ -38,11 +38,16 @@
                         {
                             <tr data-id="@item.ID">
                                 <td>@item.ID</td>
-                                <td><img src="@item.Image" style="object-fit:contain; width:150px;" /></td>
-                                <td>@item.CarModel.Brand.Name</td>
-                                <td>@item.CarModel.Name</td>
+                                <td>
+                                    <div class="spinner-border text-primary img-car-loaded" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <img class="img-car" src="@item.Image" />
+                                </td>
+                                <td>@item?.CarModel?.Brand?.Name</td>
+                                <td>@item?.CarModel?.Name</td>
                                 <td>@item.DailyPrice ₺</td>
-                                <td>@item.Color.Name</td>
+                                <td>@item?.Color?.Name</td>
                                 <td>
                                     @{
                                         var transmissionType = (TransmissionType)item.TransmissionType;
@@ -130,6 +135,14 @@
                         });
                     }
                 });
+            });
+
+            //loading image indicator            
+            $(".img-car").on('load', function() {
+                setTimeout(function() {
+                    $(".img-car-loaded").css({ "display": "none" });
+                    $(".img-car").css({ "display": "inline" });
+                },2500);
             });
         });
     </script>

@@ -21,6 +21,8 @@ namespace Services.AutoMapper.Profiles
             CreateMap<BrandUpdateDto, Brand>()
                  .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(x => DateTime.Now))
                  .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(x => DateTime.Now));
+
+            CreateMap<Brand, BrandUpdateDto>();
         }
     }
 }

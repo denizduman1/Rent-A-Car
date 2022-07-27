@@ -57,7 +57,16 @@ namespace Services.Concrete
             return new DataResult<BrandDto>(new BrandDto { Brand = brand, ResultStatus = ResultStatus.Error, Message = "İlgili marka bulunamadı" }, 
                 ResultStatus.Error);
         }
-
+        public async Task<IDataResult<BrandUpdateDto>> GetUpdateDto(int brandId)
+        {
+            var brand = await _unitOfWork.BrandRepository.GetAsync(b => b.ID == brandId);
+            if (brand is not null)
+            {
+                var brandUpdateDto = _mapper.Map<BrandUpdateDto>(brand);
+                return new DataResult<BrandUpdateDto>(brandUpdateDto, ResultStatus.Success);
+            }
+            return new DataResult<BrandUpdateDto>(null, ResultStatus.Error);
+        }
         public async Task<IDataResult<BrandListDto>> GetAll()
         {
             var brands = await _unitOfWork.BrandRepository.GetAllAsync();

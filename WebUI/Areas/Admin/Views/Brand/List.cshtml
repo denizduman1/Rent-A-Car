@@ -30,7 +30,7 @@
                                 <td>@item.ID</td>
                                 <td>@item.Name</td>
                                 <td>@item?.CarModels?.Count()</td>
-                                <td><span class="btn btn-sm btn-danger removeBrand" id="@item?.ID">Sil</span> <span class="btn btn-sm btn-warning" id="brandUpdate">Güncelle</span></td>
+                                <td><span class="btn btn-sm btn-danger removeBrand" id="@item?.ID">Sil</span> <span class="btn btn-sm btn-warning brandUpdate" id="@item?.ID">Güncelle</span></td>
                             </tr>
                         }
                     </tbody>
@@ -51,41 +51,53 @@
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
                 }
             });
+
             //add get for brand
-            const url = '@Url.Action("Add","Brand")';
-            const modalDiv = $("#modal");
             $("#btnAdd").click(function() {
+                const url = '@Url.Action("Add","Brand")';
+                const modalDiv = $("#modal");
                 $.get(url).done(function(data) {
                     modalDiv.html(data);
                     modalDiv.find(".modal").show('slow');
                 });
             });
 
+            //update get for brand
+            $("tbody").on('click', '.brandUpdate', function() {
+                const url = '@Url.Action("Update","Brand")';
+                const modalDivUpdate = $("#modal");
+                const Id = $(this).attr("id");
+                $.get(url, { brandId: Id }).done(function(data) {
+                    modalDivUpdate.html(data);
+                    modalDivUpdate.find(".modal").show('slow');
+                });
+            });
+
             //remove brand
             $('tbody').on('click', '.removeBrand', function() {
-                    const url = '@Url.Action("Remove","Brand")';
-                    const Id = $(this).attr("id");
-                    $.post(url, { brandId: Id }).done(function(data) {
-                        var stringifyData = JSON.stringify(data); // "key":"data"
-                        var jsonData = jQuery.parseJSON(stringifyData); //jsObject
-                        if (jsonData.resultStatus == "Success") {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Başarıyla Silindi',
-                                text: jsonData.message
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    location.reload(true);
-                                }
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Silme Başarısız',
-                                text: jsonData.message
-                            });
-                        }
-                    });
+                const url = '@Url.Action("Remove","Brand")';
+                const Id = $(this).attr("id");
+                $.post(url, { brandId: Id }).done(function(data) {
+                    var stringifyData = JSON.stringify(data); // "key":"data"
+                    var jsonData = jQuery.parseJSON(stringifyData); //jsObject
+                    if (jsonData.resultStatus == "Success") {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Başarıyla Silindi',
+                            text: jsonData.message
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload(true);
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Silme Başarısız',
+                            text: jsonData.message
+                        });
+                    }
+                });
             });
         });
     </script>

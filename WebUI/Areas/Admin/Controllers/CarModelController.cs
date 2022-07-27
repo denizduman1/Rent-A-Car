@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Services.Abstract;
 using Shared.Utilities.Extensions;
+using Shared.Utilities.Results.ComplexTypes;
+using Shared.Utilities.Results.Concrete;
 using WebUI.Areas.Admin.Models;
 
 namespace WebUI.Areas.Admin.Controllers
@@ -101,5 +103,47 @@ namespace WebUI.Areas.Admin.Controllers
             return Json(new { message = "id 0 olamaz" });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Update(int carModelId)
+        {
+            await SelectListForBrands();
+            var result = await _carModelService.GetUpdateDto(carModelId);
+            return PartialView("_CarModelUpdatePartial",result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(CarModelUpdateDto carModelUpdateDto)
+        {
+            await SelectListForBrands();
+
+            if (ModelState.IsValid)
+            {
+                var result = await _carModelService.Update(carModelUpdateDto);
+
+                if (result.ResultStatus == Shared.Utilities.Results.ComplexTypes.ResultStatus.Success)
+                {
+                    var carModelAddAjaxModel = JsonConvert.SerializeObject(new CarModelAddAjaxViewModel
+                    {
+                        CarModelDto = carModelUpdateDto,
+                        CarModelAddPartial = await this.RenderViewToStringAsync("_CarModelUpdatePartial", carModelUpdateDto)
+                    }, new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        Formatting = Formatting.None
+                    });
+                    return Json(carModelAddAjaxModel);
+                }
+            }
+
+            var carModelAddAjaxErrorModel = JsonConvert.SerializeObject(new CarModelAddAjaxViewModel
+            {
+                CarModelAddPartial = await this.RenderViewToStringAsync("_CarModelUpdatePartial", carModelUpdateDto)
+            }, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                Formatting = Formatting.None
+            });
+            return Json(carModelAddAjaxErrorModel);
+        }
     }
 }

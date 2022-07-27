@@ -59,5 +59,35 @@ namespace WebUI.Areas.Admin.Controllers
             return Json(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Update(int brandId)
+        {
+            var result = await _brandService.GetUpdateDto(brandId);
+            return PartialView("_BrandUpdatePartial",result.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(BrandUpdateDto brandUpdateDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _brandService.Update(brandUpdateDto);
+                return Json(result);
+            }
+            var errorMessage = string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+
+            string errorResultMessage = "Güncelleme sırasında hata ile karşılaşıldı.";
+
+            foreach (var errMsg in errorMessage)
+            {
+                errorResultMessage += errMsg.ToString();
+            }
+
+            Result errorResult = new(ResultStatus.Error, errorResultMessage);
+
+            return Json(errorResult);
+        }
     }
 }

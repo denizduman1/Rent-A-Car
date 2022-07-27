@@ -141,5 +141,17 @@ namespace Services.Concrete
                 Message = $"{carModel.Name} adlı model başarıyla eklenmiştir."
             },ResultStatus.Success,message: $"{carModel.Name} adlı model başarıyla eklenmiştir.");
         }
+
+        public async Task<IDataResult<CarModelUpdateDto>> GetUpdateDto(int carModelId)
+        {
+            var carModel = await _unitOfWork.CarModelRepository.GetAsync(b => b.ID == carModelId);
+            if (carModel is not null)
+            {
+                var carModelUpdateDto = _mapper.Map<CarModelUpdateDto>(carModel);
+                return new DataResult<CarModelUpdateDto>(carModelUpdateDto, 
+                    ResultStatus.Success);
+            }
+            return new DataResult<CarModelUpdateDto>(null,ResultStatus.Error);
+        }
     }
 }

@@ -34,7 +34,7 @@
                                 <td>@item.Cars.Count()</td>
                                 <td>
                                     <span class="btn btn-sm btn-danger removeCarModel" id="@item?.ID">Sil</span>
-                                    <span class="btn btn-sm btn-warning" id="carModelUpdate">Güncelle</span>
+                                    <span class="btn btn-sm btn-warning carModelUpdate" id="@item?.ID">Güncelle</span>
                                 </td>
                             </tr>
                         }
@@ -64,8 +64,20 @@
                     modalDiv.find(".modal").show('slow');
                 });
             });
-            //delete for carModel 
-            $('tbody').on('click','.removeCarModel',function() {
+
+            //add get for carModel
+            $(".carModelUpdate").click(function() {
+                const url = '@Url.Action("Update","CarModel")';
+                const modalDiv = $("#modal");
+                const Id = $(this).attr('id');
+                $.get(url, {carModelId: Id}).done(function(data) {
+                    modalDiv.html(data);
+                    modalDiv.find(".modal").show('slow');
+                });
+            });
+
+            //delete for carModel
+            $('tbody').on('click', '.removeCarModel', function() {
                 Swal.fire({
                     title: 'Emin misin?',
                     text: "Silmek istediğine emin misin?",

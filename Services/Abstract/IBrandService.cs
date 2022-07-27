@@ -12,6 +12,7 @@ namespace Services.Abstract
     public interface IBrandService
     {
         public Task<IDataResult<BrandDto>> Get(int brandId);
+        public Task<IDataResult<BrandUpdateDto>> GetUpdateDto(int brandId);
         public Task<IDataResult<BrandListDto>> GetAll();
         public Task<IDataResult<BrandListDto>> GetAllByNonDeleted();
         public Task<IResult> Add(BrandAddDto brandAddDto);
