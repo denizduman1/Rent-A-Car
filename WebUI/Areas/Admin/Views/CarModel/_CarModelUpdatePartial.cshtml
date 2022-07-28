@@ -48,5 +48,37 @@
         $(".cancel").click(function() {
             $(".modal").hide('slow');
         });
+    @* ajax post işlemi *@
+    $(".save").click(function(e) {
+                e.preventDefault(); // kendi click eventi çalışmayacak hale gelir.
+                const form = $("#form-update");
+                const actionUrl = form.attr('action');
+                const dataToSend = form.serialize();
+                $.post(actionUrl, dataToSend).done(function(data) {
+                    const carModelUpdateAjaxModel = jQuery.parseJSON(data);
+                    const newFormBody = $('.modal-body', carModelUpdateAjaxModel.CarModelUpdatePartial); // render edilmiş modal
+                    $(".modal-body").replaceWith(newFormBody); //rende edilmiş modal ile değişiklik
+                    const isValid = newFormBody.find('[name="IsValid"]').val() === 'True';
+                    if (isValid) {
+                        $(".modal").hide();
+                        const newTableRow = `<tr data-id="${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}">
+                                                            <td>${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}</td>
+                                                            <td>${carModelUpdateAjaxModel.CarModelDto.CarModel.Brand.Name}</td>
+                                                            <td>${carModelUpdateAjaxModel.CarModelDto.CarModel.Name}</td>
+                                                            <td>0</td>
+                                                            <td>
+                                                                <span class="btn btn-sm btn-danger removeCarModel" id="${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}">Sil</span>
+                                                                <span class="btn btn-sm btn-warning" id="carModelUpdate">Güncelle</span>
+                                                            </td>
+                                                         </tr>`;
+                        const newTableRowObject = $(newTableRow); //obje haline getirildi
+                        newTableRowObject.hide();
+                        $('#carModelTable').append(newTableRowObject);
+                        newTableRowObject.fadeIn(3500);
+                        toastr.success(`${carModelUpdateAjaxModel.CarModelDto.Message}`, 'Başarılı İşlem');
+                    }
+                });
+            });
     });
+ 
 </script>

@@ -111,7 +111,8 @@ namespace Services.Concrete
             var result = await _unitOfWork.BrandRepository.AnyAsync(b => b.ID == brandUpdateDto.ID);
             if (result)
             {
-                var brand = _mapper.Map<Brand>(brandUpdateDto);
+                var oldBrand = await _unitOfWork.BrandRepository.GetAsync(b => b.ID == brandUpdateDto.ID);
+                var brand = _mapper.Map<BrandUpdateDto, Brand>(brandUpdateDto, oldBrand);
                 await _unitOfWork.BrandRepository.UpdateAsync(brand);
                 await _unitOfWork.SaveAsync();
                 return new Result(ResultStatus.Success, message: $"{brand.Name} adlı marka başarıyla güncellenmiştir.");

@@ -18,6 +18,7 @@ namespace Services.Abstract
         public Task<IDataResult<CarModelListDto>> GetAllByNonDeletedByBrandId(int brandId);
         public Task<IResult> Add(CarModelAddDto carModelAddDto);
         public Task<IDataResult<CarModelDto>> AddWithReturn(CarModelAddDto carModelAddDto);
+        public Task<IDataResult<CarModelDto>> UpdateWithReturn(CarModelUpdateDto carModelUpdateDto);
         public Task<IResult> Update(CarModelUpdateDto carModelUpdateDto);
         public Task<IResult> Delete(int carModelId);
         public Task<IResult> HardDelete(int carModelId);

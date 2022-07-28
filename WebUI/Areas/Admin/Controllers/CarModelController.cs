@@ -118,32 +118,32 @@ namespace WebUI.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _carModelService.Update(carModelUpdateDto);
+                var result = await _carModelService.UpdateWithReturn(carModelUpdateDto);
 
                 if (result.ResultStatus == Shared.Utilities.Results.ComplexTypes.ResultStatus.Success)
                 {
-                    var carModelAddAjaxModel = JsonConvert.SerializeObject(new CarModelAddAjaxViewModel
+                    var carModelUpdateAjaxModel = JsonConvert.SerializeObject(new CarModelUpdateAjaxViewModel
                     {
-                        CarModelDto = carModelUpdateDto,
-                        CarModelAddPartial = await this.RenderViewToStringAsync("_CarModelUpdatePartial", carModelUpdateDto)
+                        CarModelDto = result.Data,
+                        CarModelUpdatePartial = await this.RenderViewToStringAsync("_CarModelUpdatePartial", carModelUpdateDto)
                     }, new JsonSerializerSettings
                     {
                         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                         Formatting = Formatting.None
                     });
-                    return Json(carModelAddAjaxModel);
+                    return Json(carModelUpdateAjaxModel);
                 }
             }
 
-            var carModelAddAjaxErrorModel = JsonConvert.SerializeObject(new CarModelAddAjaxViewModel
+            var carModelUpdateAjaxErrorModel = JsonConvert.SerializeObject(new CarModelUpdateAjaxViewModel
             {
-                CarModelAddPartial = await this.RenderViewToStringAsync("_CarModelUpdatePartial", carModelUpdateDto)
+                CarModelUpdatePartial = await this.RenderViewToStringAsync("_CarModelUpdatePartial", carModelUpdateDto)
             }, new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Formatting = Formatting.None
             });
-            return Json(carModelAddAjaxErrorModel);
+            return Json(carModelUpdateAjaxErrorModel);
         }
     }
 }

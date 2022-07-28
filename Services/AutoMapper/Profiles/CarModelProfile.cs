@@ -19,11 +19,9 @@ namespace Services.AutoMapper.Profiles
                 .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(x => false));
 
             CreateMap<CarModelUpdateDto, CarModel>()
-                 .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(x => DateTime.Now))
                  .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(x => DateTime.Now));
 
             CreateMap<CarModel, CarModelUpdateDto>();
-
         }
     }
 }
