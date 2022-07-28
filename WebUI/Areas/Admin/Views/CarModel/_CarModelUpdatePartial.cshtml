@@ -72,9 +72,15 @@
                                                             </td>
                                                          </tr>`;
                         const newTableRowObject = $(newTableRow); //obje haline getirildi
-                        newTableRowObject.hide();
-                        $('#carModelTable').append(newTableRowObject);
-                        newTableRowObject.fadeIn(3500);
+                        //const oldTr = $("tr").find(`[data-id='${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}]'`);
+                        const oldTr = $("tr").find(`[data-id='2']`);
+                        console.log(oldTr);
+                        const oldTrObject = $(oldTr);
+                        console.log(oldTrObject);
+                        oldTrObject.hide();
+                        //newTableRowObject.hide();
+                        //$('#carModelTable').append(newTableRowObject);
+                        //newTableRowObject.fadeIn(3500);
                         toastr.success(`${carModelUpdateAjaxModel.CarModelDto.Message}`, 'Başarılı İşlem');
                     }
                 });
