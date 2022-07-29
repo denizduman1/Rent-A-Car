@@ -68,12 +68,12 @@
                                                     <td>0</td>
                                                     <td>
                                                         <span class="btn btn-sm btn-danger removeCarModel" id="${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}">Sil</span>
-                                                        <span class="btn btn-sm btn-warning carModelUpdate" data-update-id="${carModelAddAjaxModel.CarModelDto.CarModel.ID}">Güncelle</span>
+                                                        <span class="btn btn-sm btn-warning carModelUpdate" data-update-id="${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}">Güncelle</span>
                                                     </td>
                                                  </tr>`;
-                        const newTableRowObject = $(newTableRow); //obje haline getirildi
-                        //const oldTr = $("tr").find(`[data-id='${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}]'`);
-
+                        const newTableRowObject = $(newTableRow); //obje haline getirildi                      
+                        const tr = $(`[data-id="${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}"]`);
+                        tr.replaceWith(newTableRowObject);
                         toastr.success(`${carModelUpdateAjaxModel.CarModelDto.Message}`, 'Başarılı İşlem');
                     }
                 });

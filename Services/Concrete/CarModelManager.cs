@@ -145,15 +145,16 @@ namespace Services.Concrete
         public async Task<IDataResult<CarModelDto>> UpdateWithReturn(CarModelUpdateDto carModelUpdateDto)
         {
             var oldCarModel = await _unitOfWork.CarModelRepository.GetAsync(c => c.ID == carModelUpdateDto.ID);
-            var carModel = _mapper.Map<CarModelUpdateDto,CarModel>(carModelUpdateDto,oldCarModel);
-            await _unitOfWork.CarModelRepository.UpdateAsync(carModel);
+            oldCarModel.BrandId = carModelUpdateDto.BrandId;
+            oldCarModel.Name = carModelUpdateDto.Name;
+            //await _unitOfWork.CarModelRepository.UpdateAsync(carModel); veriyi siliyor.
             await _unitOfWork.SaveAsync();
             return new DataResult<CarModelDto>(new CarModelDto
             {
-                CarModel = carModel,
+                CarModel = oldCarModel,
                 ResultStatus = ResultStatus.Success,
-                Message = $"{carModel.Name} adlı model başarıyla güncellenmiştir."
-            }, ResultStatus.Success, message: $"{carModel.Name} adlı model başarıyla güncellenmiştir.");
+                Message = $"{oldCarModel.Name} adlı model başarıyla güncellenmiştir."
+            }, ResultStatus.Success, message: $"{oldCarModel.Name} adlı model başarıyla güncellenmiştir.");
         }
 
         public async Task<IDataResult<CarModelUpdateDto>> GetUpdateDto(int carModelId)
