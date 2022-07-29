@@ -34,7 +34,7 @@
                                 <td>@item.Cars.Count()</td>
                                 <td>
                                     <span class="btn btn-sm btn-danger removeCarModel" id="@item?.ID">Sil</span>
-                                    <span class="btn btn-sm btn-warning carModelUpdate" id="@item?.ID">Güncelle</span>
+                                    <span class="btn btn-sm btn-warning carModelUpdate" data-update-id="@item?.ID">Güncelle</span>
                                 </td>
                             </tr>
                         }
@@ -65,12 +65,12 @@
                 });
             });
 
-            //add get for carModel
-            $(".carModelUpdate").click(function() {
+            //update get for carModel
+            $("tbody").on('click', '.carModelUpdate', function() {
                 const url = '@Url.Action("Update","CarModel")';
                 const modalDiv = $("#modal");
-                const Id = $(this).attr('id');
-                $.get(url, {carModelId: Id}).done(function(data) {
+                const Id = $(this).attr('data-update-id');
+                $.get(url, { carModelId: Id }).done(function(data) {
                     modalDiv.html(data);
                     modalDiv.find(".modal").show('slow');
                 });

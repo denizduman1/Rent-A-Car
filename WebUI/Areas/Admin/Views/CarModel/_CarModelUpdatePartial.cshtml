@@ -11,7 +11,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-primary"><i class="fa-solid fa-circle-plus"></i> Araç Model Güncelle</h5>
+                <h5 class="modal-title text-primary"><i class="fa-solid fa-pen-to-square"></i> Araç Model Güncelle</h5>
                 <button type="button" class="close cancel">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -49,7 +49,7 @@
             $(".modal").hide('slow');
         });
     @* ajax post işlemi *@
-    $(".save").click(function(e) {
+            $(".save").click(function(e) {
                 e.preventDefault(); // kendi click eventi çalışmayacak hale gelir.
                 const form = $("#form-update");
                 const actionUrl = form.attr('action');
@@ -62,29 +62,22 @@
                     if (isValid) {
                         $(".modal").hide();
                         const newTableRow = `<tr data-id="${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}">
-                                                            <td>${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}</td>
-                                                            <td>${carModelUpdateAjaxModel.CarModelDto.CarModel.Brand.Name}</td>
-                                                            <td>${carModelUpdateAjaxModel.CarModelDto.CarModel.Name}</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <span class="btn btn-sm btn-danger removeCarModel" id="${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}">Sil</span>
-                                                                <span class="btn btn-sm btn-warning" id="carModelUpdate">Güncelle</span>
-                                                            </td>
-                                                         </tr>`;
+                                                    <td>${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}</td>
+                                                    <td>${carModelUpdateAjaxModel.CarModelDto.CarModel.Brand.Name}</td>
+                                                    <td>${carModelUpdateAjaxModel.CarModelDto.CarModel.Name}</td>
+                                                    <td>0</td>
+                                                    <td>
+                                                        <span class="btn btn-sm btn-danger removeCarModel" id="${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}">Sil</span>
+                                                        <span class="btn btn-sm btn-warning carModelUpdate" data-update-id="${carModelAddAjaxModel.CarModelDto.CarModel.ID}">Güncelle</span>
+                                                    </td>
+                                                 </tr>`;
                         const newTableRowObject = $(newTableRow); //obje haline getirildi
                         //const oldTr = $("tr").find(`[data-id='${carModelUpdateAjaxModel.CarModelDto.CarModel.ID}]'`);
-                        const oldTr = $("tr").find(`[data-id='2']`);
-                        console.log(oldTr);
-                        const oldTrObject = $(oldTr);
-                        console.log(oldTrObject);
-                        oldTrObject.hide();
-                        //newTableRowObject.hide();
-                        //$('#carModelTable').append(newTableRowObject);
-                        //newTableRowObject.fadeIn(3500);
+
                         toastr.success(`${carModelUpdateAjaxModel.CarModelDto.Message}`, 'Başarılı İşlem');
                     }
                 });
             });
     });
- 
+
 </script>
