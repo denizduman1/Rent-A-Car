@@ -112,7 +112,10 @@ namespace Services.Concrete
                 car.ModelYear = carUpdateDto.ModelYear;
                 car.VehicleType = carUpdateDto.VehicleType;
                 await _unitOfWork.SaveAsync();
-                return new Result(ResultStatus.Success, $"ID'si {car.ID} olan araç başarıyla güncellenmiştir.");
+                //var brand = await _unitOfWork.BrandRepository.GetAsync(b=>b.ID == car.CarModel.BrandId); // extra
+                var carUpdated = await _unitOfWork.CarRepository.GetAsync(b => b.ID == carUpdateDto.ID,c=>c.CarModel,c=>c.CarModel.Brand);
+                return new Result(ResultStatus.Success, $"ID'si {carUpdated.ID} olan {carUpdated.CarModel.Brand.Name} " +
+                    $"{carUpdated.CarModel.Name} model araç başarıyla güncellenmiştir.");
             }
             return new Result(ResultStatus.Error, $"Güncellemek istediğiniz marka bilgisi bulunamamaktadır.");
         }
