@@ -58,8 +58,10 @@
             for (let brand of brands) {
                 brandList.push(brand.Name);
                 for (let carModel of brand.CarModels) {
-                    for (let item of carModel.Cars) {
-                        totalCarCount += 1;
+                    if (carModel.Cars != null) {
+                        for (let item of carModel.Cars) {
+                            totalCarCount += 1;
+                        }
                     }
                 }
                 brandCarCountList.push(totalCarCount);

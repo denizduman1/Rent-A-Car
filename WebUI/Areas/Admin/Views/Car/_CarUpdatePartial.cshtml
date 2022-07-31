@@ -1,0 +1,151 @@
+﻿@using Entity.Concrete
+@using Entity.Concrete.DTOs
+@model CarUpdateDto
+
+@{
+    var pageState = ViewBag.PageState as WebUI.Areas.Admin.Models.DashboardModel;
+    var carUpdate = ViewBag.CarUpdate as List<SelectListItem>;
+}
+
+<div class="modal">
+    <div class="modal-dialog" style="overflow-y: initial !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary"><i class="fa-solid fa-pen-to-square"></i> Araç Güncelle</h5>
+                <button type="button" class="close cancel">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="height:80vh; overflow-y:auto;">
+                <form asp-action="Update" id="form-update">
+                    <input type="hidden" asp-for="ID"/>
+                    <div class="form-group">
+                        <label style="color:black;">Marka</label>
+                        <span class="btn btn-success btn-sm float-right" id="addBrand">+</span>
+                        <select class="form-control" asp-for="CarModel.BrandId" id="brandSelect" asp-items="@pageState?.SelectListItemForBrands">
+                            <option>Marka Seçiniz</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;">Model</label>
+                        <select class="form-control" id="carModel" asp-for="CarModelId" asp-items="@carUpdate">
+                            <option>Model Seçiniz</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;" asp-for="ModelYear"></label>
+                        <input class="form-control" asp-for="ModelYear" type="number">
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;" asp-for="DailyPrice"></label>
+                        <input class="form-control" asp-for="DailyPrice" type="number" placeholder="Günlük Kiralama Ücretini Giriniz..">
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;">Renk</label>
+                        <select class="form-control" asp-for="ColorId" asp-items="@pageState?.SelectListItemForColors">
+                            <option>Renk Seçiniz</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;">Vites Tipi</label>
+                        <select class="form-control" asp-for="TransmissionType" asp-items="@pageState?.SelectListItemForTransmissionType">
+                            <option>Vites Tipi Seçiniz</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;">Yakıt Türü</label>
+                        <select class="form-control" asp-for="FuelType" asp-items="@pageState?.SelectListItemForFuelType">
+                            <option>Yakıt Türü Seçiniz</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;">Kasa Tipi</label>
+                        <select class="form-control" asp-for="VehicleType" asp-items="@pageState?.SelectListItemForVehicleType">
+                            <option>Kasa Tipi Seçiniz</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;" asp-for="Image"></label>
+                        <input class="form-control" asp-for="Image" type="text" placeholder="Resim url giriniz..">
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;" asp-for="TotalCount"></label>
+                        <input class="form-control" asp-for="TotalCount" type="number" placeholder="Toplam Araç Adedi">
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;" asp-for="Description"></label>
+                        <textarea class="form-control" asp-for="Description" placeholder="Açıklama giriniz.." rows="4"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary cancel">Kapat</button>
+                <button type="button" class="btn btn-primary save">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".cancel").click(function() {
+            $(".modal").hide("slow");
+        });
+        $("#brandSelect").change(function() {
+            $("#carModel option").each(function() {
+                $(this).remove();
+            });
+            var id = $(this).val();
+            var url = '@Url.Action("GetCarModelsByBrand","Car")';
+            $.get(url, { brandId: id }).done(function(data) {
+                var stringifyData = JSON.stringify(data); // "key":"data"
+                var jsonData = jQuery.parseJSON(stringifyData); //jsObject
+                console.log(jsonData);
+                if (jsonData.isError === true) {
+                    $("#carModel").append(`<option>${jsonData.message}</option>`);
+                }
+                else {
+                    for (var carModel of jsonData) {
+                        $("#carModel").append(`<option value="${carModel.id}">${carModel.name}</option>`);
+                    }
+                }
+            });
+        });
+
+        $("#addBrand").click(function() {
+            const url = '@Url.Action("Add","Brand")';
+            const modalDiv = $("#modal");
+            $.get(url).done(function(data) {
+                modalDiv.html(data);
+                modalDiv.find(".modal").show('slow');
+            });
+        });
+
+        $(".save").click(function() {
+            const form = $("#form-update");
+            const actionUrl = form.attr("action");
+            const dataToSend = form.serialize();
+            $.post(actionUrl, dataToSend).done(function(data) {
+                var stringifyData = JSON.stringify(data); // "key":"data"
+                var jsonData = jQuery.parseJSON(stringifyData); //jsObject
+                if (jsonData.resultStatus == "Success") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Başarıyla Güncellendi',
+                        text: jsonData.message
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload(true);
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Güncellendi Başarısız',
+                        text: jsonData.message
+                    });
+                }
+            });
+        });
+    });
+</script>

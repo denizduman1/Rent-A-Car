@@ -77,7 +77,7 @@
                                 </td>
                                 <td class="d-flex justify-content-around">
                                     <span class="btn btn-sm btn-danger removeCar" id="@item?.ID">Sil</span>
-                                    <span class="btn btn-sm btn-warning" id="carUpdate">Güncelle</span>
+                                    <span class="btn btn-sm btn-warning carUpdate" id="@item?.ID">Güncelle</span>
                                 </td>
                             </tr>
                         }
@@ -107,6 +107,18 @@
                     modalDiv.find(".modal").show('slow');
                 });
             });
+
+            //update get for car
+            $(".carUpdate").click(function() {
+                const url = '@Url.Action("Update","Car")';
+                const modalDiv = $("#modal");
+                var Id = $(this).attr('id');
+                $.get(url, { carId:Id }).done(function(data) {
+                    modalDiv.html(data);
+                    modalDiv.find(".modal").show('slow');
+                });
+            });
+
             //remove for car
             $(".removeCar").click(function() {
                 Swal.fire({
@@ -137,12 +149,12 @@
                 });
             });
 
-            //loading image indicator            
+            //loading image indicator
             $(".img-car").on('load', function() {
                 setTimeout(function() {
                     $(".img-car-loaded").css({ "display": "none" });
                     $(".img-car").css({ "display": "inline" });
-                },2500);
+                }, 2500);
             });
         });
     </script>

@@ -26,8 +26,7 @@ namespace Entity.Concrete.DTOs
         public int DailyPrice { get; set; }
         [DisplayName("Çıkış Tarihi")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime ModelYear { get; set; }
+        public int ModelYear { get; set; }
         [DisplayName("Fotoğraf")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]
         public string? Image { get; set; }

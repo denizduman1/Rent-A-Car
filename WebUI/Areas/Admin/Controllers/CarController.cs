@@ -1,4 +1,5 @@
-﻿using Entity.ComplexTypes;
+﻿using AutoMapper;
+using Entity.ComplexTypes;
 using Entity.Concrete.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,13 +17,16 @@ namespace WebUI.Areas.Admin.Controllers
         private readonly ICarModelService _carModelService;
         private readonly IBrandService _brandService;
         private readonly IColorService _colorService;
+        private readonly IMapper _mapper;
 
-        public CarController(ICarService carService, ICarModelService carModelService, IBrandService brandService, IColorService colorService)
+        public CarController(ICarService carService, ICarModelService carModelService, IBrandService brandService, IColorService colorService
+            ,IMapper mapper)
         {
             _carService = carService;
             _carModelService = carModelService;
             _brandService = brandService;
             _colorService = colorService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> List()
@@ -44,6 +48,13 @@ namespace WebUI.Areas.Admin.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Add()
+        {
+            await SelectListState();
+
+            return PartialView("_CarAddPartial");
+        }
+
+        private async Task SelectListState()
         {
             var brandResult = await _brandService.GetAllByNonDeleted();
             var brandSelectList = brandResult?.Data?.Brands?.Select(b => new SelectListItem()
@@ -84,7 +95,7 @@ namespace WebUI.Areas.Admin.Controllers
             {
                 Value = v.Value.ToString(),
                 Text = v.Text
-            }).ToList();
+            }).ToList();           
 
             ViewBag.PageState = new DashboardModel
             {
@@ -94,8 +105,6 @@ namespace WebUI.Areas.Admin.Controllers
                 SelectListItemForFuelType = fuelTypeSelectList,
                 SelectListItemForVehicleType = vehicleTypeSelectList
             };
-
-            return PartialView("_CarAddPartial");
         }
 
         [HttpPost]
@@ -138,6 +147,50 @@ namespace WebUI.Areas.Admin.Controllers
                 }
             }
             return Json(new { message = "id 0 olamaz" });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int carId)
+        {
+            await SelectListState();
+            var result = await _carService.Get(carId);
+
+
+            var carModelResult = await _carModelService.GetAllByNonDeletedByBrandId(result.Data.Car.CarModel.BrandId);
+            var carModelSelectList = carModelResult?.Data?.CarModels?.Select(b => new SelectListItem()
+            {
+                Value = b.ID.ToString(),
+                Text = b.Name
+            }).ToList();
+
+            ViewBag.CarUpdate = carModelSelectList;
+
+            var carUpdateDto = _mapper.Map<CarUpdateDto>(result.Data.Car);
+            return PartialView("_CarUpdatePartial", carUpdateDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(CarUpdateDto carUpdateDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _carService.Update(carUpdateDto);
+                return Json(result);
+            }
+            var errorMessage = string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+
+            string errorResultMessage = "Güncelleme sırasında hata ile karşılaşıldı.";
+
+            foreach (var errMsg in errorMessage)
+            {
+                errorResultMessage += errMsg.ToString();
+            }
+
+            Result errorResult = new(ResultStatus.Error, errorResultMessage);
+
+            return Json(errorResult);
         }
 
     }
