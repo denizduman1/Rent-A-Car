@@ -23,5 +23,6 @@ namespace Entity.Concrete
         public CarModel? CarModel { get; set; }
         public int ColorId { get; set; }
         public Color? Color { get; set; }
+        public ICollection<Payment>? Payments { get; set; }
     }
 }

@@ -11,5 +11,6 @@ namespace Entity.Concrete
     {
         public string? Image { get; set; }
         public ICollection<Comment>? Comments { get; set; }
+        public ICollection<Payment>? Payments { get; set; }
     }
 }
