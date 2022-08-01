@@ -39,11 +39,11 @@
                                 <td>@item?.ReservationDate</td>
                                 @if (item.IsPaid)
                                 {
-                                    <td><i class="fa-solid fa-circle-check fa-2x d-block text-center" style="color:green;"></i></td>
+                                    <td class="isPaid-@item.ID"><i class="fa-solid fa-circle-check fa-2x d-block text-center" style="color:green;"></i></td>
                                 }
                                 else
                                 {
-                                    <td>
+                                    <td class="isPaid-@item.ID">
                                         <i class="fa-solid fa-xmark fa-2x d-block text-center" style="color:red;"></i>
                                         <button class="btn btn-success btn-block mt-2 btnPay" data-id="@item.ID">Ücret Ödendi</button>
                                     </td>
@@ -81,7 +81,14 @@
                 const url = '@Url.Action("Pay","Payment")';
                 const Id = $(this).attr("data-id");
                 $.post(url, { paymentId: Id }).done(function(data) {
-                    
+                    const new_td = "<td><i class='fa-solid fa-circle-check fa-2x d-block text-center' style='color:green;'></i></td>";
+                    const old_td = $(`.isPaid-${Id}`);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Başarıyla Gerçekleştirildi',
+                        text: 'Ödeme Başarıyla Gerçekleştirildi'
+                    });
+                    old_td.replaceWith(new_td);
                 });
             });
         });
