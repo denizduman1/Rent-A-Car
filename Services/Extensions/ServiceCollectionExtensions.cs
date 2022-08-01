@@ -25,6 +25,7 @@ namespace Services.Extensions
             serviceCollection.AddScoped<ICarModelService, CarModelManager>();
             serviceCollection.AddScoped<ICommentService, CommentManager>();
             serviceCollection.AddScoped<IColorService, ColorManager>();
+            serviceCollection.AddScoped<IPaymentService, PaymentManager>();
             // session sepet işlemleri için sonra eklenecek.
             // servicCollection.AddHttpContextAccessor();
             return serviceCollection;

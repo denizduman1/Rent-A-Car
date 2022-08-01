@@ -1,0 +1,89 @@
+﻿@model Entity.Concrete.DTOs.PaymentListDto
+
+<div id="modal"></div>
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Kiralama İşlemlerimiz</h1>
+    <p class="mb-4">Aşağıdaki listede şirketimizde olan araçların kiralanma bilgileri bulunmaktadır.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Kiralama Listesi</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="paymentTable" class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Araç</th>
+                            <th>Marka Model Bilgisi</th>
+                            <th>Gün Sayısı</th>
+                            <th>Toplam Ücret</th>
+                            <th>Rezervasyon Tarihi</th>
+                            <th>Ödendi Mi?</th>
+                            <th>İptal Mi?</th>
+                            <th>Müşteri</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Payments)
+                        {
+                            <tr>
+                                <td>@item.ID</td>
+                                <td><img src="@item?.Car?.Image" class="img-car" style="display:inline !important;"/></td>
+                                <td>@item?.Car?.CarModel?.Brand?.Name @item?.Car?.CarModel?.Name</td>
+                                <td>@item?.DayCount</td>
+                                <td>@item?.TotalPrice</td>
+                                <td>@item?.ReservationDate</td>
+                                @if (item.IsPaid)
+                                {
+                                    <td><i class="fa-solid fa-circle-check fa-2x d-block text-center" style="color:green;"></i></td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <i class="fa-solid fa-xmark fa-2x d-block text-center" style="color:red;"></i>
+                                        <button class="btn btn-success btn-block mt-2 btnPay" data-id="@item.ID">Ücret Ödendi</button>
+                                    </td>
+                                }
+                                @if (item.IsCancelled)
+                                {
+                                    <td><i class="fa-solid fa-lock fa-2x d-block text-center"></i></td>
+                                }
+                                else
+                                {
+                                    <td><i class="fa-solid fa-lock-open fa-2x d-block text-center"></i></td>
+                                }
+                                <td>@item?.User?.UserName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function() {
+            //datatable for brand
+            $('#paymentTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+                }
+            });
+            $(".btnPay").click(function() {
+                const url = '@Url.Action("Pay","Payment")';
+                const Id = $(this).attr("data-id");
+                $.post(url, { paymentId: Id }).done(function(data) {
+                    
+                });
+            });
+        });
+    </script>
+}
