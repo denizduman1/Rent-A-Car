@@ -24,9 +24,6 @@ namespace DataAccess.Concrete.EntityFramework.Mappings
             builder.Property(o => o.ModifiedDate).HasColumnType("smalldatetime").IsRequired();
             builder.Property(o => o.IsDeleted).IsRequired();
 
-            //ilişki
-            builder.HasOne<Sale>(p => p.Sale).WithOne(s => s.Payment).HasForeignKey<Payment>(p => p.SaleId);
-
             //tablo
             builder.ToTable("Payments");
         }

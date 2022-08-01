@@ -18,11 +18,9 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<Color>? Colors { get; set; }
         public DbSet<Comment>? Comments { get; set; }
         public DbSet<Payment>? Payments { get; set; }
-        public DbSet<Sale>? Sales { get; set; }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DENIZ\DENIZ;Database=RentCar;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLOCALDB;Database=RentCar;Trusted_Connection=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,7 +32,6 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
             modelBuilder.ApplyConfiguration(new PaymentMap());
             modelBuilder.ApplyConfiguration(new RoleClaimMap());
             modelBuilder.ApplyConfiguration(new RoleMap());
-            modelBuilder.ApplyConfiguration(new SaleMap());
             modelBuilder.ApplyConfiguration(new UserClaimMap());
             modelBuilder.ApplyConfiguration(new UserLoginMap());
             modelBuilder.ApplyConfiguration(new UserMap());
