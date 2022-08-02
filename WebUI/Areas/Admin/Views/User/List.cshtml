@@ -1,0 +1,63 @@
+﻿@model Entity.Concrete.DTOs.UserListDto
+
+<div id="modal"></div>
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Üyelerimiz</h1>
+    <p class="mb-4">Aşağıdaki listede şirketimize kayıtlı olan üyelerimiz bulunmaktadır.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Üye Listesi</h6>
+        </div>
+        <div class="card-body">
+@*            <button class="btn btn-success mb-3" id="btnAdd">Yeni Bir Üye Ekle</button>
+*@            <div class="table-responsive">
+                <table id="userTable" class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Kullanıcı Adı</th>
+                            <th>E-Posta Adresi</th>
+                            <th>Telefon Numarası</th>
+                            <th>Resim</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>@user.Id</td>
+                                <td>@user.UserName</td>
+                                <td>@user.Email</td>
+                                <td>@user.PhoneNumber</td>
+                                <td>@user.Image</td>
+                                <td>
+                                    <span class="btn btn-sm btn-danger removeUser" id="@user?.Id">Sil</span>
+                                    <span class="btn btn-sm btn-warning userUpdate" id="@user?.Id">Güncelle</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //datatable for brand
+            $('#userTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+                }
+            });
+        });
+    </script>
+}
