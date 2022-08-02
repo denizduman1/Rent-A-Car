@@ -1,6 +1,7 @@
 ﻿using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.EntityFramework.Contexts;
+using Entity.Concrete;
 using Microsoft.Extensions.DependencyInjection;
 using Services.Abstract;
 using Services.AutoMapper.Profiles;
@@ -26,6 +27,18 @@ namespace Services.Extensions
             serviceCollection.AddScoped<ICommentService, CommentManager>();
             serviceCollection.AddScoped<IColorService, ColorManager>();
             serviceCollection.AddScoped<IPaymentService, PaymentManager>();
+            serviceCollection.AddIdentityCore<User>(opt =>
+            {   //üye kaydolma ayarları
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequiredLength = 5;
+                opt.Password.RequiredUniqueChars = 0;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+
+                opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+$";
+                opt.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<RentCarContext>();
             // session sepet işlemleri için sonra eklenecek.
             // servicCollection.AddHttpContextAccessor();
             return serviceCollection;

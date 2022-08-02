@@ -10,7 +10,24 @@ opt =>
     opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
+builder.Services.AddSession();
 builder.Services.LoadMyServices();
+builder.Services.ConfigureApplicationCookie(opt =>
+{
+    opt.LoginPath = new PathString("/Admin/User/Login");
+    opt.LogoutPath = new PathString("/Admin/User/Logout");
+    opt.Cookie = new CookieBuilder
+    {
+        Name = "RentCar",
+        HttpOnly = true, // js den cookieleri göremesin
+        SameSite = SameSiteMode.Strict,
+        SecurePolicy = CookieSecurePolicy.SameAsRequest, // always olmalý
+    };
+    opt.SlidingExpiration = true; // kullanýcý giriþ yaptýktan sonra zaman tanýr(tekrar giriþ yapma süresi)
+    opt.ExpireTimeSpan = System.TimeSpan.FromDays(7);
+    opt.AccessDeniedPath = new PathString("/Admin/User/AccessDenied"); //giriþ yapmýþ ama yetkisi yok
+    
+});
 
 var app = builder.Build();
 
@@ -27,8 +44,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 //authentica ve authorize
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseAuthentication(); // kimlik kontrol
+app.UseAuthorization(); // yetki kontrol
 
 app.MapAreaControllerRoute(
     name: "admin",
