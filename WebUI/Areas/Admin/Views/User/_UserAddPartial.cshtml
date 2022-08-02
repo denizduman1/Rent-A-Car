@@ -1,0 +1,58 @@
+﻿@using Entity.Concrete
+@using Entity.Concrete.DTOs
+@using Shared.Utilities.Results.ComplexTypes
+@model UserAddDto
+
+<div class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary"><i class="fa-solid fa-circle-plus"></i> Üye Ekle</h5>
+                <button type="button" class="close cancel">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Add" id="form-add">
+                    <div class="form-group">
+                        <label style="color:black;" asp-for="UserName"></label>
+                        <input class="form-control" asp-for="UserName" type="text" placeholder="Kullanıcı adı giriniz..">
+                        <span class="text-danger" asp-validation-for="UserName"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;" asp-for="Email"></label>
+                        <input class="form-control" asp-for="Email" type="email" placeholder="Geçerli e-posta giriniz..">
+                        <span class="text-danger" asp-validation-for="Email"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;" asp-for="Password"></label>
+                        <input class="form-control" asp-for="Password" type="password" placeholder="Şifre giriniz..">
+                        <span class="text-danger" asp-validation-for="Password"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;" asp-for="PhoneNumber"></label>
+                        <input class="form-control" asp-for="PhoneNumber" type="text" placeholder="Telefon numarası giriniz..">
+                        <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                    </div>
+                    <div class="form-group">
+                        <label style="color:black;" asp-for="Picture"></label>
+                        <input class="form-control-file" asp-for="Picture" type="file" accept="image/*">
+                        <span class="text-danger" asp-validation-for="Picture"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary cancel">Kapat</button>
+                <button type="button" class="btn btn-primary save">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".cancel").click(function() {
+            $(".modal").hide("slow");
+        });
+    });
+</script>

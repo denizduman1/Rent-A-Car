@@ -12,8 +12,8 @@
             <h6 class="m-0 font-weight-bold text-primary">Üye Listesi</h6>
         </div>
         <div class="card-body">
-@*            <button class="btn btn-success mb-3" id="btnAdd">Yeni Bir Üye Ekle</button>
-*@            <div class="table-responsive">
+            <button class="btn btn-success mb-3" id="btnAdd">Yeni Bir Üye Ekle</button>
+            <div class="table-responsive">
                 <table id="userTable" class="table table-bordered" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -52,11 +52,20 @@
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function() {
-            //datatable for brand
+            //datatable for user
             $('#userTable').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
                 }
+            });
+            //add get for user
+            $("#btnAdd").click(function() {
+                const url = '@Url.Action("Add","User")';
+                const modalDiv = $("#modal");
+                $.get(url).done(function(data) {
+                    modalDiv.html(data);
+                    modalDiv.find(".modal").show('slow');
+                });
             });
         });
     </script>
