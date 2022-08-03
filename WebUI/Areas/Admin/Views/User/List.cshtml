@@ -28,7 +28,7 @@
                     <tbody>
                         @foreach (var user in Model.Users)
                         {
-                            <tr class="text-center">
+                            <tr class="text-center" data-id="@user?.Id">
                                 <td>@user.Id</td>
                                 <td>
                                     <img class="img-thumbnail" src="~/Admin/dz-img/user-img/@user.Image"
@@ -38,8 +38,8 @@
                                 <td>@user.Email</td>
                                 <td>@user.PhoneNumber</td>
                                 <td>
-                                    <span class="btn btn-sm btn-danger removeUser" id="@user?.Id">Sil</span>
-                                    <span class="btn btn-sm btn-warning userUpdate" id="@user?.Id">Güncelle</span>
+                                    <span class="btn btn-sm btn-danger removeUser" data-delete-id="@user?.Id">Sil</span>
+                                    <span class="btn btn-sm btn-warning userUpdate" data-update-id="@user?.Id">Güncelle</span>
                                 </td>
                             </tr>
                         }
@@ -68,6 +68,19 @@
                 $.get(url).done(function(data) {
                     modalDiv.html(data);
                     modalDiv.find(".modal").show('slow');
+                });
+            });
+
+            //delete for user
+            $(".removeUser").click(function() {
+                const id = $(this).attr("data-delete-id");
+                var tableRow = $(`[data-id="${id}"]`);
+                const url = '@Url.Action("Delete","User")';
+                $.post(url, { userId: id }).done(function(data){
+                    //const userDto = 
+                    //if () {
+
+                    //}
                 });
             });
         });

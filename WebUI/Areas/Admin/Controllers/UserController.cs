@@ -110,5 +110,38 @@ namespace WebUI.Areas.Admin.Controllers
             }
             return fileName; 
         }
+
+        [HttpPost]
+        public async Task<JsonResult> Delete(int userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                var deletedUser = JsonSerializer.Serialize(new UserDto
+                {
+                    Message = $"{user.UserName} adlı kullanıcı adına sahip kullanıcı başarıyla silinmiştir",
+                    User = user,
+                    ResultStatus = ResultStatus.Success
+                });
+                return Json(deletedUser);
+            }
+            else
+            {
+                string errorMesages = String.Empty;
+                foreach (var error in result.Errors)
+                {
+                   errorMesages +=  $"*{error.Description}\n";
+                }
+                var deletedErrorUser = JsonSerializer.Serialize(new UserDto
+                {
+                    Message = $"{user.UserName} adlı kullanıcı adına sahip kullanıcı silinirken bazı hatalar oluştu. \n{errorMesages}",
+                    User = user,
+                    ResultStatus = ResultStatus.Error
+                });
+                return Json(deletedErrorUser);
+            }
+        }
+    
     }
 }
