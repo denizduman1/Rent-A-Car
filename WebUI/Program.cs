@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Services.Extensions;
+using WebUI.AutoMapper.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ opt =>
 
 builder.Services.AddSession();
 builder.Services.LoadMyServices();
+builder.Services.AddAutoMapper(typeof(UserProfile));
 builder.Services.ConfigureApplicationCookie(opt =>
 {
     opt.LoginPath = new PathString("/Admin/User/Login");

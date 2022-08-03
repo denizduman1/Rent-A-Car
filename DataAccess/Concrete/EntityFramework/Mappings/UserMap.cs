@@ -13,7 +13,7 @@ namespace DataAccess.Concrete.EntityFramework.Mappings
     {
         public void Configure(EntityTypeBuilder<User> b)
         {
-            b.Property(u => u.Image).IsRequired().HasMaxLength(250);
+            b.Property(u => u.Image).IsRequired();
             // Primary key
             b.HasKey(u => u.Id);
 

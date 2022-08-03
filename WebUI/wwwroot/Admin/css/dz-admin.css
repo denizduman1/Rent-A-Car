@@ -20,6 +20,6 @@
 .img-car {
     object-fit: contain;
     width: 150px;
-    display:none; /*default value inline*/
+    display: none; /*default value inline*/
 }
 

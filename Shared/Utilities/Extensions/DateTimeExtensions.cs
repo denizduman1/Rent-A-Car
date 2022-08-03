@@ -10,7 +10,7 @@ namespace Shared.Utilities.Extensions
     {
         public static string FullDateAndTimeStringWithUnderscore(this DateTime dateTime)
         {
-            return $"{dateTime.Year}/{dateTime.Month}/{dateTime.Day}-{dateTime.Hour}:{dateTime.Minute}:{dateTime.Second}";
+            return $"{dateTime.Year}_{dateTime.Month}_{dateTime.Day}_{dateTime.Hour}_{dateTime.Minute}_{dateTime.Second}";
         }
     }
 }

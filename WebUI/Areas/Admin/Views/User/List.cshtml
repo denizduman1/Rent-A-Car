@@ -16,24 +16,27 @@
             <div class="table-responsive">
                 <table id="userTable" class="table table-bordered" width="100%" cellspacing="0">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>ID</th>
+                            <th>Profil Foto</th>
                             <th>Kullanıcı Adı</th>
                             <th>E-Posta Adresi</th>
                             <th>Telefon Numarası</th>
-                            <th>Resim</th>
                             <th>İşlemler</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var user in Model.Users)
                         {
-                            <tr>
+                            <tr class="text-center">
                                 <td>@user.Id</td>
+                                <td>
+                                    <img class="img-thumbnail" src="~/Admin/dz-img/user-img/@user.Image"
+                                     style="max-height:100px; object-fit:contain;" />
+                                </td>
                                 <td>@user.UserName</td>
                                 <td>@user.Email</td>
                                 <td>@user.PhoneNumber</td>
-                                <td>@user.Image</td>
                                 <td>
                                     <span class="btn btn-sm btn-danger removeUser" id="@user?.Id">Sil</span>
                                     <span class="btn btn-sm btn-warning userUpdate" id="@user?.Id">Güncelle</span>

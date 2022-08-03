@@ -13,7 +13,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-action="Add" id="form-add">
+                <form asp-action="Add" id="form-add" enctype='multipart/form-data'>
+                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <div asp-validation-summary="All" class="text-danger" id="validation-summary" aria-hidden="true" style="display:none;"></div>
                     <div class="form-group">
                         <label style="color:black;" asp-for="UserName"></label>
                         <input class="form-control" asp-for="UserName" type="text" placeholder="Kullanıcı adı giriniz..">
@@ -35,9 +37,9 @@
                         <span class="text-danger" asp-validation-for="PhoneNumber"></span>
                     </div>
                     <div class="form-group">
-                        <label style="color:black;" asp-for="Picture"></label>
-                        <input class="form-control-file" asp-for="Picture" type="file" accept="image/*">
-                        <span class="text-danger" asp-validation-for="Picture"></span>
+                        <label style="color:black;" asp-for="PictureFile"></label>
+                        <input class="form-control-file" asp-for="PictureFile" type="file" accept="image/*">
+                        <span class="text-danger" asp-validation-for="PictureFile"></span>
                     </div>
                 </form>
             </div>
@@ -54,5 +56,52 @@
         $(".cancel").click(function() {
             $(".modal").hide("slow");
         });
+    @* ajax post işlemi *@
+            $(".save").click(function(e) {
+                e.preventDefault(); // kendi click eventi çalışmayacak hale gelir.
+                const form = $("#form-add");
+                const actionUrl = form.attr('action');
+                //const dataToSend = form.serialize(); form file lar bu şekilde gitmiyor
+                const dataToSend = new FormData(form.get(0));
+                $.ajax({
+                    url: actionUrl,
+                    type: 'POST',
+                    data: dataToSend,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        const userAddAjaxModel = jQuery.parseJSON(data);
+                        const newFormBody = $('.modal-body', userAddAjaxModel.UserAddPartial); // render edilmiş modal
+                        $(".modal-body").replaceWith(newFormBody); //rende edilmiş modal ile değişiklik
+                        const isValid = newFormBody.find('[name="IsValid"]').val() === 'True';
+                        if (isValid) {
+                            $(".modal").hide();
+                            const newTableRow = `<tr class="text-center" data-id="${userAddAjaxModel.UserDto.User.Id}">
+                                                                                <td>${userAddAjaxModel.UserDto.User.Id}</td>
+                                                                                <td><img class="img-thumbnail" style="max-height:100px; object-fit:contain;"
+                                                                                src="/Admin/dz-img/user-img/${userAddAjaxModel.UserDto.User.Image}"/></td>
+                                                                                <td>${userAddAjaxModel.UserDto.User.UserName}</td>
+                                                                                <td>${userAddAjaxModel.UserDto.User.Email}</td>
+                                                                                <td>${userAddAjaxModel.UserDto.User.PhoneNumber}</td>
+                                                                                <td>
+                                                                                    <span class="btn btn-sm btn-danger removeUser" id="${userAddAjaxModel.UserDto.User.Id}">Sil</span>
+                                                                                    <span class="btn btn-sm btn-warning userUpdate" data-update-id="${userAddAjaxModel.UserDto.User.Id}">Güncelle</span>
+                                                                                </td>
+                                                                             </tr>`;
+                            const newTableRowObject = $(newTableRow); //obje haline getirildi
+                            newTableRowObject.hide();
+                            $('#userTable').append(newTableRowObject);
+                            newTableRowObject.fadeIn(3500);
+                            toastr.success(`${userAddAjaxModel.UserDto.Message}`, 'Başarılı İşlem');
+                        }
+                        else {
+                            toastr.error(`${userAddAjaxModel.UserDto.Message}`, 'Başarısız İşlem');
+                        }
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
+            });
     });
 </script>
