@@ -88,6 +88,17 @@
                     }
                 });
             });
+       
+            //update for user
+            $(".userUpdate").click(function() {
+                const Id = $(this).attr("data-update-id");
+                const url = '@Url.Action("Update","User")';
+                const modalDiv = $("#modal");
+                $.get(url, { userId: Id }).done(function(data) {
+                    modalDiv.html(data);
+                    modalDiv.find(".modal").show('slow');
+                });
+            });
         });
     </script>
 }
