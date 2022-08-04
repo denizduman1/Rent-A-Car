@@ -45,7 +45,7 @@ namespace WebUI.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                userAddDto.Image = await ImageUpload(userAddDto);
+                userAddDto.Image = await ImageUpload(userAddDto.UserName, userAddDto.PictureFile);
                 var user = _mapper.Map<User>(userAddDto);
                 var result = await _userManager.CreateAsync(user,userAddDto.Password);
                 if (result.Succeeded)
@@ -90,25 +90,37 @@ namespace WebUI.Areas.Admin.Controllers
             return Json(userAddAjaxStateErrorModel);
         }
 
-        public async Task<string> ImageUpload(UserAddDto userAddDto)
+        public async Task<string> ImageUpload(string userName, IFormFile pictureFile)
         {
             string wwwroot = _env.WebRootPath;
 
             //denizduman
-            // string fileName = Path.GetFileNameWithoutExtension(userAddDto.PictureFile.FileName);
+            // string fileName = Path.GetFileNameWithoutExtension(pictureFile.FileName);
 
             // png||jpg
-            string fileExtension = Path.GetExtension(userAddDto.PictureFile.FileName);
+            string fileExtension = Path.GetExtension(pictureFile.FileName);
 
             DateTime dateTime = DateTime.Now;
 
-            string fileName = $"{userAddDto.UserName}_{dateTime.FullDateAndTimeStringWithUnderscore()}{fileExtension}";
+            string fileName = $"{userName}_{dateTime.FullDateAndTimeStringWithUnderscore()}{fileExtension}";
             var path = Path.Combine($"{wwwroot}/Admin/dz-img/user-img",fileName);
             await using (var stream = new FileStream(path,FileMode.Create))
             {
-                await userAddDto.PictureFile.CopyToAsync(stream);
+                await pictureFile.CopyToAsync(stream);
             }
             return fileName; 
+        }
+        
+        public bool ImageDelete(string imageName)
+        {
+            string wwwroot = _env.WebRootPath;
+            var fileToDelete = Path.Combine($"{wwwroot}/Admin/dz-img/user-img", imageName);
+            if (System.IO.File.Exists(fileToDelete))
+            {
+                System.IO.File.Delete(fileToDelete);
+                return true;
+            }
+            return false;
         }
 
         [HttpPost]
@@ -149,6 +161,66 @@ namespace WebUI.Areas.Admin.Controllers
             var user = await _userManager.Users.FirstOrDefaultAsync(u=>u.Id == userId); //satır bulamazsa null döner birden fazla dönerse ilkini döner
             var userUpdateDto = _mapper.Map<UserUpdateDto>(user);
             return PartialView("_UserUpdatePartial", userUpdateDto);
+        }
+       
+        [HttpPost]    
+        public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
+        {
+            bool isNewImageUploaded = false;
+            var oldUser = await _userManager.FindByIdAsync(userUpdateDto.Id.ToString());
+            var oldUserImage = oldUser.Image;
+            userUpdateDto.Image = oldUserImage; //resmi tut
+
+            if (ModelState.IsValid)
+            {                
+                if (userUpdateDto.PictureFile != null)
+                {
+                    userUpdateDto.Image = await ImageUpload(userUpdateDto.UserName, userUpdateDto.PictureFile);
+                    isNewImageUploaded = true;
+                }
+                var updatedUser = _mapper.Map<UserUpdateDto,User>(userUpdateDto,oldUser);
+                var result = await _userManager.UpdateAsync(updatedUser);
+                if (result.Succeeded)
+                {
+                    if (isNewImageUploaded == true)
+                    {
+                        ImageDelete(oldUserImage);
+                    }
+                    var userUpdateViewModel = JsonSerializer.Serialize(new UserUpdateAjaxViewModel
+                    {
+                        UserDto = new UserDto
+                        {
+                            ResultStatus = ResultStatus.Success,
+                            User = updatedUser, 
+                            Message = $"{updatedUser.UserName} adlı kullanıcı başarıyla güncellenmiştir"
+                        },
+                        UserUpdatePartial = await this.RenderViewToStringAsync("_UserUpdatePartial",userUpdateDto)
+                    });
+                    return Json(userUpdateViewModel);
+                }
+                else
+                {
+                    foreach (var err in result.Errors)
+                    {
+                        ModelState.AddModelError("",err.Description);
+                    }
+                    var userUpdateErrorViewModel = JsonSerializer.Serialize(new UserUpdateAjaxViewModel
+                    {
+                        UserUpdateDto = userUpdateDto,
+                        UserUpdatePartial = await this.RenderViewToStringAsync("_UserUpdatePartial", userUpdateDto)
+                    });
+                    return Json(userUpdateErrorViewModel);
+                }
+            }
+            else
+            {
+                var userUpdateErrorModelStateViewModel = JsonSerializer.Serialize(new UserUpdateAjaxViewModel
+                {
+                    UserUpdateDto = userUpdateDto,
+                    UserUpdatePartial = await this.RenderViewToStringAsync("_UserUpdatePartial", userUpdateDto)
+                });
+                return Json(userUpdateErrorModelStateViewModel);
+            }
         }
     }
 }

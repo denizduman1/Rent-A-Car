@@ -34,8 +34,8 @@
                     </div>
                     <div class="form-group">
                         <label style="color:black;" asp-for="Image"></label>
-                        <img class="img-fluid img-thumbnail" style="width:150px; object-fit:contain;" 
-                        src="~/Admin/dz-img/user-img/@Model.Image" alt="@Model.UserName">
+                        <img class="img-fluid img-thumbnail" style="width:150px; object-fit:contain;"
+                             src="~/Admin/dz-img/user-img/@Model.Image" alt="@Model.UserName">
                     </div>
                     <div class="form-group">
                         <label style="color:black;" asp-for="PictureFile"></label>
@@ -57,5 +57,50 @@
         $(".cancel").click(function() {
             $(".modal").hide("slow");
         });
+    @* ajax post işlemi *@
+            $(".save").click(function(e) {
+                e.preventDefault(); // kendi click eventi çalışmayacak hale gelir.
+                const form = $("#form-update");
+                const actionUrl = form.attr('action');
+                const dataToSend = new FormData(form.get(0));
+
+                $.ajax({
+                    url: actionUrl,
+                    type: 'POST',
+                    data: dataToSend,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        const jsonData = jQuery.parseJSON(data);
+                        const newFormBody = $('.modal-body', jsonData.UserUpdatePartial); // render edilmiş modal
+                        $(".modal-body").replaceWith(newFormBody); //rende edilmiş modal ile değişiklik
+                        const isValid = newFormBody.find('[name="IsValid"]').val() === 'True';
+                        if (isValid) {
+                            $(".modal").hide();
+                            const newTableRow = `<tr class="text-center" data-id="${jsonData.UserDto.User.Id}">
+                                                        <td>${jsonData.UserDto.User.Id}</td>
+                                                        <td>
+                                                        <img class="img-thumbnail" src="/Admin/dz-img/user-img/${jsonData.UserDto.User.Image}"
+                                                        style="max-height:100px; object-fit:contain;"/>
+                                                        </td>
+                                                        <td>${jsonData.UserDto.User.UserName}</td>
+                                                        <td>${jsonData.UserDto.User.Email}</td>
+                                                        <td>${jsonData.UserDto.User.PhoneNumber}</td>
+                                                        <td>
+                                                            <span class="btn btn-sm btn-danger removeCarModel" data-delete-id="${jsonData.UserDto.User.Id}">Sil</span>
+                                                            <span class="btn btn-sm btn-warning userUpdate" data-update-id="${jsonData.UserDto.User.Id}">Güncelle</span>
+                                                        </td>
+                                                     </tr>`;
+                            const newTableRowObject = $(newTableRow); //obje haline getirildi
+                            const tr = $(`[data-id="${jsonData.UserDto.User.Id}"]`);
+                            tr.replaceWith(newTableRowObject);
+                            toastr.success(`${jsonData.UserDto.Message}`, 'Başarılı İşlem');
+                        }
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                });
+            });
     });
 </script>

@@ -31,7 +31,7 @@ namespace Entity.Concrete.DTOs
         public string PhoneNumber { get; set; }
         [DisplayName("Resim Ekle")]        
         [DataType(DataType.Upload)]
-        public IFormFile PictureFile { get; set; }
+        public IFormFile? PictureFile { get; set; }
         [DisplayName("Resim")]
         public string? Image { get; set; }
     }
