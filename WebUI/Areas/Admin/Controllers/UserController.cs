@@ -222,5 +222,12 @@ namespace WebUI.Areas.Admin.Controllers
                 return Json(userUpdateErrorModelStateViewModel);
             }
         }
+
+
+        [HttpGet]
+        public IActionResult UserLogin()
+        {
+            return View("UserLogin");
+        }
     }
 }
