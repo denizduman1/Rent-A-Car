@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entity.ComplexTypes;
 using Entity.Concrete.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Services.Abstract;
@@ -11,6 +12,7 @@ using WebUI.Areas.Admin.Models;
 namespace WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class CarController : Controller
     {
         private readonly ICarService _carService;

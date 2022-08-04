@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entity.Concrete;
 using Entity.Concrete.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ namespace WebUI.Areas.Admin.Controllers
     public class UserController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IWebHostEnvironment _env;
         private readonly IMapper _mapper;
         public UserController(UserManager<User> userManager, IWebHostEnvironment env, IMapper mapper)
@@ -23,7 +25,7 @@ namespace WebUI.Areas.Admin.Controllers
             _env = env;
             _mapper = mapper;
         }
-
+        [Authorize]
         public async Task<IActionResult> List()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -34,12 +36,14 @@ namespace WebUI.Areas.Admin.Controllers
             });
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Add()
         {
             return PartialView("_UserAddPartial");
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Add(UserAddDto userAddDto)
         {
@@ -90,6 +94,7 @@ namespace WebUI.Areas.Admin.Controllers
             return Json(userAddAjaxStateErrorModel);
         }
 
+        [Authorize]
         public async Task<string> ImageUpload(string userName, IFormFile pictureFile)
         {
             string wwwroot = _env.WebRootPath;
@@ -110,7 +115,8 @@ namespace WebUI.Areas.Admin.Controllers
             }
             return fileName; 
         }
-        
+
+        [Authorize]
         public bool ImageDelete(string imageName)
         {
             string wwwroot = _env.WebRootPath;
@@ -123,6 +129,7 @@ namespace WebUI.Areas.Admin.Controllers
             return false;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<JsonResult> Delete(int userId)
         {
@@ -155,6 +162,7 @@ namespace WebUI.Areas.Admin.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<PartialViewResult> Update(int userId)
         {
@@ -162,7 +170,8 @@ namespace WebUI.Areas.Admin.Controllers
             var userUpdateDto = _mapper.Map<UserUpdateDto>(user);
             return PartialView("_UserUpdatePartial", userUpdateDto);
         }
-       
+
+        [Authorize]
         [HttpPost]    
         public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
         {
@@ -228,6 +237,39 @@ namespace WebUI.Areas.Admin.Controllers
         public IActionResult UserLogin()
         {
             return View("UserLogin");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UserLogin(UserLoginDto userLoginDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(userLoginDto.Email);
+                if (user != null)
+                {
+                    var result = await _signInManager.
+                        PasswordSignInAsync(user, userLoginDto.Password, userLoginDto.IsRemember,false);
+                    
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index","Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "E-posta adresiniz veya şifreniz yanlıştır.");
+                        return View("UserLogin");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "E-posta adresiniz veya şifreniz yanlıştır.");
+                    return View("UserLogin");
+                }
+            }
+            else
+            {
+                return View("UserLogin");
+            }
         }
     }
 }

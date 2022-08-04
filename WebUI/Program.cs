@@ -16,7 +16,7 @@ builder.Services.LoadMyServices();
 builder.Services.AddAutoMapper(typeof(UserProfile));
 builder.Services.ConfigureApplicationCookie(opt =>
 {
-    opt.LoginPath = new PathString("/Admin/User/Login");
+    opt.LoginPath = new PathString("/Admin/User/UserLogin");
     opt.LogoutPath = new PathString("/Admin/User/Logout");
     opt.Cookie = new CookieBuilder
     {

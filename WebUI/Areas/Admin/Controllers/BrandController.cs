@@ -1,4 +1,5 @@
 ﻿using Entity.Concrete.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstract;
 using Shared.Utilities.Results.ComplexTypes;
@@ -7,6 +8,7 @@ using Shared.Utilities.Results.Concrete;
 namespace WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class BrandController : Controller
     {
         private readonly IBrandService _brandService;

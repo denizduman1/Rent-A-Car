@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Services.Abstract;
 
 namespace WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class PaymentController : Controller
     {
         private readonly IPaymentService _paymentService;

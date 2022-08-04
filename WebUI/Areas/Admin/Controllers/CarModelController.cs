@@ -1,4 +1,5 @@
 ﻿using Entity.Concrete.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using WebUI.Areas.Admin.Models;
 namespace WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class CarModelController : Controller
     {
         private readonly ICarModelService _carModelService;
