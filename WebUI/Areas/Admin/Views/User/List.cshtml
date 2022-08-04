@@ -76,11 +76,16 @@
                 const id = $(this).attr("data-delete-id");
                 var tableRow = $(`[data-id="${id}"]`);
                 const url = '@Url.Action("Delete","User")';
-                $.post(url, { userId: id }).done(function(data){
-                    //const userDto = 
-                    //if () {
-
-                    //}
+                $.post(url, { userId: id }).done(function(data) {
+                    const jsonData = jQuery.parseJSON(data);
+                    const resultStatus = jsonData.ResultStatus;
+                    if (resultStatus == 0) {
+                        tableRow.fadeOut(1000);
+                        toastr.success(`${jsonData.Message}`, 'Başarılı İşlem');
+                    }
+                    else {
+                        toastr.error(`${jsonData.Message}`, 'Başarısız İşlem');
+                    }
                 });
             });
         });
