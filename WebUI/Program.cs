@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Entity.Concrete;
 using Services.Extensions;
 using WebUI.AutoMapper.Profiles;
 
@@ -14,6 +15,7 @@ opt =>
 builder.Services.AddSession();
 builder.Services.LoadMyServices();
 builder.Services.AddAutoMapper(typeof(UserProfile));
+builder.Services.AddIdentity<User, Role>(); //çok kritik
 builder.Services.ConfigureApplicationCookie(opt =>
 {
     opt.LoginPath = new PathString("/Admin/User/UserLogin");
@@ -30,6 +32,7 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.AccessDeniedPath = new PathString("/Admin/User/AccessDenied"); //giriþ yapmýþ ama yetkisi yok
     
 });
+
 
 var app = builder.Build();
 

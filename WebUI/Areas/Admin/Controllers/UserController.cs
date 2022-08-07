@@ -19,9 +19,10 @@ namespace WebUI.Areas.Admin.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IWebHostEnvironment _env;
         private readonly IMapper _mapper;
-        public UserController(UserManager<User> userManager, IWebHostEnvironment env, IMapper mapper)
+        public UserController(UserManager<User> userManager, SignInManager<User> signInManager ,IWebHostEnvironment env, IMapper mapper)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _env = env;
             _mapper = mapper;
         }

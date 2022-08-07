@@ -27,6 +27,7 @@ namespace Services.Extensions
             serviceCollection.AddScoped<ICommentService, CommentManager>();
             serviceCollection.AddScoped<IColorService, ColorManager>();
             serviceCollection.AddScoped<IPaymentService, PaymentManager>();
+
             serviceCollection.AddIdentityCore<User>(opt =>
             {   //üye kaydolma ayarları
                 opt.Password.RequireDigit = false;
@@ -38,7 +39,8 @@ namespace Services.Extensions
 
                 opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+$";
                 opt.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<RentCarContext>();
+            }).AddRoles<Role>().AddEntityFrameworkStores<RentCarContext>();
+
             // session sepet işlemleri için sonra eklenecek.
             // servicCollection.AddHttpContextAccessor();
             return serviceCollection;
