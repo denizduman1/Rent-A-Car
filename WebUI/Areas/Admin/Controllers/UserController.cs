@@ -26,7 +26,7 @@ namespace WebUI.Areas.Admin.Controllers
             _env = env;
             _mapper = mapper;
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> List()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -37,14 +37,14 @@ namespace WebUI.Areas.Admin.Controllers
             });
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Add()
         {
             return PartialView("_UserAddPartial");
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Add(UserAddDto userAddDto)
         {
@@ -95,7 +95,7 @@ namespace WebUI.Areas.Admin.Controllers
             return Json(userAddAjaxStateErrorModel);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<string> ImageUpload(string userName, IFormFile pictureFile)
         {
             string wwwroot = _env.WebRootPath;
@@ -117,7 +117,7 @@ namespace WebUI.Areas.Admin.Controllers
             return fileName; 
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public bool ImageDelete(string imageName)
         {
             string wwwroot = _env.WebRootPath;
@@ -130,7 +130,7 @@ namespace WebUI.Areas.Admin.Controllers
             return false;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<JsonResult> Delete(int userId)
         {
@@ -163,7 +163,7 @@ namespace WebUI.Areas.Admin.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<PartialViewResult> Update(int userId)
         {
@@ -172,7 +172,7 @@ namespace WebUI.Areas.Admin.Controllers
             return PartialView("_UserUpdatePartial", userUpdateDto);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]    
         public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
         {
@@ -272,5 +272,12 @@ namespace WebUI.Areas.Admin.Controllers
                 return View("UserLogin");
             }
         }
+
+        [HttpGet]
+        public ViewResult AccessDenied()
+        {
+            return View();
+        }
+
     }
 }
