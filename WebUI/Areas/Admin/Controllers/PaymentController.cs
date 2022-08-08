@@ -5,7 +5,7 @@ using Services.Abstract;
 namespace WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin,Editor")]
     public class PaymentController : Controller
     {
         private readonly IPaymentService _paymentService;

@@ -8,7 +8,7 @@ using Shared.Utilities.Results.Concrete;
 namespace WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin,Editor")]
     public class BrandController : Controller
     {
         private readonly IBrandService _brandService;

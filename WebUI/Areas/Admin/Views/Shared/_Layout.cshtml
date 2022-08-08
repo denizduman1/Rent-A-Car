@@ -18,7 +18,7 @@
 <body id="page-top" class="loading-gif">
 
     <!-- Page Wrapper -->
-    <div id="wrapper">      
+    <div id="wrapper">
 
         @await Component.InvokeAsync("AdminMenu")
 
@@ -27,34 +27,32 @@
 
             <!-- Main Content -->
             <div id="content">
-                       
-                @await Html.PartialAsync("_LayoutTopBarPartial")
+
+                @await Component.InvokeAsync("TopBar")
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                     @RenderBody()                
+                    @RenderBody()
                 </div>
                 <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
-
-           @await Html.PartialAsync("_LayoutFooterPartial")
+            @await Html.PartialAsync("_LayoutFooterPartial")
 
         </div>
         <!-- End of Content Wrapper -->
 
     </div>
     <!-- End of Page Wrapper -->
-
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-     
-     @await Html.PartialAsync("_LayoutLogOutPartial")
-     @await Html.PartialAsync("_LayoutJsPartial")
-     @await RenderSectionAsync("scripts", false)
+
+    @await Html.PartialAsync("_LayoutLogOutPartial")
+    @await Html.PartialAsync("_LayoutJsPartial")
+    @await RenderSectionAsync("scripts", false)
 
 </body>
 

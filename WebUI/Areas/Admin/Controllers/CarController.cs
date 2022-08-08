@@ -12,7 +12,7 @@ using WebUI.Areas.Admin.Models;
 namespace WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin,Editor")]
     public class CarController : Controller
     {
         private readonly ICarService _carService;

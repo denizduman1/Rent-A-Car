@@ -233,6 +233,14 @@ namespace WebUI.Areas.Admin.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Editor")]
+        [HttpGet]
+        public async Task<IActionResult> UserLogout()
+        {
+            await _signInManager.SignOutAsync();
+            return View("UserLogin");
+        }
+
 
         [HttpGet]
         public IActionResult UserLogin()

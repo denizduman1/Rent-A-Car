@@ -19,7 +19,7 @@ builder.Services.AddIdentity<User, Role>(); //çok kritik
 builder.Services.ConfigureApplicationCookie(opt =>
 {
     opt.LoginPath = new PathString("/Admin/User/UserLogin");
-    opt.LogoutPath = new PathString("/Admin/User/Logout");
+    opt.LogoutPath = new PathString("/Admin/User/UserLogout");
     opt.Cookie = new CookieBuilder
     {
         Name = "RentCar",
