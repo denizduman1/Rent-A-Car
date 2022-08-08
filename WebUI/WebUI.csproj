@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\Views\Shared\Components\AdminMenu\" />
     <Folder Include="wwwroot\Admin\dz-img\user-img\" />
   </ItemGroup>
 

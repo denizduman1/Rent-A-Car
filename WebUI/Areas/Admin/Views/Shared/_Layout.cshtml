@@ -20,7 +20,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">      
 
-        @await Html.PartialAsync("_LayoutSideBarPartial")
+        @await Component.InvokeAsync("AdminMenu")
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">

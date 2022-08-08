@@ -1,0 +1,111 @@
+﻿@model WebUI.Areas.Admin.Models.UserWithRolesViewModel
+@{
+    bool isAdmin = false;
+    string userName = Model.User.UserName;
+    @if (Model.Roles.Any(r => r.Equals("Admin")))
+    {
+        isAdmin = true;
+    }
+}
+
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-action="Index" asp-controller="Home">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">@if (isAdmin)
+            {
+                <span>Admin Menü</span>
+            }
+            else
+            {
+                <span>Editor Menü</span>
+            }</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    @if (isAdmin)
+    {
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Kullanıcı İşlemleri
+        </div>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Admin" asp-controller="User" asp-action="List">
+                <i class="fa-solid fa-users"></i>
+                <span>Kullanıcılar</span>
+            </a>
+        </li>
+    }
+    <!-- Nav Item - Utilities Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link" asp-area="Admin" asp-controller="Payment" asp-action="List">
+            <i class="fa-solid fa-sack-dollar"></i>
+            <span>Kiralama</span>
+        </a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Araç İşlemleri
+    </div>
+
+
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" asp-area="Admin" asp-controller="Car" asp-action="List">
+            <i class="fa-solid fa-car-side"></i>
+            <span>Araç</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+        <a class="nav-link" asp-area="Admin" asp-controller="Brand" asp-action="List">
+            <i class="fa-solid fa-diamond"></i>
+            <span>Marka</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" asp-area="Admin" asp-controller="CarModel" asp-action="List">
+            <i class="fa-solid fa-dolly"></i>
+            <span>Model</span>
+        </a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+    
+    <li class="nav-item">
+        <span class="nav-link text-center">Giriş Yapan Kullanıcı <br />
+            @userName</span>
+    </li>
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>
+<!-- End of Sidebar -->
