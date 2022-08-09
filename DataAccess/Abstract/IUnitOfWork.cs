@@ -14,6 +14,7 @@ namespace DataAccess.Abstract
         IColorRepository ColorRepository { get; }
         ICommentRepository CommentRepository { get; }
         IPaymentRepository PaymentRepository { get; }
+        INotificationRepository NotificationRepository { get; }
         Task<int> SaveAsync();
     }
 }

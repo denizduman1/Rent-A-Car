@@ -54,6 +54,21 @@
     @await Html.PartialAsync("_LayoutJsPartial")
     @await RenderSectionAsync("scripts", false)
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".notification").click(function() {
+                const notificationLinks = $(".notificationCounter");
+                if (notificationLinks.length > 0) {
+                    const actionUrl = '@Url.Action("UpdateRead","Home")';
+                    $.post(actionUrl).done(function(data) {
+                        $(".notificationCounter").empty();
+                    });
+                }
+            });
+        });
+    </script>
+
+
 </body>
 
 </html>

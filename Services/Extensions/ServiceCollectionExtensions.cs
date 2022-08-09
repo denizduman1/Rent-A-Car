@@ -20,13 +20,14 @@ namespace Services.Extensions
         {
             serviceCollection.AddDbContext<RentCarContext>();
             serviceCollection.AddScoped<IUnitOfWork,EfUnitOfWork>();
-            serviceCollection.AddAutoMapper(typeof(BrandProfile), typeof(CarModelProfile), typeof(CommentProfile), typeof(ColorProfile), typeof(CarProfile));
+            serviceCollection.AddAutoMapper(typeof(NotificationProfile) ,typeof(BrandProfile), typeof(CarModelProfile), typeof(CommentProfile), typeof(ColorProfile), typeof(CarProfile));
             serviceCollection.AddScoped<IBrandService, BrandManager>();
             serviceCollection.AddScoped<ICarService, CarManager>();
             serviceCollection.AddScoped<ICarModelService, CarModelManager>();
             serviceCollection.AddScoped<ICommentService, CommentManager>();
             serviceCollection.AddScoped<IColorService, ColorManager>();
             serviceCollection.AddScoped<IPaymentService, PaymentManager>();
+            serviceCollection.AddScoped<INotificationService, NotificationManager>();
 
             serviceCollection.AddIdentityCore<User>(opt =>
             {   //üye kaydolma ayarları

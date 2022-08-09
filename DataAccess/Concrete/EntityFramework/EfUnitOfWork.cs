@@ -31,6 +31,7 @@ namespace DataAccess.Concrete.EntityFramework
 
         private readonly IPaymentRepository _paymentRepository;
 
+        private readonly INotificationRepository _notificationRepository;
 
         public IBrandRepository BrandRepository => _brandRepository ?? new EfBrandRepository(_context);
         public ICarModelRepository CarModelRepository => _carModelRepository ?? new EfCarModelRepository(_context);
@@ -38,6 +39,7 @@ namespace DataAccess.Concrete.EntityFramework
         public IColorRepository ColorRepository => _colorRepository ?? new EfColorRepository(_context);
         public ICommentRepository CommentRepository => _commentRepository ?? new EfCommentRepository(_context);
         public IPaymentRepository PaymentRepository => _paymentRepository ?? new EfPaymentRepository(_context);
+        public INotificationRepository NotificationRepository => _notificationRepository ?? new EfNotificationRepository(_context);
 
         public async ValueTask DisposeAsync()
         {
