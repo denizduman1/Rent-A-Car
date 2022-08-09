@@ -117,7 +117,7 @@ namespace Services.Concrete
                 await _unitOfWork.SaveAsync();
                 return new Result(ResultStatus.Success, message: $"{brand.Name} adlı marka başarıyla güncellenmiştir.");
             }
-            return new Result(ResultStatus.Success, message: $"Güncellemek istediğiniz marka bulunamamaktadır.");
+            return new Result(ResultStatus.Error, message: $"Güncellemek istediğiniz marka bulunamamaktadır.");
         }
     }
 }

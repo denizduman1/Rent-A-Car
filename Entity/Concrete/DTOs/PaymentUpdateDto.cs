@@ -8,5 +8,7 @@ namespace Entity.Concrete.DTOs
 {
     public class PaymentUpdateDto
     {
+        public int ID { get; set; }
+        public bool IsCancelled { get; set; }
     }
 }

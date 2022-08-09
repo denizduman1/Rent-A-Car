@@ -16,6 +16,7 @@ namespace Services.Abstract
         public Task<IDataResult<PaymentListDto>> GetAllByNonDeleted();
         public Task<IResult> Add(PaymentAddDto paymentAddDto);
         public Task<IResult> Update(PaymentUpdateDto paymentUpdateDto);
+        public Task<IResult> UpdateBatch(Payment payment);
         public Task<IResult> Pay(int paymentId);
         public Task<IResult> Delete(int paymentId);
         public Task<IResult> HardDelete(int paymentId);

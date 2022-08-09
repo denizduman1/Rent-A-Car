@@ -16,7 +16,7 @@ namespace Services.AutoMapper.Profiles
             CreateMap<NotificationAddDto, Notification>().
                  ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(x => DateTime.UtcNow))
                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(x => DateTime.UtcNow))
-                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(x => false)); ;
+                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(x => false)); 
 
             CreateMap<NotificationUpdateDto, Notification>().
                  ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(x => DateTime.UtcNow))

@@ -20,7 +20,7 @@ namespace Services.Extensions
         {
             serviceCollection.AddDbContext<RentCarContext>();
             serviceCollection.AddScoped<IUnitOfWork,EfUnitOfWork>();
-            serviceCollection.AddAutoMapper(typeof(NotificationProfile) ,typeof(BrandProfile), typeof(CarModelProfile), typeof(CommentProfile), typeof(ColorProfile), typeof(CarProfile));
+            serviceCollection.AddAutoMapper(typeof(PaymentProfile), typeof(NotificationProfile) ,typeof(BrandProfile), typeof(CarModelProfile), typeof(CommentProfile), typeof(ColorProfile), typeof(CarProfile));
             serviceCollection.AddScoped<IBrandService, BrandManager>();
             serviceCollection.AddScoped<ICarService, CarManager>();
             serviceCollection.AddScoped<ICarModelService, CarModelManager>();

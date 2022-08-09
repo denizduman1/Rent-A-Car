@@ -13,8 +13,8 @@ namespace Entity.Concrete
         public int TotalPrice { get; set; } // total ücret
         public bool IsPaid { get; set; } = false; // ödendi mi
         public bool IsCancelled { get; set; } = false; // ödemeyi geciktirdi mi
-        public DateTime ReservationDate { get; set; } = DateTime.Now; // order date
-        public DateTime EODDate { get; set; } = DateTime.Now.AddHours(6); // order date + 6 saat
+        public DateTime? ReservationDate { get; set; } = DateTime.Now; // order date
+        public DateTime? EODDate { get; set; } = DateTime.Now.AddHours(6); // order date + 6 saat
         public int CarId { get; set; } // araç
         public Car? Car { get; set; }
         public int UserId { get; set; } // kullanıcı

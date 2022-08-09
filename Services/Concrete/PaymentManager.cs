@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataAccess.Abstract;
+using Entity.Concrete;
 using Entity.Concrete.DTOs;
 using Services.Abstract;
 using Shared.Utilities.Results.Abstract;
@@ -23,6 +24,12 @@ namespace Services.Concrete
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
+        public PaymentManager(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         public Task<IResult> Add(PaymentAddDto paymentAddDto)
         {
             throw new NotImplementedException();
@@ -64,11 +71,32 @@ namespace Services.Concrete
             throw new NotImplementedException();
         }
 
-        public Task<IResult> Update(PaymentUpdateDto paymentUpdateDto)
+        public async Task<IResult> Update(PaymentUpdateDto paymentUpdateDto)
         {
-            throw new NotImplementedException();
+            var result = await _unitOfWork.PaymentRepository.AnyAsync();
+            if (result)
+            {
+                var oldPayment = await _unitOfWork.PaymentRepository.GetAsync(p => p.ID == paymentUpdateDto.ID);
+                var payment = _mapper.Map<PaymentUpdateDto, Payment>(paymentUpdateDto, oldPayment);
+                await _unitOfWork.PaymentRepository.UpdateAsync(payment);
+                await _unitOfWork.SaveAsync();
+                return new Result(ResultStatus.Success, message: $"Başarıyla Güncellendi");
+            }
+            return new Result(ResultStatus.Error, message: $"Güncellemek istediğiniz kiralama bulunamamaktadır.");
         }
-
+        public async Task<IResult> UpdateBatch(Payment payment)
+        {
+            var result = await _unitOfWork.PaymentRepository.AnyAsync();
+            if (result)
+            {
+                var oldPayment = await _unitOfWork.PaymentRepository.GetAsync(p => p.ID == payment.ID);
+                oldPayment.ModifiedDate = payment.ModifiedDate;
+                oldPayment.IsCancelled = payment.IsCancelled;
+                await _unitOfWork.SaveAsync();
+                return new Result(ResultStatus.Success, message: $"Başarıyla Güncellendi");
+            }
+            return new Result(ResultStatus.Error, message: $"Güncellemek istediğiniz kiralama bulunamamaktadır.");
+        }
         public async Task<IResult> Pay(int paymentId)
         {
             var payment = await _unitOfWork.PaymentRepository.GetAsync(p=>p.ID == paymentId);
