@@ -19,9 +19,10 @@ namespace WebUI.Areas.Admin.Controllers
         private readonly ICarModelService _carModelService;
         private readonly IBrandService _brandService;
         private readonly IColorService _colorService;
+        private readonly INotificationService _notificationService;
         private readonly IMapper _mapper;
 
-        public CarController(ICarService carService, ICarModelService carModelService, IBrandService brandService, IColorService colorService
+        public CarController(INotificationService notificationService, ICarService carService, ICarModelService carModelService, IBrandService brandService, IColorService colorService
             ,IMapper mapper)
         {
             _carService = carService;
@@ -29,6 +30,7 @@ namespace WebUI.Areas.Admin.Controllers
             _brandService = brandService;
             _colorService = colorService;
             _mapper = mapper;
+            _notificationService = notificationService;
         }
 
         public async Task<IActionResult> List()
@@ -115,6 +117,14 @@ namespace WebUI.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _carService.Add(carAddDto);
+                //Notification
+                var carListDto = await _carService.GetAllByNonDeleted();
+                var car = carListDto?.Data?.Cars?.OrderByDescending(c => c.CreatedDate).First();
+                var notification = new NotificationAddDto
+                {
+                    Message = $"{car.CarModel.Brand.Name} {car.CarModel.Name} adlı araç eklenmiştir."
+                };
+                await _notificationService.Add(notification);
                 return Json(result);
             }
             var errorMessage = string.Join(" | ", ModelState.Values

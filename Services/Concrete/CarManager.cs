@@ -50,7 +50,7 @@ namespace Services.Concrete
 
         public async Task<IDataResult<CarDto>> Get(int carId)
         {
-            var car = await _unitOfWork.CarRepository.GetAsync(b => b.ID == carId);
+            var car = await _unitOfWork.CarRepository.GetAsync(b => b.ID == carId, c => c.CarModel, c => c.Color, c => c.CarModel.Brand);
             if (car is not null)
             {
                 return new DataResult<CarDto>(new CarDto { Car = car, ResultStatus = ResultStatus.Success }, ResultStatus.Success);
