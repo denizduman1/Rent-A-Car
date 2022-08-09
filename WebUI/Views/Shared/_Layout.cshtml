@@ -1,0 +1,20 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rent A Car</title>
+    @await Html.PartialAsync("_LayoutCssPartial")
+  </head>
+  
+  <body>
+    
+      <h1>Layout</h1>
+      @RenderBody()
+    
+      
+      @await Html.PartialAsync("_LayoutJsPartial")
+      @await RenderSectionAsync("scripts", false)
+  </body>
+
+</html>
