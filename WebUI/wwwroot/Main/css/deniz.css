@@ -66,6 +66,37 @@ body {
 }
 
 
+/**Iso tope*/
+.container{
+    width: 90%;
+    margin: 10px auto;
+}
+.portfolio-menu{
+    text-align:center;
+}
+.portfolio-menu ul li{
+    display: inline-block;
+    margin: 0;
+    list-style: none;
+    padding: 10px 15px;
+    border: 1px solid tomato;
+    cursor: pointer;
+    transition: all .5s ease;
+}
+.portfolio-menu ul li:hover{
+    background: tomato;
+    color: #ffffff;
+}
+.portfolio-item{
+    width: 100%;
+}
+.portfolio-item .item{
+    width: 303px;
+    float: left;
+    margin-bottom: 10px;
+}
+
+
 
 /* media queries */
 @media(min-width: 992px) {

@@ -88,10 +88,65 @@
         </button>
     </div>
     <!-- end of slider -->
+    <div class="container">
+        <h3 class="text-center"></h3>
+        <div class="portfolio-menu">
+            <ul>
+                <li class="active" data-filter="*">All</li>
+                <li data-filter=".web">Web Design</li>
+                <li data-filter=".seo">Seo</li>
+                <li data-filter=".graphics">Graphics</li>
+            </ul>
+        </div>
+        <div class="portfolio-item">
+            <div class="item web">
+                <div class="card" style="width: 18rem;">
+                    <img src="~/Main/img/slider-1.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="item graphics">
+                <div class="card" style="width: 18rem;">
+                    <img src="~/Main/img/slider-2.jfif" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="item seo">
+                <div class="card" style="width: 18rem;">
+                    <img src="~/Main/img/brand.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     @RenderBody()
 
 
     @await Html.PartialAsync("_LayoutJsPartial")
+    <script>
+        $('.portfolio-item').isotope({
+            itemSelector: '.item',
+            layoutMode: 'fitRows'
+        });
+        $('.portfolio-menu ul li').click(function() {
+            $('.portfolio-menu ul li').removeClass('active');
+            $(this).addClass('active');
+
+            var selector = $(this).attr('data-filter');
+            $('.portfolio-item').isotope({
+                filter: selector
+            });
+            return false;
+        });
+    </script>
     @await RenderSectionAsync("scripts", false)
 </body>
 
