@@ -13,13 +13,15 @@ namespace WebUI.Controllers
         private readonly ICommentService _commentService;
         private readonly IBrandService _brandService;
         private readonly ISepetService _sepetService;
+        private readonly UserManager<User> _userManager;
 
-        public HomeController(ICarService carService, IBrandService brandService, ICommentService commentService, ISepetService sepetService)
+        public HomeController(UserManager<User> userManager, ICarService carService, IBrandService brandService, ICommentService commentService, ISepetService sepetService)
         {
             _carService = carService;
             _commentService = commentService;
             _brandService = brandService;
             _sepetService = sepetService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -45,10 +47,24 @@ namespace WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EkleSepet(string id)
+        public async Task<IActionResult> EkleSepet(int id)
         {
-            var car = await _carService.Get(Convert.ToInt32(id));
-            if (car!=null)
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+
+            if (user == null)
+            {
+                return Json(new { isSuccess = false, msg = "Kullanıcı Girişi Yapmadan ürün ekleyemezsiniz." });
+            }
+
+            var anySepet = _sepetService.SepetList().Any();
+
+            if (anySepet)
+            {
+                return Json(new { isSuccess = false, msg = "Sepetinizde ürün varken başka ürün ekleyemezsiniz." });
+            }
+
+            var car = await _carService.Get(id);
+            if (car != null)
             {
                 _sepetService.SepetEkle(car.Data.Car);
                 return Json(new { isSuccess = true });
@@ -56,5 +72,11 @@ namespace WebUI.Controllers
             return Json(new { isSuccess = false });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CikarSepet(int id)
+        {
+            _sepetService.SepetCikar(id);
+            return Json(new { isSuccess = true });
+        }
     }
 }

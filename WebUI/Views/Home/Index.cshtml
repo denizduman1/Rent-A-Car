@@ -226,6 +226,13 @@
                             text: "Sepete Başarıyla Eklendi"
                         });
                     }
+                    else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata Oluştu',
+                            text: `Sepete Ekleme Sırasında Hata ile Karşılaşıldı. ${jsonData.msg}`
+                        });
+                    }
                 });
             });
 

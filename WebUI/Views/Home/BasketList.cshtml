@@ -1,4 +1,5 @@
-﻿@using Entity.Concrete
+﻿@using Entity.ComplexTypes
+@using Entity.Concrete
 @{
     var cars = ViewBag.PageState as IList<Car>;
 }
@@ -9,45 +10,53 @@
             <div class="alert alert-light shadow p-5" role="alert">
                 <h4><i class="fa-solid fa-basket-shopping"></i> Sepetim</h4>
                 <div class="row">
+
                     @foreach (var car in cars)
                     {
                         <div class="col-12">
                             <div class="row mt-3">
                                 <div class="col-lg-3">
-                                    <img src="https://www.media.stellantis.com/cache/f/8/2/a/2/f82a22b3b2325a614c174d9f524b906a2216f9e5.jpeg"
+                                    <img src="@car.Image"
                                      class="img-thumbnail" style="object-fit:contain;" />
                                 </div>
                                 <div class="col-lg-3 mt-3 mt-lg-0">
-                                    <span style="color: #e5345b;">Model: </span> <span>Hyundai i20</span>
+                                    <span style="color: #e5345b;">Model: </span> <span>
+                                        @car.CarModel.Brand.Name
+                                        @car.CarModel.Brand.Name
+                                    </span>
                                     <br />
-                                    <span style="color: #e5345b;">Marka: </span> <span>Hyundai</span>
+                                    <span style="color: #e5345b;">Marka: </span> <span>@car.CarModel.Brand.Name</span>
                                 </div>
                                 <div class="col-lg-3">
                                     <p>
                                         <span style="color: #e5345b;">Araç Özellikleri:</span> <br />
-                                        Çıkış Tarihi: 2022 <br />
-                                        Vites Türü: Otomatik <br />
-                                        Yakıt Türü: Dizel <br />
-                                        Kasa Tipi: Hatchback <br />
-                                        Açıklama: Aile arabası hızlıdır.
+                                        Çıkış Tarihi: @car.ModelYear <br />
+                                        Vites Türü: @((TransmissionType)car.TransmissionType) <br />
+                                        Yakıt Türü: @((FuelType)car.FuelType) <br />
+                                        Kasa Tipi: @((VehicleType)car.VehicleType) <br />
+                                        Açıklama: @car.Description
                                     </p>
                                 </div>
                                 <div class="col-lg-3">
-                                    <span style="color: #e5345b;">Günlük Ücret: </span> <span>345₺</span>
+                                    <span style="color: #e5345b;">Günlük Ücret: </span> <span>@car.DailyPrice ₺</span>
                                     <div class="mt-3"></div>
                                     <button class="btn btn-danger me-2 counter-minus">-</button>
                                     <span class="daily-counter">1</span>
                                     <button class="btn btn-success ms-2 counter-plus">+</button>
                                 </div>
                                 <div class="offset-lg-9 col-lg-3 mt-3 mt-lg-2">
-                                    <span style="color: #e5345b;">Toplam Ücret: </span> <span class="total-price">345₺</span>
+                                    <span style="color: #e5345b;">Toplam Ücret: </span> <span class="total-price">@car.DailyPrice ₺</span>
                                 </div>
                                 <div class="offset-lg-9 col-lg-3 mt-3 mt-lg-2">
-                                    <button class="btn btn-danger me-1">İptal Et</button>
+                                    <button class="btn btn-danger me-1 cancelBasket" data-id="@car.ID">İptal Et</button>
                                     <button class="btn btn-success ms-1">Sipariş Ver</button>
                                 </div>
                             </div>
                         </div>
+                    }
+                    @if (cars.Count() == 0)
+                    {
+                        <h4 class="mt-5 text-center text-danger">Görünüşe göre sepetinize herhangi bir araç eklemediniz.</h4>
                     }
                 </div>
             </div>
@@ -58,6 +67,7 @@
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function() {
+            const dailyPrice = @cars?.FirstOrDefault()?.DailyPrice;
             $(".counter-plus").click(function() {
                 let counter = $(".daily-counter").text();
                 counter = parseInt(counter);
@@ -65,7 +75,7 @@
                     counter++;
                     let totalPrice = $(".total-price").text();
                     totalPrice = parseInt(totalPrice);
-                    totalPrice += 345;
+                    totalPrice += dailyPrice;
                     $(".total-price").text(totalPrice + "₺");
                 }
                 $(".daily-counter").text(counter);
@@ -77,10 +87,33 @@
                     counter--;
                     let totalPrice = $(".total-price").text();
                     totalPrice = parseInt(totalPrice);
-                    totalPrice -= 345;
+                    totalPrice -= dailyPrice;
                     $(".total-price").text(totalPrice + "₺");
                 }
                 $(".daily-counter").text(counter);
+            });
+            $(".cancelBasket").click(function() {
+                const Id = $(this).attr("data-id");
+                const url = '@Url.Action("CikarSepet","Home")';
+                $.post(url, { id: Id }).done(function(data) {
+                    var stringifyData = JSON.stringify(data); // "key":"data"
+                    var jsonData = jQuery.parseJSON(stringifyData); //jsObject
+                    if (jsonData.isSuccess == true) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Başarılı',
+                            text: "Sepetten Başarıyla Çıkartıldı"
+                        });
+                        location.reload();
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata Oluştu',
+                            text: `Sepete Çıkarma Sırasında Hata ile Karşılaşıldı.`
+                        });
+                    }
+                });
             });
         });
     </script>

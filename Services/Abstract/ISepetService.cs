@@ -10,7 +10,7 @@ namespace Services.Abstract
     public interface ISepetService
     {
         void SepetEkle(Car car);
-        void SepetCikar(Car car);
+        void SepetCikar(int car);
         IList<Car> SepetList();
     }
 }

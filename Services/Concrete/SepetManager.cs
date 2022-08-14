@@ -18,12 +18,20 @@ namespace Services.Concrete
         {
             _httpContextAccessor = httpContextAccessor;
         }
-        public void SepetCikar(Car car)
+        public void SepetCikar(int Id)
         {
             var str = _httpContextAccessor.HttpContext.Session.GetString("sepet");
-            var gelenListe = JsonConvert.DeserializeObject<List<Car>>(str);
-            gelenListe.Remove(car);
-            var convertToStr = JsonConvert.SerializeObject(gelenListe);
+            var gelenListe = JsonConvert.DeserializeObject<List<Car>>(str, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+                Formatting = Newtonsoft.Json.Formatting.None
+            });
+            gelenListe.RemoveAll(c => c.ID == Id);
+            var convertToStr = JsonConvert.SerializeObject(gelenListe, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+                Formatting = Newtonsoft.Json.Formatting.None
+            });
             _httpContextAccessor.HttpContext.Session.SetString("sepet", convertToStr);
         }
 
@@ -32,7 +40,11 @@ namespace Services.Concrete
             var str = _httpContextAccessor.HttpContext.Session.GetString("sepet");
             if (!string.IsNullOrWhiteSpace(str))
             {
-                var gelenListe = JsonConvert.DeserializeObject<List<Car>>(str);
+                var gelenListe = JsonConvert.DeserializeObject<List<Car>>(str, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+                Formatting = Newtonsoft.Json.Formatting.None
+            });
                 gelenListe.Add(car);
                 var convertToStr = JsonConvert.SerializeObject(gelenListe, new JsonSerializerSettings{
                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
@@ -58,7 +70,9 @@ namespace Services.Concrete
 
             if (!string.IsNullOrWhiteSpace(str))
             {
-                var gelenListe = JsonConvert.DeserializeObject<List<Car>>(str);
+                var gelenListe = JsonConvert.DeserializeObject<List<Car>>(str, 
+                    new JsonSerializerSettings { ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+                        Formatting = Newtonsoft.Json.Formatting.None });
                 return gelenListe;
             }
             return new List<Car>();
