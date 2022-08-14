@@ -14,6 +14,7 @@ namespace Services.Abstract
         public Task<IDataResult<CarDto>> Get(int carId);
         public Task<IDataResult<CarListDto>> GetAll();
         public Task<IDataResult<CarListDto>> GetAllByNonDeleted();
+        public Task<IDataResult<CarListDto>> GetAllByNonDeletedAndMostStar();
         public Task<IResult> Add(CarAddDto carAddDto);
         public Task<IResult> Update(CarUpdateDto carUpdateDto);
         public Task<IResult> Delete(int carId);

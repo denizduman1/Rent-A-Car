@@ -74,7 +74,7 @@ namespace Services.Concrete
 
         public async Task<IDataResult<CommentListDto>> GetAllByNonDeleted()
         {
-            var comments = await _unitOfWork.CommentRepository.GetAllAsync(c=>c.IsDeleted == false);
+            var comments = await _unitOfWork.CommentRepository.GetAllAsync(c=>c.IsDeleted == false, c=>c.User);
             if (comments.Count > 0)
             {
                 return new DataResult<CommentListDto>(new CommentListDto { Comments = comments, ResultStatus = ResultStatus.Success }, ResultStatus.Success);

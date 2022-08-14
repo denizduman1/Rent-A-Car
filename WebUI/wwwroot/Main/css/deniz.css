@@ -10,6 +10,7 @@ body {
     font-family: var(--sm-font);
 }
 
+
 /* navbar */
 .navbar {
     -webkit-box-shadow: 0 3px 9px 3px rgba(0, 0, 0, 0.1);
@@ -55,13 +56,13 @@ body {
     margin: 0;
     list-style: none;
     padding: 10px 15px;
-    border: 1px solid var(--pink);
-    cursor: pointer;
+/*    border: 1px solid var(--pink);
+*/    cursor: pointer;
     transition: all .5s ease;
 }
 .portfolio-menu ul li:hover{
-    background: var(--pink);
-    color: #ffffff;
+   /* background: var(--pink);
+    color: #ffffff;*/
 }
 .portfolio-item{
     width: 100%;
@@ -87,9 +88,9 @@ body {
     object-fit:contain;
 }
 
-.active {
+/*.active {
    background-color: var(--pink);
-}
+}*/
 
 
 /** hr style */

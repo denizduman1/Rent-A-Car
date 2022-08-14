@@ -28,6 +28,7 @@ namespace Services.Extensions
             serviceCollection.AddScoped<IColorService, ColorManager>();
             serviceCollection.AddScoped<IPaymentService, PaymentManager>();
             serviceCollection.AddScoped<INotificationService, NotificationManager>();
+            serviceCollection.AddScoped<ISepetService, SepetManager>();
 
             serviceCollection.AddIdentityCore<User>(opt =>
             {   //üye kaydolma ayarları
@@ -43,7 +44,7 @@ namespace Services.Extensions
             }).AddRoles<Role>().AddEntityFrameworkStores<RentCarContext>();
 
             // session sepet işlemleri için sonra eklenecek.
-            // servicCollection.AddHttpContextAccessor();
+            serviceCollection.AddHttpContextAccessor();
             return serviceCollection;
         }
     }

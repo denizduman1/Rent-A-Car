@@ -81,6 +81,17 @@ namespace Services.Concrete
                 ResultStatus.Error);
         }
 
+        public async Task<IDataResult<CarListDto>> GetAllByNonDeletedAndMostStar()
+        {
+            var cars = await _unitOfWork.CarRepository.GetAllAsync(c => c.IsDeleted == false && c.StarRate >= 4, c => c.CarModel, c => c.Color, c => c.CarModel.Brand);
+            if (cars.Count > 0)
+            {
+                return new DataResult<CarListDto>(new CarListDto { Cars = cars, ResultStatus = ResultStatus.Success }, ResultStatus.Success);
+            }
+            return new DataResult<CarListDto>(new CarListDto { Cars = cars, ResultStatus = ResultStatus.Error, Message = "Silinmemiş araç bulunamadı" },
+                ResultStatus.Error);
+        }
+
         public async Task<IResult> HardDelete(int carId)
         {
             var result = await _unitOfWork.CarRepository.AnyAsync(b => b.ID == carId);

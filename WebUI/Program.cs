@@ -22,7 +22,7 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.LogoutPath = new PathString("/Admin/User/UserLogout");
     opt.Cookie = new CookieBuilder
     {
-        Name = "RentCar",
+        Name = "RentCarLoginUser",
         HttpOnly = true, // js den cookieleri göremesin
         SameSite = SameSiteMode.Strict,
         SecurePolicy = CookieSecurePolicy.SameAsRequest, // always olmalý
@@ -46,6 +46,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
+app.UseSession();
 app.UseRouting();
 
 //authentica ve authorize

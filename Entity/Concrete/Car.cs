@@ -19,6 +19,8 @@ namespace Entity.Concrete
         public string? Description { get; set; }
         public int CurrentCount { get; set; }
         public int TotalCount { get; set; }
+        public int? StarCount { get; set; }
+        public int? StarRate { get; set; }
         public int CarModelId { get; set; }
         public CarModel? CarModel { get; set; }
         public int ColorId { get; set; }

@@ -21,7 +21,7 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<Notification>? Notifications { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLOCALDB;Database=RentCar;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=DENIZ\DENIZ;Database=RentCar;Trusted_Connection=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

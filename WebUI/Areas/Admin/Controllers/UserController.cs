@@ -261,7 +261,7 @@ namespace WebUI.Areas.Admin.Controllers
                     
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index","Home");
+                        return RedirectToAction("Index","Home", new {area=""});
                     }
                     else
                     {
