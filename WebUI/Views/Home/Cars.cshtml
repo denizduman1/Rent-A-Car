@@ -1,0 +1,56 @@
+﻿@using Entity.Concrete
+@model IList<Car>
+
+@{
+    var brands = ViewBag.PageState as IList<Brand>;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 mt-4">
+            <div class="alert alert-light shadow" role="alert">
+                <h5>Ürün Filtreleri</h5>
+                <hr />
+                <span class="d-block mt-3">Modeller: </span>
+                @foreach (var brand in brands)
+                {
+                    <span>@brand.Name</span> <br />
+                }
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="row">
+                @foreach (var car in Model)
+                {
+                    <div class="col-lg-4 mt-4 item @car.CarModel.Brand.Name">
+                        <div class="card" style="width: 100%;">
+                            <img src="@car.Image" class="card-img-top" alt="..." style="width:100%; height:200px; object-fit:contain;">
+                            <div class="card-body">
+                                <h6>@car.CarModel.Brand.Name @car.CarModel.Name - @car.ModelYear</h6>
+                                <h6 class="mb-3" style="color:darkgray;">@car.CarModel.Brand.Name</h6>
+                                <span style="color:#e5345b;">₺@car.DailyPrice | Günlük</span>
+                                <h6 class="mb-3" style="color:darkgray;">Müsait Araç Sayısı: @car.CurrentCount</h6>
+                                <br />
+                                Puan:
+                                @for (int star = 1; star <= car.StarRate; star++)
+                                {
+                                    <i class="fa-solid fa-star" style="color:#e5345b;"></i>
+                                }
+                                @for (int star = 5; star > car.StarRate; star--)
+                                {
+                                    <i class="fa-regular fa-star"></i>
+                                }
+                                <br />
+                                <button class="mt-4 btn addBasket" data-id="@car.ID" style="background-color:#e5345b; color:white;"><i class="fa-solid fa-cart-plus"></i> Sepete Ekle</button>
+                                <div class="float-end">
+                                    <button class="mt-4 btn heart"><i class="fa-regular fa-heart"></i></button>
+                                    <button class="mt-4 btn eye"><i class="fa-regular fa-eye"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

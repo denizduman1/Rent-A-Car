@@ -1,4 +1,6 @@
-﻿using Entity.Concrete;
+﻿using AutoMapper;
+using Entity.Concrete;
+using Entity.Concrete.DTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstract;
@@ -14,14 +16,16 @@ namespace WebUI.Controllers
         private readonly IBrandService _brandService;
         private readonly ISepetService _sepetService;
         private readonly UserManager<User> _userManager;
+        private readonly IMapper _mapper;
 
-        public HomeController(UserManager<User> userManager, ICarService carService, IBrandService brandService, ICommentService commentService, ISepetService sepetService)
+        public HomeController(IMapper mapper,UserManager<User> userManager, ICarService carService, IBrandService brandService, ICommentService commentService, ISepetService sepetService)
         {
             _carService = carService;
             _commentService = commentService;
             _brandService = brandService;
             _sepetService = sepetService;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -37,6 +41,14 @@ namespace WebUI.Controllers
                 Brands = brands.Data.Brands
             };
             return View(customerHomeDashboard);
+        }
+
+        public async Task<IActionResult> Cars()
+        {
+            var cars = await _carService.GetAllByNonDeleted();
+            var brands = await _brandService.GetAllByNonDeleted();
+            ViewBag.PageState = brands.Data.Brands;
+            return View(cars.Data.Cars);
         }
 
         public async Task<IActionResult> BasketList()
@@ -76,6 +88,54 @@ namespace WebUI.Controllers
         public async Task<IActionResult> CikarSepet(int id)
         {
             _sepetService.SepetCikar(id);
+            return Json(new { isSuccess = true });
+        }
+    
+        public async Task<IActionResult> Comments()
+        {
+            var result = await _commentService.GetAllByNonDeleted();
+            var comments = result.Data.Comments;
+
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+
+            ViewBag.PageState = user;
+
+            return View(comments);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(string msg)
+        {
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+
+            Comment comment = new Comment
+            {
+                Description = msg,
+                UserId = user.Id,
+                Star = 5,
+                IsDeleted = false,
+                LikeCount = 1,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now
+            };
+
+            await _commentService.AddNotDto(comment);
+
+            return Json(new { isSuccess = true });
+            
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCommentLike(int Id)
+        {
+            var result = await _commentService.Get(Id);
+
+            var comment = result.Data.Comment;
+
+            comment.LikeCount++;
+
+            await _commentService.UpdateNotDto(comment);
+
             return Json(new { isSuccess = true });
         }
     }

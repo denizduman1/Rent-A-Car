@@ -18,5 +18,6 @@ namespace Entity.Concrete.DTOs
         [DisplayName("Yıldız")]
         [Required(ErrorMessage = "{0} alanı boş geçilmemelidir.")]
         public short Star { get; set; }
+        public int LikeCount { get; set; }
     }
 }

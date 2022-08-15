@@ -24,6 +24,14 @@ namespace Services.Concrete
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
+        public async Task<IResult> AddNotDto(Comment comment)
+        {
+            await _unitOfWork.CommentRepository.AddAsync(comment);
+            await _unitOfWork.SaveAsync();
+            return new Result(ResultStatus.Success, message: $"Yorum başarıyla eklenmiştir.");
+        }
+
         public async Task<IResult> Add(CommentAddDto commentAddDto)
         {
             var comment = _mapper.Map<Comment>(commentAddDto);
@@ -112,5 +120,20 @@ namespace Services.Concrete
             }
             return new Result(ResultStatus.Success, message: $"Güncellemek istediğiniz yorum bulunamamaktadır.");
         }
+
+        public async Task<IResult> UpdateNotDto(Comment comment)
+        {
+            var result = await _unitOfWork.CommentRepository.AnyAsync(b => b.ID == comment.ID);
+            if (result)
+            {
+                var commentDb = await _unitOfWork.CommentRepository.GetAsync(b => b.ID == comment.ID);
+                commentDb.LikeCount = comment.LikeCount;
+                commentDb.ModifiedDate = comment.ModifiedDate;
+                await _unitOfWork.SaveAsync();
+                return new Result(ResultStatus.Success, message: $"Yorum başarıyla güncellenmiştir.");
+            }
+            return new Result(ResultStatus.Success, message: $"Güncellemek istediğiniz yorum bulunamamaktadır.");
+        }
+
     }
 }

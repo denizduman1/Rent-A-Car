@@ -15,7 +15,9 @@ namespace Services.Abstract
         public Task<IDataResult<CommentListDto>> GetAll();
         public Task<IDataResult<CommentListDto>> GetAllByNonDeleted();
         public Task<IResult> Add(CommentAddDto commentAddDto);
+        public Task<IResult> AddNotDto(Comment comment);
         public Task<IResult> Update(CommentUpdateDto commentUpdateDto);
+        public Task<IResult> UpdateNotDto(Comment comment);
         public Task<IResult> Delete(int commentId);
         public Task<IResult> HardDelete(int commentId);
     }

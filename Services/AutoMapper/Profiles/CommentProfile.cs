@@ -18,7 +18,7 @@ namespace Services.AutoMapper.Profiles
                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(x => DateTime.Now))
                 .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(x => false));
 
-            CreateMap<CommentAddDto, Comment>()
+            CreateMap<CommentUpdateDto, Comment>()
                  .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(x => DateTime.Now))
                  .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(x => DateTime.Now));
         }
