@@ -3,6 +3,7 @@ using Entity.Concrete;
 using Entity.Concrete.DTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Services.Abstract;
 using System.Text.Json;
 using WebUI.Models;
@@ -17,14 +18,18 @@ namespace WebUI.Controllers
         private readonly ISepetService _sepetService;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
+        private readonly IPaymentService _paymentService;
+        private readonly INotificationService _notificationService;
 
-        public HomeController(IMapper mapper,UserManager<User> userManager, ICarService carService, IBrandService brandService, ICommentService commentService, ISepetService sepetService)
+        public HomeController(IMapper mapper, INotificationService notificationService, IPaymentService paymentService, UserManager<User> userManager, ICarService carService, IBrandService brandService, ICommentService commentService, ISepetService sepetService)
         {
+            _notificationService = notificationService;
             _carService = carService;
             _commentService = commentService;
             _brandService = brandService;
             _sepetService = sepetService;
             _userManager = userManager;
+            _paymentService = paymentService;
             _mapper = mapper;
         }
 
@@ -51,6 +56,64 @@ namespace WebUI.Controllers
             return View(cars.Data.Cars);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Payment(int totalPrice, int carId, int dailyCount)
+        {
+            var user = _userManager.GetUserAsync(HttpContext.User).Result;
+            var resCar = await _carService.Get(carId);
+            var car = resCar.Data.Car;
+
+            var payment = new PaymentAddDto
+            {
+                CarId = carId,
+                DayCount = dailyCount,
+                IsCancelled = false,
+                EODDate = DateTime.Now.AddHours(6),
+                IsPaid = false,
+                ReservationDate = DateTime.Now,
+                UserId = user.Id,
+                TotalPrice = totalPrice
+            };
+
+            var res = await _paymentService.Add(payment);
+
+            car.CurrentCount -= 1;
+
+            await _carService.UpdateNotDto(car);
+
+            _sepetService.SepetBosalt();
+
+            var notificationAddDto = new NotificationAddDto
+            {
+                Message = $"{user.UserName} adlı kişi {car.CarModel.Brand.Name} {car.CarModel.Name} model aracı sipariş etmiştir."
+            };
+
+            await _notificationService.Add(notificationAddDto);
+
+            return Json(new { isSuccess = true, msg = res.Message });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CarsbyBrandsId(int[] brandIds)
+        {
+            var res = await _carService.GetAllByNonDeleted();
+            var cars = res.Data.Cars;
+            if (brandIds.Count() > 0)
+            {
+                var carsFilter = res.Data.Cars.Where(c => brandIds.Contains(c.CarModel.Brand.ID)).ToList();
+                return Json(JsonConvert.SerializeObject(new { carsData = carsFilter }, new JsonSerializerSettings
+                {
+                    Formatting = Newtonsoft.Json.Formatting.None,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }));
+            }
+            return Json(JsonConvert.SerializeObject(new { carsData = cars }, new JsonSerializerSettings
+            {
+                Formatting = Newtonsoft.Json.Formatting.None,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }));
+        }
+
         public async Task<IActionResult> BasketList()
         {
             var car = _sepetService.SepetList();
@@ -75,6 +138,19 @@ namespace WebUI.Controllers
                 return Json(new { isSuccess = false, msg = "Sepetinizde ürün varken başka ürün ekleyemezsiniz." });
             }
 
+            var resPayment = await _paymentService.GetAllByNonDeleted();
+            bool varMiPayment = resPayment.Data.Payments.Where(p => p.IsPaid == false && p.IsCancelled == false && p.UserId == user.Id).Any();
+
+            if (varMiPayment)
+            {
+                return Json(new
+                {
+                    isSuccess = false,
+                    msg = "Daha önce bir araç sipariş etmişsiniz onun süresi dolmadan yeni bir aracı" +
+                    "sepetinize ekleyemessiniz"
+                });
+            }
+
             var car = await _carService.Get(id);
             if (car != null)
             {
@@ -90,7 +166,7 @@ namespace WebUI.Controllers
             _sepetService.SepetCikar(id);
             return Json(new { isSuccess = true });
         }
-    
+
         public async Task<IActionResult> Comments()
         {
             var result = await _commentService.GetAllByNonDeleted();
@@ -122,7 +198,7 @@ namespace WebUI.Controllers
             await _commentService.AddNotDto(comment);
 
             return Json(new { isSuccess = true });
-            
+
         }
 
         [HttpPost]

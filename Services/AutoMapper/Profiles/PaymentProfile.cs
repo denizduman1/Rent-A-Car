@@ -14,7 +14,10 @@ namespace Services.AutoMapper.Profiles
         public PaymentProfile()
         {
             CreateMap<PaymentUpdateDto, Payment>()
-                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(x => DateTime.Now)); 
+                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(x => DateTime.Now));
+            CreateMap<PaymentAddDto, Payment>()
+                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(x => DateTime.Now))
+                .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(x => DateTime.Now));
         }
     }
 }

@@ -233,7 +233,7 @@ namespace WebUI.Areas.Admin.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Editor")]
+      
         [HttpGet]
         public async Task<IActionResult> UserLogout()
         {
@@ -285,6 +285,62 @@ namespace WebUI.Areas.Admin.Controllers
         public ViewResult AccessDenied()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult AddForUser()
+        {
+            return View("UserSignup");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddForUser(UserAddDto userAddDto)
+        {
+            if (ModelState.IsValid)
+            {
+                userAddDto.Image = await ImageUpload(userAddDto.UserName, userAddDto.PictureFile);
+                var user = _mapper.Map<User>(userAddDto);
+                var result = await _userManager.CreateAsync(user, userAddDto.Password);
+                if (result.Succeeded)
+                {
+                    var userAddAjaxModel = JsonSerializer.Serialize(new UserAddAjaxViewModel
+                    {
+                        UserDto = new UserDto
+                        {
+                            ResultStatus = ResultStatus.Success,
+                            Message = $"{user.UserName} adlı kullanıcı adına sahip kullanıcı başarıyla eklenmiştir.",
+                            User = user
+                        },
+                        UserAddPartial = await this.RenderViewToStringAsync("_UserAddPartial", userAddDto)
+                    });
+                    return Json(userAddAjaxModel);
+                }
+                else
+                {
+                    string identityError = "";
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                        identityError += error.Description;
+                    }
+                    var userAddAjaxErrorModel = JsonSerializer.Serialize(new UserAddAjaxViewModel
+                    {
+                        UserAddPartial = await this.RenderViewToStringAsync("_UserAddPartial", userAddDto),
+                        UserAddDto = userAddDto,
+                        UserDto = new UserDto
+                        {
+                            Message = identityError
+                        }
+                    });
+                    return Json(userAddAjaxErrorModel);
+                }
+            }
+            var userAddAjaxStateErrorModel = JsonSerializer.Serialize(new UserAddAjaxViewModel
+            {
+                UserAddPartial = await this.RenderViewToStringAsync("_UserAddPartial", userAddDto),
+                UserAddDto = userAddDto
+            });
+            return Json(userAddAjaxStateErrorModel);
         }
 
     }

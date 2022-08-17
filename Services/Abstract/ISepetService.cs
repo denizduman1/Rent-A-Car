@@ -12,5 +12,6 @@ namespace Services.Abstract
         void SepetEkle(Car car);
         void SepetCikar(int car);
         IList<Car> SepetList();
+        void SepetBosalt();
     }
 }

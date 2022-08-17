@@ -9,6 +9,7 @@ using Shared.Utilities.Results.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,7 +25,10 @@ namespace Services.Concrete
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
-
+        public CarManager(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
         public async Task<IResult> Add(CarAddDto carAddDto)
         {
             var car = _mapper.Map<Car>(carAddDto);
@@ -70,9 +74,17 @@ namespace Services.Concrete
                 ResultStatus.Error);
         }
 
-        public async Task<IDataResult<CarListDto>> GetAllByNonDeleted()
+        public async Task<IDataResult<CarListDto>> GetAllByNonDeleted(Expression<Func<Car,bool>>? predicate = null)
         {
-            var cars = await _unitOfWork.CarRepository.GetAllAsync(c=>c.IsDeleted == false, c=>c.CarModel, c=>c.Color ,c=>c.CarModel.Brand);
+            IList<Car> cars;
+            if (predicate == null)
+            {
+                 cars = await _unitOfWork.CarRepository.GetAllAsync(c => c.IsDeleted == false, c => c.CarModel, c => c.Color, c => c.CarModel.Brand);
+            }
+            else
+            {
+                 cars = await _unitOfWork.CarRepository.GetAllAsync(predicate,c => c.IsDeleted == false, c => c.CarModel, c => c.Color, c => c.CarModel.Brand);
+            }
             if (cars.Count > 0)
             {
                 return new DataResult<CarListDto>(new CarListDto { Cars = cars, ResultStatus = ResultStatus.Success }, ResultStatus.Success);
@@ -125,6 +137,32 @@ namespace Services.Concrete
                 await _unitOfWork.SaveAsync();
                 //var brand = await _unitOfWork.BrandRepository.GetAsync(b=>b.ID == car.CarModel.BrandId); // extra
                 var carUpdated = await _unitOfWork.CarRepository.GetAsync(b => b.ID == carUpdateDto.ID,c=>c.CarModel,c=>c.CarModel.Brand);
+                return new Result(ResultStatus.Success, $"ID'si {carUpdated.ID} olan {carUpdated.CarModel.Brand.Name} " +
+                    $"{carUpdated.CarModel.Name} model araç başarıyla güncellenmiştir.");
+            }
+            return new Result(ResultStatus.Error, $"Güncellemek istediğiniz marka bilgisi bulunamamaktadır.");
+        }
+
+        public async Task<IResult> UpdateNotDto(Car car)
+        {
+            var result = await _unitOfWork.CarRepository.AnyAsync(b => b.ID == car.ID);
+            if (result)
+            {
+                var cardb = await _unitOfWork.CarRepository.GetAsync(b => b.ID == car.ID);
+                cardb.TransmissionType = car.TransmissionType;
+                cardb.TotalCount = car.TotalCount;
+                cardb.CarModelId = car.CarModelId;
+                cardb.ColorId = car.ColorId;
+                cardb.ModifiedDate = DateTime.Now;
+                cardb.DailyPrice = car.DailyPrice;
+                cardb.Description = car.Description;
+                cardb.FuelType = car.FuelType;
+                cardb.Image = car.Image;
+                cardb.ModelYear = car.ModelYear;
+                cardb.VehicleType = car.VehicleType;
+                await _unitOfWork.SaveAsync();
+                //var brand = await _unitOfWork.BrandRepository.GetAsync(b=>b.ID == car.CarModel.BrandId); // extra
+                var carUpdated = await _unitOfWork.CarRepository.GetAsync(b => b.ID == car.ID, c => c.CarModel, c => c.CarModel.Brand);
                 return new Result(ResultStatus.Success, $"ID'si {carUpdated.ID} olan {carUpdated.CarModel.Brand.Name} " +
                     $"{carUpdated.CarModel.Name} model araç başarıyla güncellenmiştir.");
             }

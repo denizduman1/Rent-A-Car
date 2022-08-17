@@ -30,9 +30,12 @@ namespace Services.Concrete
             _unitOfWork = unitOfWork;
         }
 
-        public Task<IResult> Add(PaymentAddDto paymentAddDto)
+        public async Task<IResult> Add(PaymentAddDto paymentAddDto)
         {
-            throw new NotImplementedException();
+            var payment = _mapper.Map<Payment>(paymentAddDto);
+            await _unitOfWork.PaymentRepository.AddAsync(payment);
+            await _unitOfWork.SaveAsync();
+            return new Result(ResultStatus.Success, message: $"Araç başarıyla kiralanmıştır");
         }
 
         public Task<IResult> Delete(int paymentId)

@@ -38,7 +38,7 @@
             {
                 <ul class="navbar-nav ml-auto text-center">
                     <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="#about">Kayıt Ol</a>
+                        <a class="nav-link text-uppercase text-dark" asp-area="Admin" asp-controller="User" asp-action="AddForUser" >Kayıt Ol</a>
                     </li>
                     <li class="nav-item px-2 py-2 border-0">
                         <a class="nav-link text-uppercase text-dark" asp-area="Admin" asp-controller="User" asp-action="UserLogin">Giriş Yap</a>
@@ -68,7 +68,7 @@
                             <li><a class="dropdown-item" href="#">Siparişlerim</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Profile Git</a></li>
-                            <li><a class="dropdown-item" href="#">Çıkış Yap</a></li>
+                            <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="UserLogout">Çıkış Yap</a></li>
                         </ul>
                     </div>
                 </ul>

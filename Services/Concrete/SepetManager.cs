@@ -18,6 +18,10 @@ namespace Services.Concrete
         {
             _httpContextAccessor = httpContextAccessor;
         }
+        public void SepetBosalt()
+        {
+            _httpContextAccessor.HttpContext.Session.Remove("sepet");
+        }
         public void SepetCikar(int Id)
         {
             var str = _httpContextAccessor.HttpContext.Session.GetString("sepet");

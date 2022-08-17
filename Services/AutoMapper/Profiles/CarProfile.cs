@@ -21,7 +21,8 @@ namespace Services.AutoMapper.Profiles
 
             CreateMap<CarUpdateDto, Car>()
                  .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(x => DateTime.Now))
-                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(x => DateTime.Now));
+                 .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(x => DateTime.Now))
+                 .ForMember(dest => dest.CurrentCount, opt => opt.MapFrom(x => x.TotalCount));
 
             CreateMap<Car, CarUpdateDto>();
         }

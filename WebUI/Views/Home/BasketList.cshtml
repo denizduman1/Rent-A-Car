@@ -13,7 +13,7 @@
 
                     @foreach (var car in cars)
                     {
-                        <div class="col-12">
+                        <div class="col-12 carPayment">
                             <div class="row mt-3">
                                 <div class="col-lg-3">
                                     <img src="@car.Image"
@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="offset-lg-9 col-lg-3 mt-3 mt-lg-2">
                                     <button class="btn btn-danger me-1 cancelBasket" data-id="@car.ID">İptal Et</button>
-                                    <button class="btn btn-success ms-1">Sipariş Ver</button>
+                                    <button class="btn btn-success ms-1 btn-order" data-id="@car.ID">Sipariş Ver</button>
                                 </div>
                             </div>
                         </div>
@@ -113,6 +113,22 @@
                             text: `Sepete Çıkarma Sırasında Hata ile Karşılaşıldı.`
                         });
                     }
+                });
+            });
+            $(".btn-order").click(function() {
+                const url = '@Url.Action("Payment","Home")';
+                var totalPrice = parseInt($(".total-price").text());
+                var carId = parseInt($(this).attr('data-id'));
+                var dailyCount = parseInt($(".daily-counter").text());
+                $.post(url, { totalPrice: totalPrice, carId: carId, dailyCount: dailyCount }).done(function(data) {
+                var stringfyData = JSON.stringify(data);
+                var jsonData = JSON.parse(stringfyData);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Başarıyla ',
+                        text: jsonData.msg
+                    });
+                    location.reload();
                 });
             });
         });
